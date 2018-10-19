@@ -1,4 +1,4 @@
-package ch.beerpro.presentation.ratings;
+package ch.FOW_Collection.presentation.ratings;
 
 import android.util.Log;
 import android.util.Pair;
@@ -16,18 +16,18 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import ch.beerpro.GlideApp;
-import ch.beerpro.R;
-import ch.beerpro.presentation.utils.EntityPairDiffItemCallback;
-import ch.beerpro.domain.models.Rating;
-import ch.beerpro.domain.models.Wish;
+import ch.FOW_Collection.GlideApp;
+import ch.FOW_Collection.R;
+import ch.FOW_Collection.presentation.utils.EntityPairDiffItemCallback;
+import ch.FOW_Collection.domain.models.Rating;
+import ch.FOW_Collection.domain.models.Wish;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.text.DateFormat;
 
-import static ch.beerpro.presentation.utils.DrawableHelpers.setDrawableTint;
+import static ch.FOW_Collection.presentation.utils.DrawableHelpers.setDrawableTint;
 
 
 public class RatingsRecyclerViewAdapter extends ListAdapter<Pair<Rating, Wish>, RatingsRecyclerViewAdapter.ViewHolder> {

@@ -1,6 +1,6 @@
-package ch.beerpro.domain.models;
+package ch.FOW_Collection.domain.models;
 
-import ch.beerpro.domain.models.Beer;
+import ch.FOW_Collection.domain.models.Beer;
 
 import java.util.Date;
 

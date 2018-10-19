@@ -1,12 +1,12 @@
-package ch.beerpro.data.repositories;
+package ch.FOW_Collection.data.repositories;
 
 import android.util.Pair;
 import androidx.lifecycle.LiveData;
-import ch.beerpro.domain.models.Beer;
-import ch.beerpro.domain.models.Entity;
-import ch.beerpro.domain.models.Wish;
-import ch.beerpro.domain.utils.FirestoreQueryLiveData;
-import ch.beerpro.domain.utils.FirestoreQueryLiveDataArray;
+import ch.FOW_Collection.domain.models.Beer;
+import ch.FOW_Collection.domain.models.Entity;
+import ch.FOW_Collection.domain.models.Wish;
+import ch.FOW_Collection.domain.utils.FirestoreQueryLiveData;
+import ch.FOW_Collection.domain.utils.FirestoreQueryLiveDataArray;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -19,7 +19,7 @@ import java.util.List;
 
 import static androidx.lifecycle.Transformations.map;
 import static androidx.lifecycle.Transformations.switchMap;
-import static ch.beerpro.domain.utils.LiveDataExtensions.combineLatest;
+import static ch.FOW_Collection.domain.utils.LiveDataExtensions.combineLatest;
 
 public class WishlistRepository {
 

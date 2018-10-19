@@ -1,4 +1,4 @@
-package ch.beerpro.presentation.profile.mywishlist;
+package ch.FOW_Collection.presentation.profile.mywishlist;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -14,10 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import ch.beerpro.R;
-import ch.beerpro.domain.models.Beer;
-import ch.beerpro.domain.models.Wish;
-import ch.beerpro.presentation.details.DetailsActivity;
+import ch.FOW_Collection.R;
+import ch.FOW_Collection.domain.models.Beer;
+import ch.FOW_Collection.domain.models.Wish;
+import ch.FOW_Collection.presentation.details.DetailsActivity;
 import lombok.val;
 
 import java.util.List;

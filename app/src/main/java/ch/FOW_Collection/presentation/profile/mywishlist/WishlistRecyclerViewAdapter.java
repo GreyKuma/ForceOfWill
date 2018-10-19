@@ -1,4 +1,4 @@
-package ch.beerpro.presentation.profile.mywishlist;
+package ch.FOW_Collection.presentation.profile.mywishlist;
 
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -14,11 +14,11 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import ch.beerpro.GlideApp;
-import ch.beerpro.R;
-import ch.beerpro.presentation.utils.EntityPairDiffItemCallback;
-import ch.beerpro.domain.models.Beer;
-import ch.beerpro.domain.models.Wish;
+import ch.FOW_Collection.GlideApp;
+import ch.FOW_Collection.R;
+import ch.FOW_Collection.presentation.utils.EntityPairDiffItemCallback;
+import ch.FOW_Collection.domain.models.Beer;
+import ch.FOW_Collection.domain.models.Wish;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 

@@ -1,4 +1,4 @@
-package ch.beerpro.presentation.explore;
+package ch.FOW_Collection.presentation.explore;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import ch.beerpro.R;
-import ch.beerpro.presentation.MainViewModel;
-import ch.beerpro.presentation.utils.GridSpacingItemDecoration;
+import ch.FOW_Collection.R;
+import ch.FOW_Collection.presentation.MainViewModel;
+import ch.FOW_Collection.presentation.utils.GridSpacingItemDecoration;
 
 
 /**

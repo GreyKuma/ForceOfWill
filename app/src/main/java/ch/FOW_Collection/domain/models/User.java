@@ -1,4 +1,4 @@
-package ch.beerpro.domain.models;
+package ch.FOW_Collection.domain.models;
 
 import com.google.firebase.firestore.Exclude;
 import lombok.Data;

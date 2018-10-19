@@ -1,4 +1,4 @@
-package ch.beerpro.domain.models;
+package ch.FOW_Collection.domain.models;
 
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package ch.beerpro.presentation.ratings;
+package ch.FOW_Collection.presentation.ratings;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,11 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import ch.beerpro.R;
-import ch.beerpro.presentation.MainViewModel;
-import ch.beerpro.presentation.details.DetailsActivity;
-import ch.beerpro.domain.models.Rating;
-import ch.beerpro.domain.models.Wish;
+import ch.FOW_Collection.R;
+import ch.FOW_Collection.presentation.MainViewModel;
+import ch.FOW_Collection.presentation.details.DetailsActivity;
+import ch.FOW_Collection.domain.models.Rating;
+import ch.FOW_Collection.domain.models.Wish;
 
 import androidx.fragment.app.Fragment;
 import com.bumptech.glide.util.ViewPreloadSizeProvider;

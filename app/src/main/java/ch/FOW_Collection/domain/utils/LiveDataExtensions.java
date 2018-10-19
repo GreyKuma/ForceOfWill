@@ -1,4 +1,4 @@
-package ch.beerpro.domain.utils;
+package ch.FOW_Collection.domain.utils;
 
 import android.util.Pair;
 import androidx.lifecycle.LiveData;

@@ -92,7 +92,7 @@ public class CreateRatingActivity extends AppCompatActivity {
             });
         }
 
-        EasyImage.configuration(this).setImagesFolderName("BeerPro");
+        EasyImage.configuration(this).setImagesFolderName("FOW_Collection");
 
         photo.setOnClickListener(view -> {
             EasyImage.openChooserWithDocuments(CreateRatingActivity.this, "", 0);

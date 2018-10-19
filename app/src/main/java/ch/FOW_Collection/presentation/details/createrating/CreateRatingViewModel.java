@@ -1,11 +1,11 @@
-package ch.beerpro.presentation.details.createrating;
+package ch.FOW_Collection.presentation.details.createrating;
 
 import android.util.Log;
-import ch.beerpro.presentation.utils.EntityClassSnapshotParser;
-import ch.beerpro.domain.models.Rating;
+import ch.FOW_Collection.presentation.utils.EntityClassSnapshotParser;
+import ch.FOW_Collection.domain.models.Rating;
 import android.net.Uri;
 import androidx.lifecycle.ViewModel;
-import ch.beerpro.domain.models.Beer;
+import ch.FOW_Collection.domain.models.Beer;
 import com.google.android.gms.tasks.*;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

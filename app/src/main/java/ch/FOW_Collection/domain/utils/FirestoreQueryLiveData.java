@@ -1,9 +1,9 @@
-package ch.beerpro.domain.utils;
+package ch.FOW_Collection.domain.utils;
 
 import android.os.Handler;
 import androidx.lifecycle.LiveData;
-import ch.beerpro.domain.models.Entity;
-import ch.beerpro.presentation.utils.EntityClassSnapshotParser;
+import ch.FOW_Collection.domain.models.Entity;
+import ch.FOW_Collection.presentation.utils.EntityClassSnapshotParser;
 import com.google.firebase.firestore.*;
 
 import javax.annotation.Nullable;

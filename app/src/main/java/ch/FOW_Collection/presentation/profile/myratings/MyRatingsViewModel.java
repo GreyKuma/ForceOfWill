@@ -1,14 +1,14 @@
-package ch.beerpro.presentation.profile.myratings;
+package ch.FOW_Collection.presentation.profile.myratings;
 
 import android.util.Pair;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import ch.beerpro.data.repositories.CurrentUser;
-import ch.beerpro.data.repositories.RatingsRepository;
-import ch.beerpro.data.repositories.WishlistRepository;
-import ch.beerpro.domain.models.Rating;
-import ch.beerpro.domain.models.Wish;
+import ch.FOW_Collection.data.repositories.CurrentUser;
+import ch.FOW_Collection.data.repositories.RatingsRepository;
+import ch.FOW_Collection.data.repositories.WishlistRepository;
+import ch.FOW_Collection.domain.models.Rating;
+import ch.FOW_Collection.domain.models.Wish;
 
 import java.util.List;
 

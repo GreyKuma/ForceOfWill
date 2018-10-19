@@ -1,8 +1,8 @@
-package ch.beerpro.presentation.utils;
+package ch.FOW_Collection.presentation.utils;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
-import ch.beerpro.domain.models.Entity;
+import ch.FOW_Collection.domain.models.Entity;
 
 public class EntityDiffItemCallback<T extends Entity> extends DiffUtil.ItemCallback<T> {
     @Override

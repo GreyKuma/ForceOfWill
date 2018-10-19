@@ -302,7 +302,7 @@
         android:layout_height="wrap_content"
         android:elevation="4dp"
         android:orientation="vertical"
-        app:layout_behavior="ch.beerpro.presentation.utils.ToolbarScrollingBehaviour">
+        app:layout_behavior="ch.FOW_Collection.presentation.utils.ToolbarScrollingBehaviour">
 
         <View
             android:layout_width="match_parent"

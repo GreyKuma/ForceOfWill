@@ -1,12 +1,12 @@
-package ch.beerpro.presentation.explore.search;
+package ch.FOW_Collection.presentation.explore.search;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-import ch.beerpro.presentation.explore.search.beers.SearchResultFragment;
-import ch.beerpro.presentation.explore.search.suggestions.SearchSuggestionsFragment;
-import ch.beerpro.presentation.profile.mybeers.MyBeersFragment;
+import ch.FOW_Collection.presentation.explore.search.beers.SearchResultFragment;
+import ch.FOW_Collection.presentation.explore.search.suggestions.SearchSuggestionsFragment;
+import ch.FOW_Collection.presentation.profile.mybeers.MyBeersFragment;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 

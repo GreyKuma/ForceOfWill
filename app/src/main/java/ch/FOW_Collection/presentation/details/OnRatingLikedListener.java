@@ -1,6 +1,6 @@
-package ch.beerpro.presentation.details;
+package ch.FOW_Collection.presentation.details;
 
-import ch.beerpro.domain.models.Rating;
+import ch.FOW_Collection.domain.models.Rating;
 
 interface OnRatingLikedListener {
     void onRatingLikedListener(Rating rating);

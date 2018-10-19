@@ -1,4 +1,4 @@
-package ch.beerpro.presentation.profile.mybeers;
+package ch.FOW_Collection.presentation.profile.mybeers;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import ch.beerpro.R;
-import ch.beerpro.domain.models.MyBeer;
+import ch.FOW_Collection.R;
+import ch.FOW_Collection.domain.models.MyBeer;
 
 import java.util.ArrayList;
 import java.util.List;

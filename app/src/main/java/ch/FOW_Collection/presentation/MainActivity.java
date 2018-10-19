@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
-        getSupportActionBar().setLogo(R.drawable.beer_glass_icon);
+        getSupportActionBar().setLogo(R.drawable.fow_logo); //beer_glass_icon);
 
         setupViewPager(viewPager, tabLayout);
 

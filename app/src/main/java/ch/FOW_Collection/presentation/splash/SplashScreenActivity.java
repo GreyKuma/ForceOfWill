@@ -42,7 +42,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             Log.i(TAG, "No user found, redirect to Login screen");
             List<AuthUI.IdpConfig> providers = Arrays.asList(new AuthUI.IdpConfig.GoogleBuilder().build());
             startActivityForResult(AuthUI.getInstance().createSignInIntentBuilder().setIsSmartLockEnabled(false)
-                    .setAvailableProviders(providers).setLogo(R.drawable.beer_glass_icon)
+                    .setAvailableProviders(providers).setLogo(R.drawable.fow_logo)
                     .setTheme(R.style.LoginScreenTheme).build(), RC_SIGN_IN);
         } else {
             Log.i(TAG, "User found, redirect to Home screen");

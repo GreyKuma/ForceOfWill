@@ -1,4 +1,4 @@
-package ch.beerpro.presentation.utils;
+package ch.FOW_Collection.presentation.utils;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;

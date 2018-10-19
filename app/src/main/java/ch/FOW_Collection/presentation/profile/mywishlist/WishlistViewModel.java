@@ -1,14 +1,14 @@
-package ch.beerpro.presentation.profile.mywishlist;
+package ch.FOW_Collection.presentation.profile.mywishlist;
 
 import android.util.Pair;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import ch.beerpro.data.repositories.BeersRepository;
-import ch.beerpro.data.repositories.CurrentUser;
-import ch.beerpro.data.repositories.WishlistRepository;
-import ch.beerpro.domain.models.Beer;
-import ch.beerpro.domain.models.Wish;
+import ch.FOW_Collection.data.repositories.BeersRepository;
+import ch.FOW_Collection.data.repositories.CurrentUser;
+import ch.FOW_Collection.data.repositories.WishlistRepository;
+import ch.FOW_Collection.domain.models.Beer;
+import ch.FOW_Collection.domain.models.Wish;
 import com.google.android.gms.tasks.Task;
 
 import java.util.List;

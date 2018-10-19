@@ -1,4 +1,4 @@
-package ch.beerpro.presentation.explore.search;
+package ch.FOW_Collection.presentation.explore.search;
 
 import android.app.ActivityOptions;
 import android.content.Context;
@@ -12,13 +12,13 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
-import ch.beerpro.R;
-import ch.beerpro.domain.models.Beer;
-import ch.beerpro.presentation.details.DetailsActivity;
-import ch.beerpro.presentation.explore.search.beers.SearchResultFragment;
-import ch.beerpro.presentation.explore.search.suggestions.SearchSuggestionsFragment;
-import ch.beerpro.presentation.profile.mybeers.MyBeersViewModel;
-import ch.beerpro.presentation.profile.mybeers.OnMyBeerItemInteractionListener;
+import ch.FOW_Collection.R;
+import ch.FOW_Collection.domain.models.Beer;
+import ch.FOW_Collection.presentation.details.DetailsActivity;
+import ch.FOW_Collection.presentation.explore.search.beers.SearchResultFragment;
+import ch.FOW_Collection.presentation.explore.search.suggestions.SearchSuggestionsFragment;
+import ch.FOW_Collection.presentation.profile.mybeers.MyBeersViewModel;
+import ch.FOW_Collection.presentation.profile.mybeers.OnMyBeerItemInteractionListener;
 import com.google.android.material.tabs.TabLayout;
 import com.google.common.base.Strings;
 

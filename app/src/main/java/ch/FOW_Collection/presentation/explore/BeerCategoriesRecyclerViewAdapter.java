@@ -1,4 +1,4 @@
-package ch.beerpro.presentation.explore;
+package ch.FOW_Collection.presentation.explore;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import ch.beerpro.R;
-import ch.beerpro.presentation.utils.BackgroundImageProvider;
-import ch.beerpro.presentation.utils.StringDiffItemCallback;
+import ch.FOW_Collection.R;
+import ch.FOW_Collection.presentation.utils.BackgroundImageProvider;
+import ch.FOW_Collection.presentation.utils.StringDiffItemCallback;
 
 /**
  * This adapter is responsible for displaying the different beer categories (Lager, Pale Ale, etc) in a grid (see
@@ -30,7 +30,7 @@ public class BeerCategoriesRecyclerViewAdapter
         extends ListAdapter<String, BeerCategoriesRecyclerViewAdapter.ViewHolder> {
 
     /**
-     * The entries of the adapter need a callback listener to notify the {@link ch.beerpro.presentation.MainActivity}
+     * The entries of the adapter need a callback listener to notify the {@link ch.FOW_Collection.presentation.MainActivity}
      * when an entry was clicked. This listener is passed from the {@link BeerCategoriesFragment}.
      */
     private final BeerCategoriesFragment.OnItemSelectedListener listener;
@@ -55,7 +55,7 @@ public class BeerCategoriesRecyclerViewAdapter
      * fragment_explore_beer_categories_card layout.
      * <p>
      * For an adapter that implements different viewTypes, see
-     * {@link ch.beerpro.presentation.explore.search.suggestions.SearchSuggestionsRecyclerViewAdapter}.
+     * {@link ch.FOW_Collection.presentation.explore.search.suggestions.SearchSuggestionsRecyclerViewAdapter}.
      *
      * @param parent   The parent of the layout, but we don't really do anything useful with it except getting to the
      *                 context (the activity) from it.

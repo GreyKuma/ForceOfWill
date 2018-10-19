@@ -1,8 +1,8 @@
-package ch.beerpro.presentation.utils;
+package ch.FOW_Collection.presentation.utils;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import ch.beerpro.R;
+import ch.FOW_Collection.R;
 
 import java.util.Arrays;
 

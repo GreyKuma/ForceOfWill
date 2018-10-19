@@ -1,4 +1,4 @@
-package ch.beerpro.presentation.utils;
+package ch.FOW_Collection.presentation.utils;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -11,7 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.view.ViewCompat;
-import ch.beerpro.R;
+import ch.FOW_Collection.R;
 
 public class ToolbarScrollingBehaviour<V extends View> extends CoordinatorLayout.Behavior<V> {
 

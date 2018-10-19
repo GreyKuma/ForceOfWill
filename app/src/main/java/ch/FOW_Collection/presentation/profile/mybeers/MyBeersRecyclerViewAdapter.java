@@ -1,4 +1,4 @@
-package ch.beerpro.presentation.profile.mybeers;
+package ch.FOW_Collection.presentation.profile.mybeers;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,13 +13,13 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import ch.beerpro.GlideApp;
-import ch.beerpro.R;
-import ch.beerpro.domain.models.Beer;
-import ch.beerpro.domain.models.MyBeer;
-import ch.beerpro.domain.models.MyBeerFromRating;
-import ch.beerpro.domain.models.MyBeerFromWishlist;
-import ch.beerpro.presentation.utils.DrawableHelpers;
+import ch.FOW_Collection.GlideApp;
+import ch.FOW_Collection.R;
+import ch.FOW_Collection.domain.models.Beer;
+import ch.FOW_Collection.domain.models.MyBeer;
+import ch.FOW_Collection.domain.models.MyBeerFromRating;
+import ch.FOW_Collection.domain.models.MyBeerFromWishlist;
+import ch.FOW_Collection.presentation.utils.DrawableHelpers;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseUser;
