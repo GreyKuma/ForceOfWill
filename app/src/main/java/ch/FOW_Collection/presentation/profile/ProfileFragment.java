@@ -68,9 +68,10 @@ public class ProfileFragment extends Fragment {
         ButterKnife.bind(this, rootView);
 
         model = ViewModelProviders.of(this).get(MainViewModel.class);
+        /*
         model.getMyWishlist().observe(this, this::updateWishlistCount);
         model.getMyRatings().observe(this, this::updateRatingsCount);
-        model.getMyBeers().observe(this, this::updateMyBeersCount);
+        model.getMyBeers().observe(this, this::updateMyBeersCount); */
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 

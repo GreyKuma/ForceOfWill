@@ -12,20 +12,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
+import ch.FOW_Collection.domain.models.CardEdition;
 import ch.FOW_Collection.presentation.utils.BackgroundImageProvider;
-import ch.FOW_Collection.presentation.utils.StringDiffItemCallback;
+import ch.FOW_Collection.presentation.utils.EntityDiffItemCallback;
 
 
 /**
- * This class is really similar to {@link BeerCategoriesRecyclerViewAdapter} see the documentation there.
+ * This class is really similar to {@link CardPopularRecyclerViewAdapter} see the documentation there.
  */
-public class BeerManufacturersRecyclerViewAdapter
-        extends ListAdapter<String, BeerManufacturersRecyclerViewAdapter.ViewHolder> {
+public class CardEditionsRecyclerViewAdapter
+        extends ListAdapter<CardEdition, CardEditionsRecyclerViewAdapter.ViewHolder> {
 
-    private final BeerManufacturersFragment.OnItemSelectedListener listener;
+    private final CardEditionsFragment.OnItemSelectedListener listener;
 
-    public BeerManufacturersRecyclerViewAdapter(BeerManufacturersFragment.OnItemSelectedListener listener) {
-        super(new StringDiffItemCallback());
+    public CardEditionsRecyclerViewAdapter(CardEditionsFragment.OnItemSelectedListener listener) {
+        super(new EntityDiffItemCallback<>());
         this.listener = listener;
     }
 
@@ -33,7 +34,7 @@ public class BeerManufacturersRecyclerViewAdapter
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.fragment_explore_beer_manufacturers_card, parent, false);
+        View view = layoutInflater.inflate(R.layout.fragment_explore_card_editions_card, parent, false);
         return new ViewHolder(view);
     }
 
@@ -55,12 +56,12 @@ public class BeerManufacturersRecyclerViewAdapter
             ButterKnife.bind(this, itemView);
         }
 
-        void bind(String item, int position, BeerManufacturersFragment.OnItemSelectedListener listener) {
-            content.setText(item);
+        void bind(CardEdition item, int position, CardEditionsFragment.OnItemSelectedListener listener) {
+            content.setText(item.getDe());
             Context resources = itemView.getContext();
             imageView.setImageDrawable(BackgroundImageProvider.getBackgroundImage(resources, position + 10));
             if (listener != null) {
-                itemView.setOnClickListener(v -> listener.onBeerManufacturerSelected(item));
+                itemView.setOnClickListener(v -> listener.onCardEditionSelected(item));
             }
         }
     }

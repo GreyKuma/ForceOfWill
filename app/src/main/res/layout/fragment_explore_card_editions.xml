@@ -4,7 +4,7 @@
     android:id="@+id/recyclerView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:listitem="@layout/fragment_explore_beer_categories_card"
-    tools:context=".presentation.explore.BeerCategoriesFragment">
+    tools:listitem="@layout/fragment_explore_card_editions_card"
+    tools:context=".presentation.explore.CardEditionsFragment">
 
 </androidx.recyclerview.widget.RecyclerView>

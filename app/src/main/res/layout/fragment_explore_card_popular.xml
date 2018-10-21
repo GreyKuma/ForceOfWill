@@ -4,7 +4,8 @@
     android:id="@+id/recyclerView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:listitem="@layout/fragment_explore_beer_manufacturers_card"
-    tools:context=".presentation.explore.BeerManufacturersFragment">
+    android:padding="8dp"
+    tools:listitem="@layout/fragment_explore_card_popular_card"
+    tools:context=".presentation.explore.CardPopularFragment">
 
 </androidx.recyclerview.widget.RecyclerView>

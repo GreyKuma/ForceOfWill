@@ -1,23 +1,34 @@
 package ch.FOW_Collection.presentation.explore;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
+import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.presentation.utils.BackgroundImageProvider;
+import ch.FOW_Collection.presentation.utils.EntityDiffItemCallback;
 import ch.FOW_Collection.presentation.utils.StringDiffItemCallback;
 
 /**
  * This adapter is responsible for displaying the different beer categories (Lager, Pale Ale, etc) in a grid (see
- * {@link BeerCategoriesFragment}). It extends a ListAdapter, a convenient subclass of the
+ * {@link CardPopularFragment}). It extends a ListAdapter, a convenient subclass of the
  * {@link RecyclerView.Adapter} class that is useful whenever the data you're displaying is held in a list. This is
  * almost always the case so you will typically want to extend {@link ListAdapter}.
  * <p>
@@ -26,16 +37,16 @@ import ch.FOW_Collection.presentation.utils.StringDiffItemCallback;
  * <p>
  * The second parameter is the {@link ViewHolder}, which is ususally implemented as a nested class of the adapter.
  */
-public class BeerCategoriesRecyclerViewAdapter
-        extends ListAdapter<String, BeerCategoriesRecyclerViewAdapter.ViewHolder> {
+public class CardPopularRecyclerViewAdapter
+        extends ListAdapter<Card, CardPopularRecyclerViewAdapter.ViewHolder> {
 
     /**
      * The entries of the adapter need a callback listener to notify the {@link ch.FOW_Collection.presentation.MainActivity}
-     * when an entry was clicked. This listener is passed from the {@link BeerCategoriesFragment}.
+     * when an entry was clicked. This listener is passed from the {@link CardPopularFragment}.
      */
-    private final BeerCategoriesFragment.OnItemSelectedListener listener;
+    private final CardPopularFragment.OnItemSelectedListener listener;
 
-    public BeerCategoriesRecyclerViewAdapter(BeerCategoriesFragment.OnItemSelectedListener listener) {
+    public CardPopularRecyclerViewAdapter(CardPopularFragment.OnItemSelectedListener listener) {
         /*
          * Whenever a new list is submitted to the ListAdapter, it needs to compute the set of changes in the list.
          * for example, a new string might have been added to the front of the list. in that case, the ListAdapter
@@ -44,7 +55,7 @@ public class BeerCategoriesRecyclerViewAdapter
          * a String - the first type parameter passed to the superclass), it needs a way to diff the entry items.
          * This is implemented in the StringDiffItemCallback class.
          */
-        super(new StringDiffItemCallback());
+        super(new EntityDiffItemCallback<>());
         this.listener = listener;
     }
 
@@ -66,7 +77,7 @@ public class BeerCategoriesRecyclerViewAdapter
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.fragment_explore_beer_categories_card, parent, false);
+        View view = layoutInflater.inflate(R.layout.fragment_explore_card_popular_card, parent, false);
         return new ViewHolder(view);
     }
 
@@ -101,6 +112,7 @@ public class BeerCategoriesRecyclerViewAdapter
 
         ViewHolder(View view) {
             super(view);
+
             ButterKnife.bind(this, itemView);
         }
 
@@ -116,12 +128,31 @@ public class BeerCategoriesRecyclerViewAdapter
          * binding the callback to the content instead and see how much harder it will be to interact with the list
          * item.
          */
-        void bind(String item, int position, BeerCategoriesFragment.OnItemSelectedListener listener) {
-            content.setText(item);
+        void bind(Card item, int position, CardPopularFragment.OnItemSelectedListener listener) {
+            content.setText(item.getName().getDe());
+
+            // just for test!!!! move away!
+            StorageReference imgRef = FirebaseStorage.getInstance().getReference().child(item.getImageStorageUrl());
+            final long ONE_MEGABYTE = 1024 * 1024;
+            imgRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                @Override
+                public void onSuccess(byte[] bytes) {
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                    imageView.setImageBitmap(bitmap);
+
+                    final Matrix matrix = imageView.getImageMatrix();
+                    final float imageWidth = imageView.getDrawable().getIntrinsicWidth();
+                    final int screenWidth = itemView.getMeasuredWidth();
+                    final float scaleRatio = screenWidth / imageWidth;
+                    matrix.postScale(scaleRatio, scaleRatio);
+                    imageView.setImageMatrix(matrix);
+                }
+            });
+
             Context resources = itemView.getContext();
-            imageView.setImageDrawable(BackgroundImageProvider.getBackgroundImage(resources, position));
+            //imageView.setImageDrawable(BackgroundImageProvider.getBackgroundImage(resources, position));
             if (listener != null) {
-                itemView.setOnClickListener(v -> listener.onBeerCategorySelected(item));
+                //itemView.setOnClickListener(v -> listener.onBeerCategorySelected(item));
             }
         }
     }

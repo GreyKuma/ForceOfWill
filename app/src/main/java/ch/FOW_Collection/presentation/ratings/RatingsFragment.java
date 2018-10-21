@@ -51,7 +51,7 @@ public class RatingsFragment extends Fragment
         ButterKnife.bind(this, rootView);
 
         model = ViewModelProviders.of(this).get(MainViewModel.class);
-        model.getAllRatingsWithWishes().observe(this, this::updateRatings);
+        /// model.getAllRatingsWithWishes().observe(this, this::updateRatings);
 
         val layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
@@ -74,7 +74,7 @@ public class RatingsFragment extends Fragment
 
     @Override
     public void onRatingLikedListener(Rating rating) {
-        model.toggleLike(rating);
+        /// model.toggleLike(rating);
     }
 
     @Override
@@ -86,12 +86,12 @@ public class RatingsFragment extends Fragment
 
     @Override
     public void onWishClickedListener(Rating item) {
-        model.toggleItemInWishlist(item.getBeerId());
+        /// model.toggleItemInWishlist(item.getBeerId());
     }
 
     @Override
     public void onRefresh() {
-        updateRatings(model.getAllRatingsWithWishes().getValue());
+        /// updateRatings(model.getAllRatingsWithWishes().getValue());
         swipeRefreshLayout.setRefreshing(false);
         adapter.notifyDataSetChanged();
     }

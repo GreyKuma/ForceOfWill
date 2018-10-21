@@ -14,6 +14,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.presentation.MainViewModel;
+import ch.FOW_Collection.presentation.utils.GridAutofitLayoutManager;
 import ch.FOW_Collection.presentation.utils.GridSpacingItemDecoration;
 
 
@@ -21,18 +22,18 @@ import ch.FOW_Collection.presentation.utils.GridSpacingItemDecoration;
  * The fragment, nested inside the {@link ExploreFragment}, which in turn is part of the
  * {@link ch.FOW_Collection.presentation.MainActivity} shows a two by N grid with beer categories.
  */
-public class BeerCategoriesFragment extends Fragment {
+public class CardPopularFragment extends Fragment {
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     /**
      * The fragment needs to notify the {@link ch.FOW_Collection.presentation.MainActivity} when the user clicks on one of
      * the categories. This is done by capturing the attaching fragment (in the onAttach method below) and passing
-     * the reference to the listener to the {@link BeerCategoriesRecyclerViewAdapter}.
+     * the reference to the listener to the {@link CardPopularRecyclerViewAdapter}.
      */
     private OnItemSelectedListener listener;
 
-    public BeerCategoriesFragment() {
+    public CardPopularFragment() {
     }
 
     /**
@@ -56,13 +57,13 @@ public class BeerCategoriesFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_explore_beer_categories, container, false);
+        View view = inflater.inflate(R.layout.fragment_explore_card_popular, container, false);
         ButterKnife.bind(this, view);
 
         /*
          * We ususally use the RecyclerView for lists, but with a GridLayoutManager it can also display grids.
          * */
-        LinearLayoutManager layoutManager = new GridLayoutManager(view.getContext(), 2);
+        LinearLayoutManager layoutManager = new GridAutofitLayoutManager(view.getContext(), 192);
         recyclerView.setLayoutManager(layoutManager);
         /*
          * This recyclerview is nested inside the fragment which should take care of the scrolling, i.e., we don't
@@ -83,7 +84,7 @@ public class BeerCategoriesFragment extends Fragment {
          * Note that we don't have to pass any items or a collection to the adapter, this is done with
          * submitList below.
          */
-        BeerCategoriesRecyclerViewAdapter adapter = new BeerCategoriesRecyclerViewAdapter(listener);
+        CardPopularRecyclerViewAdapter adapter = new CardPopularRecyclerViewAdapter(listener);
 
         /*
          * We get the same ViewModel as the MainActivity, and because the MainActivity is already running we get the
@@ -95,7 +96,7 @@ public class BeerCategoriesFragment extends Fragment {
          * The RecyclerViewAdapter has a submitList method that allows us to submit the new data. So whenever the
          * beer cagetories LiveData changes, we will get notified and submit the new list to the adapter.
          * */
-        model.getBeerCategories().observe(this, categories -> adapter.submitList(categories));
+        model.getCardsTopRated(10).observe(this, categories -> adapter.submitList(categories));
 
         recyclerView.setAdapter(adapter);
 

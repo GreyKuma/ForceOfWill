@@ -11,8 +11,9 @@ import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
-import ch.FOW_Collection.presentation.explore.BeerCategoriesFragment;
-import ch.FOW_Collection.presentation.explore.BeerManufacturersFragment;
+import ch.FOW_Collection.domain.models.CardEdition;
+import ch.FOW_Collection.presentation.explore.CardPopularFragment;
+import ch.FOW_Collection.presentation.explore.CardEditionsFragment;
 import ch.FOW_Collection.presentation.explore.ExploreFragment;
 import ch.FOW_Collection.presentation.profile.ProfileFragment;
 import ch.FOW_Collection.presentation.ratings.RatingsFragment;
@@ -30,7 +31,7 @@ import com.google.android.material.tabs.TabLayout;
  * The Activity has three tabs, each of which implemented by a fragment and held together by a {@link ViewPager}.
  */
 public class MainActivity extends AppCompatActivity
-        implements BeerCategoriesFragment.OnItemSelectedListener, BeerManufacturersFragment.OnItemSelectedListener {
+        implements CardPopularFragment.OnItemSelectedListener, CardEditionsFragment.OnItemSelectedListener {
 
     /**
      * We use ButterKnife's view injection instead of having to call findViewById repeatedly.
@@ -133,7 +134,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onBeerManufacturerSelected(String name) {
+    public void onCardEditionSelected(CardEdition cardEdition) {
         // TODO implement
     }
 }

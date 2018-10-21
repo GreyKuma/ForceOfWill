@@ -50,8 +50,8 @@ public class ExploreFragment extends Fragment {
          * two listener interfaces), bypassing this fragment.
          * */
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
-        adapter.addFragment(new BeerCategoriesFragment(), "Bierart");
-        adapter.addFragment(new BeerManufacturersFragment(), "Brauerei");
+        adapter.addFragment(new CardPopularFragment(), "Beliebte");
+        adapter.addFragment(new CardEditionsFragment(), "Editionen");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
 

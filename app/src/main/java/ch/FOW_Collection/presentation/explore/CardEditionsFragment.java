@@ -13,20 +13,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
+import ch.FOW_Collection.domain.models.CardEdition;
 import ch.FOW_Collection.presentation.MainViewModel;
 import ch.FOW_Collection.presentation.utils.GridSpacingItemDecoration;
 
 
 /**
- * This class is really similar to {@link BeerCategoriesFragment}, see the documentation there.
+ * This class is really similar to {@link CardPopularFragment}, see the documentation there.
  */
-public class BeerManufacturersFragment extends Fragment {
+public class CardEditionsFragment extends Fragment {
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     private OnItemSelectedListener mListener;
 
-    public BeerManufacturersFragment() {
+    public CardEditionsFragment() {
         // Required empty public constructor
     }
 
@@ -43,7 +44,7 @@ public class BeerManufacturersFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_expore_beer_manufacturers, container, false);
+        View view = inflater.inflate(R.layout.fragment_explore_card_editions, container, false);
         ButterKnife.bind(this, view);
 
         LinearLayoutManager layoutManager = new GridLayoutManager(view.getContext(), 2);
@@ -54,10 +55,11 @@ public class BeerManufacturersFragment extends Fragment {
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.grid_layout_margin);
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, spacingInPixels, false, 0));
 
-        BeerManufacturersRecyclerViewAdapter adapter = new BeerManufacturersRecyclerViewAdapter(mListener);
+        CardEditionsRecyclerViewAdapter adapter = new CardEditionsRecyclerViewAdapter(mListener);
 
         MainViewModel model = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
-        model.getBeerManufacturers().observe(this, adapter::submitList);
+        /// model.getBeerManufacturers().observe(this, adapter::submitList);
+        model.getCardEditions().observe(this, adapter::submitList);
 
         recyclerView.setAdapter(adapter);
 
@@ -71,6 +73,6 @@ public class BeerManufacturersFragment extends Fragment {
     }
 
     public interface OnItemSelectedListener {
-        void onBeerManufacturerSelected(String name);
+        void onCardEditionSelected(CardEdition cardEdition);
     }
 }

@@ -1,15 +1,14 @@
 package ch.FOW_Collection.presentation;
 
-import android.util.Pair;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import ch.FOW_Collection.data.repositories.*;
-import ch.FOW_Collection.domain.models.Beer;
-import ch.FOW_Collection.domain.models.MyBeer;
-import ch.FOW_Collection.domain.models.Rating;
-import ch.FOW_Collection.domain.models.Wish;
-import com.google.android.gms.tasks.Task;
+import ch.FOW_Collection.domain.models.Card;
+import ch.FOW_Collection.domain.models.CardEdition;
+import ch.FOW_Collection.domain.utils.FirestoreQueryLiveDataArray;
 
 import java.util.List;
 
@@ -20,31 +19,37 @@ public class MainViewModel extends ViewModel implements CurrentUser {
 
     private static final String TAG = "MainViewModel";
 
-    private final BeersRepository beersRepository;
+    private final CardsRepository cardsRepository;
+    private final CardEditionsRepository cardEditionsRepository;
+
+    private final BeersRepository beersRepository;/*
     private final LikesRepository likesRepository;
     private final RatingsRepository ratingsRepository;
     private final WishlistRepository wishlistRepository;
 
     private final LiveData<List<Wish>> myWishlist;
     private final LiveData<List<Rating>> myRatings;
-    private final LiveData<List<MyBeer>> myBeers;
+    private final LiveData<List<MyBeer>> myBeers;*/
 
     public MainViewModel() {
         /*
          * TODO We should really be injecting these!
          */
-        beersRepository = new BeersRepository();
+        cardsRepository = new CardsRepository();
+        cardEditionsRepository = new CardEditionsRepository();
+
+        beersRepository = new BeersRepository();/*
         likesRepository = new LikesRepository();
         wishlistRepository = new WishlistRepository();
         ratingsRepository = new RatingsRepository();
         MyBeersRepository myBeersRepository = new MyBeersRepository();
 
         LiveData<List<Beer>> allBeers = beersRepository.getAllBeers();
-
+*/
         MutableLiveData<String> currentUserId = new MutableLiveData<>();
-        myWishlist = wishlistRepository.getMyWishlist(currentUserId);
-        myRatings = ratingsRepository.getMyRatings(currentUserId);
-        myBeers = myBeersRepository.getMyBeers(allBeers, myWishlist, myRatings);
+        // myWishlist = wishlistRepository.getMyWishlist(currentUserId);
+        // myRatings = ratingsRepository.getMyRatings(currentUserId);
+        /// myBeers = myBeersRepository.getMyBeers(allBeers, myWishlist, myRatings);
 
         /*
          * Set the current user id, which is used as input for the getMyWishlist and getMyRatings calls above.
@@ -56,6 +61,8 @@ public class MainViewModel extends ViewModel implements CurrentUser {
         currentUserId.setValue(getCurrentUser().getUid());
     }
 
+
+    /*
     public LiveData<List<MyBeer>> getMyBeers() {
         return myBeers;
     }
@@ -86,5 +93,13 @@ public class MainViewModel extends ViewModel implements CurrentUser {
 
     public LiveData<List<Pair<Rating, Wish>>> getAllRatingsWithWishes() {
         return ratingsRepository.getAllRatingsWithWishes(myWishlist);
+    }*/
+
+    public FirestoreQueryLiveDataArray<Card> getCardsTopRated(int count) {
+        return cardsRepository.getCardsTopRated(count);
+    }
+
+    public LiveData<List<CardEdition>> getCardEditions() {
+        return cardEditionsRepository.getAllEditions();
     }
 }
