@@ -2,7 +2,8 @@
 <RelativeLayout
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/fragment_card_padding"
     tools:context=".presentation.explore.CardPopularFragment"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -10,32 +11,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="531dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="center_horizontal|top"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="36dp"
-        android:padding="@dimen/fragment_card_padding"
+        android:layout_height="wrap_content"
         tools:listitem="@layout/fragment_card">
 
     </androidx.recyclerview.widget.RecyclerView>
-
-    <Button
-        android:id="@+id/buttonShowMore"
-        style="?android:attr/button"
-        android:layout_width="64dp"
-        android:layout_height="47dp"
-        android:layout_below="@+id/recyclerView"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="center_horizontal|bottom"
-        android:minWidth="18dp"
-        android:minHeight="18dp"
-        android:visibility="visible" android:text="ShowMore"/>
 </RelativeLayout>

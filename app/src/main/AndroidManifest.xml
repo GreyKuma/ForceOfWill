@@ -26,7 +26,8 @@
         <activity
             android:name="ch.FOW_Collection.presentation.MainActivity"
             android:label="@string/title_activity_home_screen"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity android:name="ch.FOW_Collection.presentation.explore.search.SearchActivity" />
         <activity
             android:name="ch.FOW_Collection.presentation.details.DetailsActivity"

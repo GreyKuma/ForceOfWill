@@ -1,31 +1,21 @@
-package ch.FOW_Collection.presentation.shared;
+package ch.FOW_Collection.presentation.shared.cardList;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ProgressBar;
 
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.firebase.ui.firestore.paging.FirestorePagingOptions;
-import com.firebase.ui.firestore.paging.LoadingState;
-import com.google.firebase.firestore.Query;
-
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.paging.PagedList;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import ch.FOW_Collection.GlideApp;
 import ch.FOW_Collection.R;
-import ch.FOW_Collection.domain.models.Card;
-import ch.FOW_Collection.presentation.MainViewModel;
-import ch.FOW_Collection.presentation.explore.CardPopularRecyclerViewAdapter;
 import ch.FOW_Collection.presentation.explore.ExploreFragment;
 import ch.FOW_Collection.presentation.utils.GridAutofitLayoutManager;
 import ch.FOW_Collection.presentation.utils.GridSpacingItemDecoration;
@@ -35,22 +25,40 @@ import ch.FOW_Collection.presentation.utils.GridSpacingItemDecoration;
  * The fragment, nested inside the {@link ExploreFragment}, which in turn is part of the
  * {@link ch.FOW_Collection.presentation.MainActivity} shows a two by N grid with beer categories.
  */
-public class CardListFragment extends Fragment implements OnCardSelectedListener {
+public abstract class CardListFragment extends Fragment {
+    protected static final String ARG_Id = "cardListId";
+    protected static final String ARG_NestedScrolling = "nestedScrolling";
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
-    @BindView(R.id.buttonShowMore)
-    Button buttonShowMore;
-
     /**
      * The fragment needs to notify the owner when the user clicks on one of
      * the categories. This is done by capturing the attaching fragment (in the onAttach method below) and passing
-     * the reference to the listener to the {@link CardListFragmentViewAdapter}.
+     * the reference to the listener to the {@link RecyclerView.Adapter<CardListViewHolder>}.
      */
-    private CardListFragmentListener listener;
+    protected ICardListFragmentListener listener;
+
+    protected String cardListId;
+    public String getCardListId() { return this.cardListId; }
+
+    protected boolean nestedScrolling;
+    public boolean getNestedScrolling() {
+        return nestedScrolling;
+    }
 
     public CardListFragment() {
+    }
+
+    public abstract RecyclerView.Adapter<CardListViewHolder> adapterFactory();
+
+    @Override
+    public void setArguments(@Nullable Bundle args) {
+        super.setArguments(args);
+        if (args != null) {
+            this.cardListId = args.getString(ARG_Id);
+            this.nestedScrolling = args.getBoolean(ARG_NestedScrolling);
+        }
     }
 
     /**
@@ -62,20 +70,14 @@ public class CardListFragment extends Fragment implements OnCardSelectedListener
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof CardListFragmentListener) {
-            listener = (CardListFragmentListener) context;
+        if (context instanceof ICardListFragmentListener) {
+            listener = (ICardListFragmentListener) context;
         } else {
             /*
              * The activity might have forgotten to implement the interface, so we kindly remind the developer:
              * */
             throw new RuntimeException(context.toString() + " must implement CardListFragmentListener");
         }
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        //((CardPopularRecyclerViewAdapter)recyclerView.getAdapter()).notify();
     }
 
     @Override
@@ -95,62 +97,30 @@ public class CardListFragment extends Fragment implements OnCardSelectedListener
          * This recyclerview is nested inside the fragment which should take care of the scrolling, i.e., we don't
          * want nested scrolling behaviour so we can disabled that:
          */
-        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setNestedScrollingEnabled(nestedScrolling);
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(layoutManager.getSpanCount(), getResources().getDimensionPixelSize(R.dimen.fragment_card_padding), false, 0));
 
         /*
-         * We get the same ViewModel as the MainActivity, and because the MainActivity is already running we get the
-         * same instance and can share the data of the MainActivity.
-         * */
-        MainViewModel model = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
-
-        /*
-         * The adapter registers the MainActivity (the listener) directly on the individual items of the grid, so
-         * when the user clicks an item the activity will be notified, bypassing this fragment and its parent.
-         *
-         * We pass a query to the collection to the adapter, so it can handle loading by itself.
-         */
-        // This configuration comes from the Paging Support Library
-        // https://developer.android.com/reference/android/arch/paging/PagedList.Config.html
-        PagedList.Config config = new PagedList.Config.Builder()
-                .setEnablePlaceholders(true)
-                .setInitialLoadSizeHint(20)
-                .setPrefetchDistance(10)
-                .setPageSize(10)
-                .build();
-
         // The options for the adapter combine the paging configuration with query information
         // and application-specific options for lifecycle, etc.
         FirestoreRecyclerOptions<Card> options = new FirestoreRecyclerOptions.Builder<Card>()
                 .setLifecycleOwner(this)
-                .setQuery(getQuery(), Card.class)
+                .setQuery(listener.getQuery(), Card.class)
                 .build();
 
         CardListFragmentViewAdapter adapter = new CardListFragmentViewAdapter(
                 GlideApp.with(getContext()),
                 options,
-                this);
+                listener);*/
 
         /*
          * Now we register the scrollListener
          * */
         /// model.getCardsTopRated(12).observe(this, categories -> adapter.submitList(categories));
 
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(adapterFactory());
 
         return view;
-    }
-
-    public Query getQuery(){
-        return listener.getQuery();
-    }
-
-    public void onShowMoreClick(View v) {
-        listener.onShowMoreClick(v);
-    }
-
-    public void onCardSelected(Card card){
-        listener.onCardSelected(card);
     }
 
     /**
@@ -164,8 +134,49 @@ public class CardListFragment extends Fragment implements OnCardSelectedListener
         listener = null;
     }
 
-    public interface CardListFragmentListener extends OnCardSelectedListener {
-        Query getQuery();
-        void onShowMoreClick(View v);
+    private final static String KEY_RECYCLER_STATE = "recyclerViewState";
+    private Bundle mBundleRecyclerViewState;
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d("CardListFragment", "onPause");
+
+        // save RecyclerView state
+        mBundleRecyclerViewState = new Bundle();
+        Parcelable listState = recyclerView.getLayoutManager().onSaveInstanceState();
+        mBundleRecyclerViewState.putParcelable(KEY_RECYCLER_STATE, listState);
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        Log.d("CardListFragment", "onResume");
+
+        // restore RecyclerView state
+        if (mBundleRecyclerViewState != null) {
+            Parcelable listState = mBundleRecyclerViewState.getParcelable(KEY_RECYCLER_STATE);
+            recyclerView.getLayoutManager().onRestoreInstanceState(listState);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d("CardListFragment", "onDestroy");
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        Log.d("CardListFragment", "onConfigurationChanged");
+
+        GridAutofitLayoutManager layoutManager = (GridAutofitLayoutManager) recyclerView.getLayoutManager();
+        if (layoutManager != null) {
+            layoutManager.setDisplayWillRotate(newConfig.orientation);
+            //recyclerView.setVisibility(View.GONE);
+            //recyclerView.setVisibility(View.VISIBLE);
+        }
     }
 }
