@@ -3,10 +3,8 @@ package ch.FOW_Collection.domain.models;
 import com.google.firebase.firestore.Exclude;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
 
-import ch.FOW_Collection.data.repositories.CardsRepository;
 import ch.FOW_Collection.domain.utils.MultiLanguageString;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,11 +29,8 @@ public class Card implements Entity, Serializable {
     private String rarity;
 
     private Integer editionId;
-    private CardEdition edition;
 
     private List<Integer> typeIds;
-    private List<CardType> types;
-
     private List<Integer> raceIds;
     private List<Integer> attributeIds;
 
@@ -47,4 +42,7 @@ public class Card implements Entity, Serializable {
     public static final String FIELD_RATING = "avgRating";
     private float avgRating;
     private int numRatings;
+
+
+
 }

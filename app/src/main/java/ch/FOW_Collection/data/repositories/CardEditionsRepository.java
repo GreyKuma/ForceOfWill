@@ -17,15 +17,6 @@ import ch.FOW_Collection.domain.utils.FirestoreQueryLiveDataArray;
 import static androidx.lifecycle.Transformations.map;
 
 public class CardEditionsRepository {
-    private final static Function<List<Card>, List<CardEdition>> mapCardsToEditions = (List<Card> cards) -> {
-        Set<CardEdition> filtered = new HashSet<>();
-        for (Card card : cards) {
-            filtered.add(card.getEdition());
-        }
-        CardEdition[] editionIds = filtered.toArray(new CardEdition[0]);
-        return Arrays.asList(editionIds).subList(0, Math.min(8, editionIds.length));
-    };
-
     private final FirestoreQueryLiveDataArray<CardEdition> allCardEditions =
             new FirestoreQueryLiveDataArray<>(
                     FirebaseFirestore

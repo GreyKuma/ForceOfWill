@@ -14,6 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
 
     private int spanCount;
+    public int getSpanCount() {
+        return this.spanCount;
+    }
+    public void setSpanCount(int spanCount) {
+        this.spanCount = spanCount;
+    }
+
     private int spacing;
     private boolean includeEdge;
     private int headerNum;
@@ -28,6 +35,12 @@ public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         int position = parent.getChildAdapterPosition(view) - headerNum; // item position
+
+        // get spanCount from GridAutofitLayoutManager if present
+        RecyclerView.LayoutManager layoutManager = parent.getLayoutManager();
+        if (GridAutofitLayoutManager.class.equals(layoutManager.getClass())) {
+            spanCount = ((GridAutofitLayoutManager)layoutManager).getSpanCount();
+        }
 
         if (position >= 0) {
             int column = position % spanCount; // item column

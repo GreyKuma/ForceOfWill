@@ -2,6 +2,8 @@ package ch.FOW_Collection;
 
 import android.app.Application;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 
 /**
  * The MyApplication class is instantiated once for the whole application and can (but should not) be used as a
@@ -18,5 +20,13 @@ public class MyApplication extends Application {
          * of how much and when new data is received from the database.
          * */
         FirebaseFirestore.setLoggingEnabled(true);
+
+        /*
+         * Apply settings
+         */
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(true)
+                .build();
+        FirebaseFirestore.getInstance().setFirestoreSettings(settings);
     }
 }

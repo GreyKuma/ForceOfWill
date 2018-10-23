@@ -1,4 +1,4 @@
-package ch.FOW_Collection.presentation.explore;
+package ch.FOW_Collection.presentation.shared;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.widget.ProgressBar;
 
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
+import com.google.firebase.firestore.Query;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -22,6 +23,8 @@ import ch.FOW_Collection.GlideApp;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.presentation.MainViewModel;
+import ch.FOW_Collection.presentation.explore.CardPopularRecyclerViewAdapter;
+import ch.FOW_Collection.presentation.explore.ExploreFragment;
 import ch.FOW_Collection.presentation.utils.GridAutofitLayoutManager;
 import ch.FOW_Collection.presentation.utils.GridSpacingItemDecoration;
 
@@ -30,7 +33,7 @@ import ch.FOW_Collection.presentation.utils.GridSpacingItemDecoration;
  * The fragment, nested inside the {@link ExploreFragment}, which in turn is part of the
  * {@link ch.FOW_Collection.presentation.MainActivity} shows a two by N grid with beer categories.
  */
-public class CardPopularFragment extends Fragment {
+public class CardInfiniteListFragment extends Fragment {
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
@@ -43,9 +46,9 @@ public class CardPopularFragment extends Fragment {
      * the categories. This is done by capturing the attaching fragment (in the onAttach method below) and passing
      * the reference to the listener to the {@link CardPopularRecyclerViewAdapter}.
      */
-    private OnItemSelectedListener listener;
+    private CardListFragmentListener listener;
 
-    public CardPopularFragment() {
+    public CardInfiniteListFragment() {
     }
 
     /**
@@ -57,8 +60,8 @@ public class CardPopularFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnItemSelectedListener) {
-            listener = (OnItemSelectedListener) context;
+        if (context instanceof CardListFragmentListener) {
+            listener = (CardListFragmentListener) context;
         } else {
             /*
              * The activity might have forgotten to implement the interface, so we kindly remind the developer:
@@ -107,14 +110,6 @@ public class CardPopularFragment extends Fragment {
          *
          * We pass a query to the collection to the adapter, so it can handle loading by itself.
          */
-        /*
-        CardPopularRecyclerViewAdapter adapter = new CardPopularRecyclerViewAdapter(
-                GlideApp.with(getContext()),
-                new FirestoreRecyclerOptions.Builder<Card>()
-                        .setQuery(model.getCardsTopRated(), Card.class)
-                        .setLifecycleOwner(this)
-                        .build(),
-                listener);*/
         // This configuration comes from the Paging Support Library
         // https://developer.android.com/reference/android/arch/paging/PagedList.Config.html
         PagedList.Config config = new PagedList.Config.Builder()
@@ -128,10 +123,10 @@ public class CardPopularFragment extends Fragment {
         // and application-specific options for lifecycle, etc.
         FirestorePagingOptions<Card> options = new FirestorePagingOptions.Builder<Card>()
                 .setLifecycleOwner(this)
-                .setQuery(model.getCardsTopRated().limit(5), config, Card.class)
+                .setQuery(getQuery().limit(10), config, Card.class)
                 .build();
 
-        CardPopularRecyclerViewAdapter adapter = new CardPopularRecyclerViewAdapter(
+        CardInfiniteListFragmentViewAdapter adapter = new CardInfiniteListFragmentViewAdapter(
                 GlideApp.with(getContext()),
                 options,
                 listener) {
@@ -160,6 +155,14 @@ public class CardPopularFragment extends Fragment {
         return view;
     }
 
+    public Query getQuery() {
+        return listener.getQuery();
+    }
+
+    public void onCardSelected(Card card){
+        listener.onCardSelected(card);
+    }
+
     /**
      * When the fragment is destroyed or detached from the activity (in this app, this only happens when a new
      * activity is started), we reset the listener. Note that we don't have to do anything, the getBeerCategories
@@ -172,11 +175,7 @@ public class CardPopularFragment extends Fragment {
     }
 
 
-    /**
-     * The {@link ch.FOW_Collection.presentation.MainActivity} needs to implement this interface so we can notify it when
-     * the user has clicked on one of the entries in the grid.
-     */
-    public interface OnItemSelectedListener {
-        void onCardSelected(Card card);
+    public interface CardListFragmentListener extends OnCardSelectedListener {
+        Query getQuery();
     }
 }

@@ -7,14 +7,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ch.FOW_Collection.R;
+import ch.FOW_Collection.domain.models.Card;
+import ch.FOW_Collection.presentation.MainViewModel;
 import ch.FOW_Collection.presentation.explore.search.SearchActivity;
+import ch.FOW_Collection.presentation.shared.CardListFragment;
 import ch.FOW_Collection.presentation.utils.ViewPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.firestore.Query;
 
 /**
  * This fragment is the first fragment shown in the {@link ch.FOW_Collection.presentation.MainActivity}. It lets users
@@ -43,6 +48,12 @@ public class ExploreFragment extends Fragment {
         ButterKnife.bind(this, rootView);
 
         /*
+         * We get the same ViewModel as the MainActivity, and because the MainActivity is already running we get the
+         * same instance and can share the data of the MainActivity.
+         * */
+        MainViewModel model = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
+
+        /*
          * Because the two fragments are nested in this fragment, we have to use the getChildFragmentManager.
          * Otherwise strange rendering and other bugs can occur at runtime.
          *
@@ -50,7 +61,8 @@ public class ExploreFragment extends Fragment {
          * two listener interfaces), bypassing this fragment.
          * */
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
-        adapter.addFragment(new CardPopularFragment(), "Beliebte");
+        // adapter.addFragment(new CardPopularFragment(), "Beliebte");
+        adapter.addFragment(new CardListFragment(), "Beliebte");
         adapter.addFragment(new CardEditionsFragment(), "Editionen");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);

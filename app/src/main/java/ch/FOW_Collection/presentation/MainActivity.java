@@ -5,24 +5,32 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
+import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.CardEdition;
 import ch.FOW_Collection.presentation.explore.CardPopularFragment;
 import ch.FOW_Collection.presentation.explore.CardEditionsFragment;
 import ch.FOW_Collection.presentation.explore.ExploreFragment;
 import ch.FOW_Collection.presentation.profile.ProfileFragment;
 import ch.FOW_Collection.presentation.ratings.RatingsFragment;
+import ch.FOW_Collection.presentation.shared.CardListFragment;
 import ch.FOW_Collection.presentation.splash.SplashScreenActivity;
 import ch.FOW_Collection.presentation.utils.ViewPagerAdapter;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.firestore.Query;
 
 /**
  * The {@link MainActivity} is the entry point for logged-in users (actually, users start at the
@@ -31,7 +39,7 @@ import com.google.android.material.tabs.TabLayout;
  * The Activity has three tabs, each of which implemented by a fragment and held together by a {@link ViewPager}.
  */
 public class MainActivity extends AppCompatActivity
-        implements CardPopularFragment.OnItemSelectedListener, CardEditionsFragment.OnItemSelectedListener {
+        implements CardListFragment.CardListFragmentListener, CardEditionsFragment.OnItemSelectedListener {
 
     /**
      * We use ButterKnife's view injection instead of having to call findViewById repeatedly.
@@ -129,12 +137,34 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onBeerCategorySelected(String name) {
+    public void onCardSelected(Card card) {
         // TODO implement
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder
+                .setTitle("onCardSelected")
+                .setMessage(card.getName().getDe());
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override
     public void onCardEditionSelected(CardEdition cardEdition) {
         // TODO implement
+    }
+
+    @Override
+    public Query getQuery() {
+        return ViewModelProviders.of(this).get(MainViewModel.class).getCardsTopRated().limit(10);
+    }
+
+    @Override
+    public void onShowMoreClick(View v) {
+        // TODO implement
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder
+                .setTitle("onShowMoreClick")
+                .setMessage("I will show u more.. or not");
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

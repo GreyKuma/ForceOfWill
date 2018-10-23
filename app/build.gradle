@@ -32,12 +32,29 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
     implementation 'androidx.annotation:annotation:1.0.0'
-    implementation 'com.google.firebase:firebase-core:16.0.4'
-    implementation 'com.firebaseui:firebase-ui-auth:4.1.0'
     implementation 'com.google.firebase:firebase-storage:16.0.3'
     implementation 'com.google.android.material:material:1.0.0'
+
+    // firebase / firestore
+    implementation 'com.google.firebase:firebase-core:16.0.4'
+    implementation 'com.google.firebase:firebase-analytics:16.0.4'
+    implementation 'com.google.firebase:firebase-auth:16.0.5'
     implementation 'com.google.firebase:firebase-firestore:17.1.1'
-    implementation 'com.firebaseui:firebase-ui-firestore:4.0.0'
+    implementation 'com.google.firebase:firebase-functions:16.1.1'
+    implementation 'com.google.firebase:firebase-messaging:17.3.4'
+    implementation 'com.google.firebase:firebase-storage:16.0.3'
+    // FirebaseUI for Firebase Realtime Database
+    implementation 'com.firebaseui:firebase-ui-database:4.2.0'
+    // FirebaseUI for Cloud Firestore
+    implementation 'com.firebaseui:firebase-ui-firestore:4.2.0'
+    // FirebaseUI for Firebase Auth
+    implementation 'com.firebaseui:firebase-ui-auth:4.2.0'
+    // FirebaseUI for Firebase Auth (GitHub provider)
+    // implementation 'com.firebaseui:firebase-ui-auth-github:4.2.0'
+    // FirebaseUI for Cloud Storage
+    implementation 'com.firebaseui:firebase-ui-storage:4.2.0'
+
+    implementation 'android.arch.paging:runtime:1.0.1'
 
     // an alternative to picasso
     implementation 'com.github.bumptech.glide:glide:4.8.0'

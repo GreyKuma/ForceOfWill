@@ -1,14 +1,17 @@
-package ch.FOW_Collection.presentation.explore;
+package ch.FOW_Collection.presentation.shared;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
+import com.google.firebase.firestore.Query;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -22,6 +25,8 @@ import ch.FOW_Collection.GlideApp;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.presentation.MainViewModel;
+import ch.FOW_Collection.presentation.explore.CardPopularRecyclerViewAdapter;
+import ch.FOW_Collection.presentation.explore.ExploreFragment;
 import ch.FOW_Collection.presentation.utils.GridAutofitLayoutManager;
 import ch.FOW_Collection.presentation.utils.GridSpacingItemDecoration;
 
@@ -30,22 +35,22 @@ import ch.FOW_Collection.presentation.utils.GridSpacingItemDecoration;
  * The fragment, nested inside the {@link ExploreFragment}, which in turn is part of the
  * {@link ch.FOW_Collection.presentation.MainActivity} shows a two by N grid with beer categories.
  */
-public class CardPopularFragment extends Fragment {
+public class CardListFragment extends Fragment implements OnCardSelectedListener {
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
-    @BindView(R.id.progressBar)
-    ProgressBar progressBar;
+    @BindView(R.id.buttonShowMore)
+    Button buttonShowMore;
 
     /**
-     * The fragment needs to notify the {@link ch.FOW_Collection.presentation.MainActivity} when the user clicks on one of
+     * The fragment needs to notify the owner when the user clicks on one of
      * the categories. This is done by capturing the attaching fragment (in the onAttach method below) and passing
-     * the reference to the listener to the {@link CardPopularRecyclerViewAdapter}.
+     * the reference to the listener to the {@link CardListFragmentViewAdapter}.
      */
-    private OnItemSelectedListener listener;
+    private CardListFragmentListener listener;
 
-    public CardPopularFragment() {
+    public CardListFragment() {
     }
 
     /**
@@ -57,13 +62,13 @@ public class CardPopularFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnItemSelectedListener) {
-            listener = (OnItemSelectedListener) context;
+        if (context instanceof CardListFragmentListener) {
+            listener = (CardListFragmentListener) context;
         } else {
             /*
              * The activity might have forgotten to implement the interface, so we kindly remind the developer:
              * */
-            throw new RuntimeException(context.toString() + " must implement OnItemSelectedListener");
+            throw new RuntimeException(context.toString() + " must implement CardListFragmentListener");
         }
     }
 
@@ -83,16 +88,14 @@ public class CardPopularFragment extends Fragment {
          * The GridAutofitLayoutManager also calcs it columnsCount by the given width (in pixel!),
          * so we don't have to care about it even if display gets rotated.
          * */
-        // int px = Math.round(92 * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
-        // then we create layoutManager and set it
-        GridLayoutManager layoutManager = new GridAutofitLayoutManager(view.getContext(), getResources().getDimensionPixelSize(R.dimen.fragment_card_width)); // new GridLayoutManager(view.getContext(), 3);
+        GridLayoutManager layoutManager = new GridAutofitLayoutManager(view.getContext(), getResources().getDimensionPixelSize(R.dimen.fragment_card_width));
         recyclerView.setLayoutManager(layoutManager);
 
         /*
          * This recyclerview is nested inside the fragment which should take care of the scrolling, i.e., we don't
          * want nested scrolling behaviour so we can disabled that:
          */
-        recyclerView.setNestedScrollingEnabled(true);
+        recyclerView.setNestedScrollingEnabled(false);
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(layoutManager.getSpanCount(), getResources().getDimensionPixelSize(R.dimen.fragment_card_padding), false, 0));
 
         /*
@@ -107,14 +110,6 @@ public class CardPopularFragment extends Fragment {
          *
          * We pass a query to the collection to the adapter, so it can handle loading by itself.
          */
-        /*
-        CardPopularRecyclerViewAdapter adapter = new CardPopularRecyclerViewAdapter(
-                GlideApp.with(getContext()),
-                new FirestoreRecyclerOptions.Builder<Card>()
-                        .setQuery(model.getCardsTopRated(), Card.class)
-                        .setLifecycleOwner(this)
-                        .build(),
-                listener);*/
         // This configuration comes from the Paging Support Library
         // https://developer.android.com/reference/android/arch/paging/PagedList.Config.html
         PagedList.Config config = new PagedList.Config.Builder()
@@ -126,29 +121,15 @@ public class CardPopularFragment extends Fragment {
 
         // The options for the adapter combine the paging configuration with query information
         // and application-specific options for lifecycle, etc.
-        FirestorePagingOptions<Card> options = new FirestorePagingOptions.Builder<Card>()
+        FirestoreRecyclerOptions<Card> options = new FirestoreRecyclerOptions.Builder<Card>()
                 .setLifecycleOwner(this)
-                .setQuery(model.getCardsTopRated().limit(5), config, Card.class)
+                .setQuery(getQuery(), Card.class)
                 .build();
 
-        CardPopularRecyclerViewAdapter adapter = new CardPopularRecyclerViewAdapter(
+        CardListFragmentViewAdapter adapter = new CardListFragmentViewAdapter(
                 GlideApp.with(getContext()),
                 options,
-                listener) {
-            @Override
-            protected void onLoadingStateChanged(@NonNull LoadingState state) {
-                switch (state) {
-                    case LOADING_INITIAL:
-                    case LOADING_MORE:
-                        progressBar.setVisibility(View.VISIBLE);
-                        break;
-                    case LOADED:
-                    case ERROR:
-                        progressBar.setVisibility(View.GONE);
-                        break;
-                }
-            }
-        };
+                this);
 
         /*
          * Now we register the scrollListener
@@ -158,6 +139,18 @@ public class CardPopularFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         return view;
+    }
+
+    public Query getQuery(){
+        return listener.getQuery();
+    }
+
+    public void onShowMoreClick(View v) {
+        listener.onShowMoreClick(v);
+    }
+
+    public void onCardSelected(Card card){
+        listener.onCardSelected(card);
     }
 
     /**
@@ -171,12 +164,8 @@ public class CardPopularFragment extends Fragment {
         listener = null;
     }
 
-
-    /**
-     * The {@link ch.FOW_Collection.presentation.MainActivity} needs to implement this interface so we can notify it when
-     * the user has clicked on one of the entries in the grid.
-     */
-    public interface OnItemSelectedListener {
-        void onCardSelected(Card card);
+    public interface CardListFragmentListener extends OnCardSelectedListener {
+        Query getQuery();
+        void onShowMoreClick(View v);
     }
 }

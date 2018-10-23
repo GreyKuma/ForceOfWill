@@ -1,6 +1,7 @@
 package ch.FOW_Collection.presentation.utils;
 
 import android.content.Context;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -70,8 +71,10 @@ public class GridAutofitLayoutManager extends GridLayoutManager
             }
             int spanCount = Math.max(1, totalSpace / mColumnWidth);
             setSpanCount(spanCount);
+
             mColumnWidthChanged = false;
         }
+
         super.onLayoutChildren(recycler, state);
     }
 }

@@ -1,4 +1,4 @@
-package ch.FOW_Collection.presentation.explore;
+package ch.FOW_Collection.presentation.shared;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
@@ -17,6 +17,8 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 import com.bumptech.glide.request.RequestOptions;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.google.firebase.storage.FirebaseStorage;
@@ -31,6 +33,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Card;
+import ch.FOW_Collection.presentation.explore.CardPopularFragment;
 
 /**
  * This adapter is responsible for displaying the different beer categories (Lager, Pale Ale, etc) in a grid (see
@@ -43,21 +46,21 @@ import ch.FOW_Collection.domain.models.Card;
  * <p>
  * The second parameter is the {@link ViewHolder}, which is ususally implemented as a nested class of the adapter.
  */
-public class CardPopularRecyclerViewAdapter
+public class CardListFragmentViewAdapter
         /// extends ListAdapter<Card, CardPopularRecyclerViewAdapter.ViewHolder> {
-        extends FirestorePagingAdapter<Card, CardPopularRecyclerViewAdapter.ViewHolder> {
+        extends FirestoreRecyclerAdapter<Card, CardListFragmentViewAdapter.ViewHolder> {
 
     /**
      * The entries of the adapter need a callback listener to notify the {@link ch.FOW_Collection.presentation.MainActivity}
      * when an entry was clicked. This listener is passed from the {@link CardPopularFragment}.
      */
-    private final CardPopularFragment.OnItemSelectedListener listener;
+    private final OnCardSelectedListener listener;
 
     private final RequestManager glide;
-    public CardPopularRecyclerViewAdapter(
+    public CardListFragmentViewAdapter(
             RequestManager glide,
-            FirestorePagingOptions option,
-            CardPopularFragment.OnItemSelectedListener listener) {
+            FirestoreRecyclerOptions option,
+            OnCardSelectedListener listener) {
         /*
          * Whenever a new list is submitted to the ListAdapter, it needs to compute the set of changes in the list.
          * for example, a new string might have been added to the front of the list. in that case, the ListAdapter
@@ -142,7 +145,7 @@ public class CardPopularRecyclerViewAdapter
          * binding the callback to the content instead and see how much harder it will be to interact with the list
          * item.
          */
-        void bind(Card item, CardPopularFragment.OnItemSelectedListener listener) {
+        void bind(Card item, OnCardSelectedListener listener) {
             content.setText(item.getName().getDe());
             ratingBar.setRating(item.getAvgRating());
 
