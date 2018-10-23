@@ -13,13 +13,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ch.FOW_Collection.R;
-import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.presentation.MainViewModel;
 import ch.FOW_Collection.presentation.explore.search.SearchActivity;
-import ch.FOW_Collection.presentation.shared.CardListFragment;
 import ch.FOW_Collection.presentation.utils.ViewPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.firestore.Query;
 
 /**
  * This fragment is the first fragment shown in the {@link ch.FOW_Collection.presentation.MainActivity}. It lets users
@@ -62,7 +59,7 @@ public class ExploreFragment extends Fragment {
          * */
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
         // adapter.addFragment(new CardPopularFragment(), "Beliebte");
-        adapter.addFragment(new CardListFragment(), "Beliebte");
+        adapter.addFragment(new CardPopularFragment(), "Beliebte");
         adapter.addFragment(new CardEditionsFragment(), "Editionen");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);

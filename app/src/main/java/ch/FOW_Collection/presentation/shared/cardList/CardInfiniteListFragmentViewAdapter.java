@@ -1,4 +1,4 @@
-package ch.FOW_Collection.presentation.shared;
+package ch.FOW_Collection.presentation.shared.cardList;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
@@ -46,19 +46,21 @@ import ch.FOW_Collection.presentation.explore.CardPopularFragment;
  */
 public class CardInfiniteListFragmentViewAdapter
         /// extends ListAdapter<Card, CardPopularRecyclerViewAdapter.ViewHolder> {
-        extends FirestorePagingAdapter<Card, CardInfiniteListFragmentViewAdapter.ViewHolder> {
+        extends FirestorePagingAdapter<Card, CardListViewHolder> {
 
     /**
      * The entries of the adapter need a callback listener to notify the {@link ch.FOW_Collection.presentation.MainActivity}
      * when an entry was clicked. This listener is passed from the {@link CardPopularFragment}.
      */
-    private final OnCardSelectedListener listener;
-
+    private final ICardListFragmentListener listener;
     private final RequestManager glide;
+    private final String cardListId;
+
     public CardInfiniteListFragmentViewAdapter(
+            String cardListId,
             RequestManager glide,
             FirestorePagingOptions option,
-            OnCardSelectedListener listener) {
+            ICardListFragmentListener listener) {
         /*
          * Whenever a new list is submitted to the ListAdapter, it needs to compute the set of changes in the list.
          * for example, a new string might have been added to the front of the list. in that case, the ListAdapter
@@ -72,6 +74,7 @@ public class CardInfiniteListFragmentViewAdapter
 
         this.listener = listener;
         this.glide = glide;
+        this.cardListId = cardListId;
     }
 
     /**
@@ -86,14 +89,14 @@ public class CardInfiniteListFragmentViewAdapter
      * @param parent   The parent of the layout, but we don't really do anything useful with it except getting to the
      *                 context (the activity) from it.
      * @param viewType Indicates the viewType, but as explained, we ignore that.
-     * @return the {@link ViewHolder} instance for this kind of entry.
+     * @return the {@link CardListViewHolder} instance for this kind of entry.
      */
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CardListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.fragment_card, parent, false);
-        return new ViewHolder(view);
+        return new CardListViewHolder(view);
     }
 
     /**
@@ -105,95 +108,10 @@ public class CardInfiniteListFragmentViewAdapter
      * @param position The position in the list we are currently drawing.
      */
     @Override
-    protected void onBindViewHolder(@NonNull final ViewHolder holder, int position, @NonNull Card card) {
+    protected void onBindViewHolder(@NonNull final CardListViewHolder holder, int position, @NonNull Card card) {
         /*
          * We just delegate all the work to the ViewHolder:
          */
-        holder.bind(card, listener);
-    }
-
-    /**
-     * The ViewHolder class holds a reference to the layout that we instantiated and takes care of setting all the
-     * values in the layout. So we see the now familiar pattern of {@link BindView} calls to get to the view elements
-     * followed by a lot of setter calls.
-     */
-    class ViewHolder extends RecyclerView.ViewHolder {
-
-        @BindView(R.id.content)
-        TextView content;
-
-        @BindView(R.id.ratingBar)
-        RatingBar ratingBar;
-
-        @BindView(R.id.imageView)
-        ImageView imageView;
-
-        ViewHolder(View view) {
-            super(view);
-
-            ButterKnife.bind(this, itemView);
-        }
-
-        /**
-         * The entries in the list are rather simple so there's not that much data to bind to the view elements. The
-         * categories don't really have a background image assigned so we just get one from a helper class.
-         * And finally, we register the listener that we have passed through so many layer at the itemView. The
-         * itemView is the whole layout, meaning that the user can click anywhere on the list item to invoke the
-         * callback. It's always a good idea to make these touch targets as large as possible. As an experiment, try
-         * binding the callback to the content instead and see how much harder it will be to interact with the list
-         * item.
-         */
-        void bind(Card item, OnCardSelectedListener listener) {
-            content.setText(item.getName().getDe());
-            ratingBar.setRating(item.getAvgRating());
-
-            if (listener != null) {
-                itemView.setOnClickListener(v -> listener.onCardSelected(item));
-            }
-
-            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(item.getImageStorageUrl());
-            glide.load(storageReference)
-                    .apply(new RequestOptions().transforms(new BitmapTransformation() {
-                        @NonNull
-                        @Override
-                        protected Bitmap transform(BitmapPool pool, Bitmap toTransform,
-                                                   int outWidth, int outHeight) {
-                            Bitmap imageRounded = Bitmap.createBitmap(toTransform.getWidth(), toTransform.getHeight(), toTransform.getConfig());
-
-                            Canvas canvas = new Canvas(imageRounded);
-                            Paint mpaint = new Paint();
-                            mpaint.setAntiAlias(true);
-                            mpaint.setShader(new BitmapShader(toTransform, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
-                            int corner = (int)Math.floor(Math.max(toTransform.getWidth(), toTransform.getHeight()) * 0.05);
-                            canvas.drawRoundRect((new RectF(0, 0, toTransform.getWidth(), toTransform.getHeight())), corner, corner, mpaint);// Round Image Corner 100 100 100 100
-                            return imageRounded;
-                        }
-
-                        @Override
-                        public void updateDiskCacheKey(@NonNull MessageDigest messageDigest) {
-
-                        }
-                    }))
-                    .into(imageView);
-                    /*.listener(new RequestListener<Drawable>() {
-                @Override
-                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                    return false;
-                }
-
-                @Override
-                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                    // do a CROP_TOP
-                    final Matrix matrix = imageView.getImageMatrix();
-                    final float imageWidth = resource.getIntrinsicWidth();
-                    final int screenWidth = itemView.getMeasuredWidth();
-                    final float scaleRatio = screenWidth / imageWidth;
-                    matrix.postScale(scaleRatio, scaleRatio);
-                    imageView.setImageMatrix(matrix);
-
-                    return false;
-                }
-            }).into(imageView);*/
-        }
+        holder.bind(card, cardListId, listener, glide);
     }
 }

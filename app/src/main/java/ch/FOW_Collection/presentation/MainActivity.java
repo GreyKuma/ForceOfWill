@@ -2,6 +2,7 @@ package ch.FOW_Collection.presentation;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -10,7 +11,6 @@ import android.view.View;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
@@ -18,12 +18,12 @@ import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.CardEdition;
-import ch.FOW_Collection.presentation.explore.CardPopularFragment;
 import ch.FOW_Collection.presentation.explore.CardEditionsFragment;
+import ch.FOW_Collection.presentation.explore.CardPopularFragment;
 import ch.FOW_Collection.presentation.explore.ExploreFragment;
 import ch.FOW_Collection.presentation.profile.ProfileFragment;
 import ch.FOW_Collection.presentation.ratings.RatingsFragment;
-import ch.FOW_Collection.presentation.shared.CardListFragment;
+import ch.FOW_Collection.presentation.shared.cardList.ICardListFragmentListener;
 import ch.FOW_Collection.presentation.splash.SplashScreenActivity;
 import ch.FOW_Collection.presentation.utils.ViewPagerAdapter;
 import com.firebase.ui.auth.AuthUI;
@@ -38,8 +38,12 @@ import com.google.firebase.firestore.Query;
  * <p>
  * The Activity has three tabs, each of which implemented by a fragment and held together by a {@link ViewPager}.
  */
-public class MainActivity extends AppCompatActivity
-        implements CardListFragment.CardListFragmentListener, CardEditionsFragment.OnItemSelectedListener {
+public class MainActivity
+        extends AppCompatActivity
+        implements
+            ICardListFragmentListener,
+            CardPopularFragment.ICardPopularFragmentListener,
+            CardEditionsFragment.OnItemSelectedListener {
 
     /**
      * We use ButterKnife's view injection instead of having to call findViewById repeatedly.
@@ -137,7 +141,35 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onCardSelected(Card card) {
+    public void onCardEditionSelected(CardEdition cardEdition) {
+        // TODO implement
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder
+                .setTitle("onCardEditionSelected")
+                .setMessage(cardEdition.getDe());
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    @Override
+    public void onShowMoreClick(View view) {
+        // TODO implement
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder
+                .setTitle("onShowMoreClick")
+                .setMessage("You wanna see more?\nUnfortunately: Not implemented!");
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    @Override
+    public Query getQuery(String cardListId) {
+        MainViewModel model = ViewModelProviders.of(this).get(MainViewModel.class);
+        return model.getCardsTopRated().limit(12);
+    }
+
+    @Override
+    public void onCardSelected(String cardListId, Card card) {
         // TODO implement
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder
@@ -148,23 +180,20 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onCardEditionSelected(CardEdition cardEdition) {
-        // TODO implement
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("MainActivity", "onDestroy");
     }
 
     @Override
-    public Query getQuery() {
-        return ViewModelProviders.of(this).get(MainViewModel.class).getCardsTopRated().limit(10);
+    protected void onPause() {
+        super.onPause();
+        Log.d("MainActivity", "onPause");
     }
 
     @Override
-    public void onShowMoreClick(View v) {
-        // TODO implement
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder
-                .setTitle("onShowMoreClick")
-                .setMessage("I will show u more.. or not");
-        AlertDialog dialog = builder.create();
-        dialog.show();
+    protected void onResume() {
+        super.onResume();
+        Log.d("MainActivity", "onResume");
     }
 }
