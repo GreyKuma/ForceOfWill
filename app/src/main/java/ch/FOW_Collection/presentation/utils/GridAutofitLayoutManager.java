@@ -1,9 +1,6 @@
 package ch.FOW_Collection.presentation.utils;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.os.Parcelable;
-import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -60,11 +57,11 @@ public class GridAutofitLayoutManager extends GridLayoutManager
     {
         int width = getWidth();
         int height = getHeight();
-        if ((mColumnWidthChanged | displayWillRotate) && mColumnWidth > 0 && width > 0 && height > 0)
+        // Have removed check if already calced because of rotation...
+        if (mColumnWidth > 0 && width > 0 && height > 0) // mColumnWidthChanged
         {
             int totalSpace;
-            int orientation = getOrientation();
-            if (orientation == RecyclerView.VERTICAL)
+            if (getOrientation() == RecyclerView.VERTICAL)
             {
                 totalSpace = width - getPaddingRight() - getPaddingLeft();
             }
@@ -74,19 +71,13 @@ public class GridAutofitLayoutManager extends GridLayoutManager
             }
 
             int spanCount = Math.max(1, totalSpace / mColumnWidth);
-            setSpanCount(spanCount);
+            if (getSpanCount() != spanCount) {
+                setSpanCount(spanCount);
+            }
 
-            displayWillRotate = orientationBeforeRotate != orientation;
             mColumnWidthChanged = false;
         }
 
         super.onLayoutChildren(recycler, state);
-    }
-
-    boolean displayWillRotate = false;
-    int orientationBeforeRotate;
-    public void setDisplayWillRotate(int targetOrientation) {
-        orientationBeforeRotate = getOrientation();
-        displayWillRotate = orientationBeforeRotate != targetOrientation;
     }
 }
