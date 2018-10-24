@@ -1,32 +1,20 @@
 package ch.FOW_Collection.presentation.shared.cardList;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
-import com.google.firebase.firestore.Query;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.paging.PagedList;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import ch.FOW_Collection.GlideApp;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Card;
-import ch.FOW_Collection.presentation.MainViewModel;
 import ch.FOW_Collection.presentation.explore.ExploreFragment;
-import ch.FOW_Collection.presentation.utils.GridAutofitLayoutManager;
-import ch.FOW_Collection.presentation.utils.GridSpacingItemDecoration;
 
 
 /**
@@ -69,7 +57,7 @@ public class CardInfiniteListFragment extends CardListFragment {
         // and application-specific options for lifecycle, etc.
         FirestorePagingOptions<Card> options = new FirestorePagingOptions.Builder<Card>()
                 .setLifecycleOwner(this)
-                .setQuery(listener.getQuery(cardListId).limit(10), config, Card.class)
+                .setQuery(listener.getData(cardListId), config, Card.class)
                 .build();
 
         CardInfiniteListFragmentViewAdapter adapter = new CardInfiniteListFragmentViewAdapter(

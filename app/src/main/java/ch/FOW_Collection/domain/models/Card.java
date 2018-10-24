@@ -5,7 +5,6 @@ import com.google.firebase.firestore.Exclude;
 import java.io.Serializable;
 import java.util.List;
 
-import ch.FOW_Collection.domain.utils.MultiLanguageString;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +18,7 @@ public class Card implements Entity, Serializable {
     @Exclude
     private String id;
     private int idNumeric;
+    private String idStr;
 
     private MultiLanguageString name;
     private MultiLanguageString flavor;
@@ -29,15 +29,25 @@ public class Card implements Entity, Serializable {
     private String rarity;
 
     private Integer editionId;
+    private CardEdition edition;
 
     private List<Integer> typeIds;
-    private List<Integer> raceIds;
-    private List<Integer> attributeIds;
+    @Exclude
+    private List<CardType> types;
 
-    // private List<CardAbilityPropEntry> ability;
-    // private List<CardCostProp> cost;
+    private List<Integer> raceIds;
+    @Exclude
+    private List<CardRace> races;
+
+    private List<Integer> attributeIds;
+    @Exclude
+    private List<CardAttribute> attributes;
+
+    private List<CardAbility> ability;
+    private List<CardCost> cost;
 
     private String imageStorageUrl;
+    private String imageSrcUrl;
 
     public static final String FIELD_RATING = "avgRating";
     private float avgRating;

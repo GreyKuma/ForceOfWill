@@ -6,16 +6,16 @@ import java.io.Serializable;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-public class CardType extends MultiLanguageString implements Entity, Serializable {
-    public static final String COLLECTION = "cardType";
+public class CardCost implements Serializable {
+    Integer typeId;
 
     @Exclude
-    private String id;
+    CardType type;
+
+    Integer count;
 }

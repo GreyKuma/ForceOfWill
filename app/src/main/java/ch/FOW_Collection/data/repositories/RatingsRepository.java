@@ -4,7 +4,7 @@ import android.util.Pair;
 import androidx.lifecycle.LiveData;
 import ch.FOW_Collection.domain.models.Rating;
 import ch.FOW_Collection.domain.models.Wish;
-import ch.FOW_Collection.domain.utils.FirestoreQueryLiveDataArray;
+import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveDataArray;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -15,7 +15,7 @@ import java.util.List;
 
 import static androidx.lifecycle.Transformations.map;
 import static androidx.lifecycle.Transformations.switchMap;
-import static ch.FOW_Collection.domain.utils.LiveDataExtensions.combineLatest;
+import static ch.FOW_Collection.domain.liveData.LiveDataExtensions.combineLatest;
 
 public class RatingsRepository {
 

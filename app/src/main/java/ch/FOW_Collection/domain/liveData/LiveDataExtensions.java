@@ -1,4 +1,4 @@
-package ch.FOW_Collection.domain.utils;
+package ch.FOW_Collection.domain.liveData;
 
 import android.util.Pair;
 import androidx.lifecycle.LiveData;

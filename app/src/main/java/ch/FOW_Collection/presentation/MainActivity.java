@@ -163,9 +163,9 @@ public class MainActivity
     }
 
     @Override
-    public Query getQuery(String cardListId) {
+    public Query getData(String cardListId) {
         MainViewModel model = ViewModelProviders.of(this).get(MainViewModel.class);
-        return model.getCardsTopRated().limit(12);
+        return model.getCardsTopRatedQuery(12);
     }
 
     @Override

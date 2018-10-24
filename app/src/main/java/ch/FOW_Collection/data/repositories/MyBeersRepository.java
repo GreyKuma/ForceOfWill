@@ -13,7 +13,7 @@ import org.apache.commons.lang3.tuple.Triple;
 import java.util.*;
 
 import static androidx.lifecycle.Transformations.map;
-import static ch.FOW_Collection.domain.utils.LiveDataExtensions.combineLatest;
+import static ch.FOW_Collection.domain.liveData.LiveDataExtensions.combineLatest;
 
 public class MyBeersRepository {
 

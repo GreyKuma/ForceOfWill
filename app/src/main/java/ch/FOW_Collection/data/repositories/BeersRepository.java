@@ -3,8 +3,8 @@ package ch.FOW_Collection.data.repositories;
 import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
 import ch.FOW_Collection.domain.models.Beer;
-import ch.FOW_Collection.domain.utils.FirestoreQueryLiveData;
-import ch.FOW_Collection.domain.utils.FirestoreQueryLiveDataArray;
+import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveData;
+import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveDataArray;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Arrays;

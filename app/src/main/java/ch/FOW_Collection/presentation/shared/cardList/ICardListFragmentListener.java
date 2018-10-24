@@ -8,6 +8,6 @@ import ch.FOW_Collection.domain.models.Card;
  * this interface so we can notify it when the user has clicked on one of the entries in the grid.
  */
 public interface ICardListFragmentListener {
-    Query getQuery(String cardListId);
+    Query getData(String cardListId);
     void onCardSelected(String cardListId, Card card);
 }

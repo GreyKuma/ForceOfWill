@@ -1,15 +1,16 @@
-package ch.FOW_Collection.domain.utils;
+package ch.FOW_Collection.domain.liveData;
 
 import android.os.Handler;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import ch.FOW_Collection.domain.models.Entity;
-import ch.FOW_Collection.presentation.utils.EntityClassSnapshotParser;
+import ch.FOW_Collection.data.parser.EntityClassSnapshotParser;
 import com.firebase.ui.common.ChangeEventType;
 import com.firebase.ui.firestore.ChangeEventListener;
 import com.firebase.ui.firestore.FirestoreArray;
 import com.firebase.ui.firestore.ObservableSnapshotArray;
+import com.firebase.ui.firestore.SnapshotParser;
 import com.google.firebase.firestore.*;
 
 import java.util.List;
@@ -30,8 +31,11 @@ public class FirestoreQueryLiveDataArray<T extends Entity> extends LiveData<List
     };
 
     public FirestoreQueryLiveDataArray(Query query, Class<T> modelClass) {
-        this.mSnapshots =
-                new FirestoreArray<>(query, MetadataChanges.EXCLUDE, new EntityClassSnapshotParser<>(modelClass));
+        this.mSnapshots = new FirestoreArray<>(query, MetadataChanges.EXCLUDE, new EntityClassSnapshotParser<>(modelClass));
+    }
+
+    public FirestoreQueryLiveDataArray(Query query, SnapshotParser<T> parser) {
+        this.mSnapshots = new FirestoreArray<>(query, MetadataChanges.EXCLUDE, parser);
     }
 
     @Override

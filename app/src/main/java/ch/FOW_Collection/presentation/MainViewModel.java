@@ -1,11 +1,13 @@
 package ch.FOW_Collection.presentation;
 
+import com.firebase.ui.firestore.FirestoreArray;
 import com.google.firebase.firestore.Query;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import ch.FOW_Collection.data.repositories.*;
+import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.CardEdition;
 
 import java.util.List;
@@ -93,8 +95,8 @@ public class MainViewModel extends ViewModel implements CurrentUser {
         return ratingsRepository.getAllRatingsWithWishes(myWishlist);
     }*/
 
-    public Query getCardsTopRated() {
-        return cardsRepository.getCardsTopRated();
+    public Query getCardsTopRatedQuery(int limit) {
+        return cardsRepository.getCardsTopRatedQuery(limit);
     }
 
     public LiveData<List<CardEdition>> getCardEditions() {

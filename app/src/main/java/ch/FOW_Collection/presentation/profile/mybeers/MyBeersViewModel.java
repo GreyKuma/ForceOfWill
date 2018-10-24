@@ -16,7 +16,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static androidx.lifecycle.Transformations.map;
-import static ch.FOW_Collection.domain.utils.LiveDataExtensions.zip;
+import static ch.FOW_Collection.domain.liveData.LiveDataExtensions.zip;
 
 public class MyBeersViewModel extends ViewModel implements CurrentUser {
 
