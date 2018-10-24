@@ -15,6 +15,8 @@ import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveData;
 import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveDataArray;
 import ch.FOW_Collection.data.parser.EntityClassSnapshotParser;
 
+import static androidx.lifecycle.Transformations.switchMap;
+
 public class CardsRepository {
 
     //region private static
@@ -94,6 +96,10 @@ public class CardsRepository {
     public LiveData<Card> getCardById(String cardId) {
         return new FirestoreQueryLiveData<>(
                 cardByIdDocRef(cardId), new CardClassSnapshotParser());
+    }
+
+    public LiveData<Card> getCardById(LiveData<String> cardId) {
+        return switchMap(cardId, CardsRepository::cardById);
     }
 
     /**

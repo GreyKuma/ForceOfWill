@@ -27,6 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Card;
+import ch.FOW_Collection.presentation.shared.CardImageLoader;
 
 
 /**
@@ -65,51 +66,9 @@ public class CardListViewHolder extends RecyclerView.ViewHolder {
         ratingBar.setRating(item.getAvgRating());
 
         if (listener != null) {
-            itemView.setOnClickListener(v -> listener.onCardSelected(cardListId, item));
+            itemView.setOnClickListener(v -> listener.onCardSelected(cardListId, imageView, item));
         }
 
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(item.getImageStorageUrl());
-        glide.load(storageReference)
-                .apply(new RequestOptions().transforms(new BitmapTransformation() {
-                    @NonNull
-                    @Override
-                    protected Bitmap transform(BitmapPool pool, Bitmap toTransform,
-                                               int outWidth, int outHeight) {
-                        Bitmap imageRounded = Bitmap.createBitmap(toTransform.getWidth(), toTransform.getHeight(), toTransform.getConfig());
-
-                        Canvas canvas = new Canvas(imageRounded);
-                        Paint mpaint = new Paint();
-                        mpaint.setAntiAlias(true);
-                        mpaint.setShader(new BitmapShader(toTransform, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
-                        int corner = (int)Math.floor(Math.max(toTransform.getWidth(), toTransform.getHeight()) * 0.05);
-                        canvas.drawRoundRect((new RectF(0, 0, toTransform.getWidth(), toTransform.getHeight())), corner, corner, mpaint);// Round Image Corner 100 100 100 100
-                        return imageRounded;
-                    }
-
-                    @Override
-                    public void updateDiskCacheKey(@NonNull MessageDigest messageDigest) {
-
-                    }
-                }))
-                .into(imageView);
-                    /*.listener(new RequestListener<Drawable>() {
-                @Override
-                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                    return false;
-                }
-
-                @Override
-                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                    // do a CROP_TOP
-                    final Matrix matrix = imageView.getImageMatrix();
-                    final float imageWidth = resource.getIntrinsicWidth();
-                    final int screenWidth = itemView.getMeasuredWidth();
-                    final float scaleRatio = screenWidth / imageWidth;
-                    matrix.postScale(scaleRatio, scaleRatio);
-                    imageView.setImageMatrix(matrix);
-
-                    return false;
-                }
-            }).into(imageView);*/
+        CardImageLoader.loadImageIntoImageView(glide, item.getImageStorageUrl(), imageView);
     }
 }

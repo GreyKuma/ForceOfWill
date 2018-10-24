@@ -1,5 +1,6 @@
 package ch.FOW_Collection.presentation;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +20,7 @@ import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.CardEdition;
+import ch.FOW_Collection.presentation.cardDetails.CardDetailsActivity;
 import ch.FOW_Collection.presentation.explore.CardEditionsFragment;
 import ch.FOW_Collection.presentation.explore.CardPopularFragment;
 import ch.FOW_Collection.presentation.explore.ExploreFragment;
@@ -169,14 +172,19 @@ public class MainActivity
     }
 
     @Override
-    public void onCardSelected(String cardListId, Card card) {
+    public void onCardSelected(String cardListId, ImageView imageView, Card card) {
         // TODO implement
+        /*
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder
                 .setTitle("onCardSelected")
                 .setMessage(card.getName().getDe());
         AlertDialog dialog = builder.create();
-        dialog.show();
+        dialog.show();*/
+        Intent intent = new Intent(this, CardDetailsActivity.class);
+        intent.putExtra(CardDetailsActivity.ITEM_ID, card.getId());
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, imageView, "imageView");
+        startActivity(intent, options.toBundle());
     }
 
     @Override

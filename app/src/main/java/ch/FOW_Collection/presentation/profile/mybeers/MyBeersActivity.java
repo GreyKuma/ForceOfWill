@@ -14,7 +14,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Beer;
-import ch.FOW_Collection.presentation.details.DetailsActivity;
+import ch.FOW_Collection.presentation.cardDetails.CardDetailsActivity;
 
 public class MyBeersActivity extends AppCompatActivity implements OnMyBeerItemInteractionListener {
 
@@ -75,8 +75,8 @@ public class MyBeersActivity extends AppCompatActivity implements OnMyBeerItemIn
 
     @Override
     public void onMoreClickedListener(ImageView photo, Beer item) {
-        Intent intent = new Intent(this, DetailsActivity.class);
-        intent.putExtra(DetailsActivity.ITEM_ID, item.getId());
+        Intent intent = new Intent(this, CardDetailsActivity.class);
+        intent.putExtra(CardDetailsActivity.ITEM_ID, item.getId());
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, photo, "image");
         startActivity(intent, options.toBundle());
     }

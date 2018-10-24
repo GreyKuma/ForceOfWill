@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Beer;
-import ch.FOW_Collection.presentation.details.DetailsActivity;
+import ch.FOW_Collection.presentation.cardDetails.CardDetailsActivity;
 import ch.FOW_Collection.presentation.explore.search.beers.SearchResultFragment;
 import ch.FOW_Collection.presentation.explore.search.suggestions.SearchSuggestionsFragment;
 import ch.FOW_Collection.presentation.profile.mybeers.MyBeersViewModel;
@@ -75,8 +75,8 @@ public class SearchActivity extends AppCompatActivity
 
     @Override
     public void onSearchResultListItemSelected(View animationSource, Beer item) {
-        Intent intent = new Intent(this, DetailsActivity.class);
-        intent.putExtra(DetailsActivity.ITEM_ID, item.getId());
+        Intent intent = new Intent(this, CardDetailsActivity.class);
+        intent.putExtra(CardDetailsActivity.ITEM_ID, item.getId());
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, animationSource, "image");
         startActivity(intent, options.toBundle());
     }
@@ -98,8 +98,8 @@ public class SearchActivity extends AppCompatActivity
 
     @Override
     public void onMoreClickedListener(ImageView photo, Beer item) {
-        Intent intent = new Intent(this, DetailsActivity.class);
-        intent.putExtra(DetailsActivity.ITEM_ID, item.getId());
+        Intent intent = new Intent(this, CardDetailsActivity.class);
+        intent.putExtra(CardDetailsActivity.ITEM_ID, item.getId());
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, photo, "image");
         startActivity(intent, options.toBundle());
     }

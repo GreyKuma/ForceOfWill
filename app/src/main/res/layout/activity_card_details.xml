@@ -34,7 +34,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/bg_bottles" />
+                    app:srcCompat="@drawable/bg_dark_and_drifter_alice" />
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="120dp"
@@ -51,7 +51,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:transitionName="image"
-                        app:srcCompat="@drawable/ic_beer_glass_empty" />
+                        android:padding="2dp"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/card_back" />
 
                 </androidx.cardview.widget.CardView>
 

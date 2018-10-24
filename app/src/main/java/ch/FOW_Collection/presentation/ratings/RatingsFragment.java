@@ -16,12 +16,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.presentation.MainViewModel;
-import ch.FOW_Collection.presentation.details.DetailsActivity;
+import ch.FOW_Collection.presentation.cardDetails.CardDetailsActivity;
 import ch.FOW_Collection.domain.models.Rating;
 import ch.FOW_Collection.domain.models.Wish;
 
 import androidx.fragment.app.Fragment;
-import com.bumptech.glide.util.ViewPreloadSizeProvider;
 import lombok.val;
 
 import java.util.ArrayList;
@@ -79,8 +78,8 @@ public class RatingsFragment extends Fragment
 
     @Override
     public void onMoreClickedListener(Rating rating) {
-        Intent intent = new Intent(getActivity(), DetailsActivity.class);
-        intent.putExtra(DetailsActivity.ITEM_ID, rating.getBeerId());
+        Intent intent = new Intent(getActivity(), CardDetailsActivity.class);
+        intent.putExtra(CardDetailsActivity.ITEM_ID, rating.getBeerId());
         startActivity(intent);
     }
 

@@ -1,4 +1,4 @@
-package ch.FOW_Collection.presentation.details;
+package ch.FOW_Collection.presentation.cardDetails;
 
 import ch.FOW_Collection.GlideApp;
 import ch.FOW_Collection.R;

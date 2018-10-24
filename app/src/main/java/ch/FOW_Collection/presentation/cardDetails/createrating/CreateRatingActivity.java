@@ -1,4 +1,4 @@
-package ch.FOW_Collection.presentation.details.createrating;
+package ch.FOW_Collection.presentation.cardDetails.createrating;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;

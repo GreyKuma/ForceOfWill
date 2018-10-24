@@ -1,5 +1,7 @@
 package ch.FOW_Collection.presentation.shared.cardList;
 
+import android.widget.ImageView;
+
 import com.google.firebase.firestore.Query;
 
 import ch.FOW_Collection.domain.models.Card;
@@ -9,5 +11,5 @@ import ch.FOW_Collection.domain.models.Card;
  */
 public interface ICardListFragmentListener {
     Query getData(String cardListId);
-    void onCardSelected(String cardListId, Card card);
+    void onCardSelected(String cardListId, ImageView imageView, Card card);
 }

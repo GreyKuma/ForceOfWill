@@ -1,4 +1,4 @@
-package ch.FOW_Collection.presentation.details.createrating;
+package ch.FOW_Collection.presentation.cardDetails.createrating;
 
 import android.util.Log;
 import ch.FOW_Collection.data.parser.EntityClassSnapshotParser;
