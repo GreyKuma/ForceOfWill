@@ -1,38 +1,73 @@
 package ch.FOW_Collection.data.repositories;
 
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
-import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.CardEdition;
-import ch.FOW_Collection.domain.utils.FirestoreQueryLiveData;
-import ch.FOW_Collection.domain.utils.FirestoreQueryLiveDataArray;
-
-import static androidx.lifecycle.Transformations.map;
+import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveData;
+import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveDataArray;
 
 public class CardEditionsRepository {
-    private final FirestoreQueryLiveDataArray<CardEdition> allCardEditions =
-            new FirestoreQueryLiveDataArray<>(
-                    FirebaseFirestore
-                        .getInstance()
-                        .collection(CardEdition.COLLECTION), CardEdition.class);
+    //region private static
+    // For the pattern, we don't want to use static methods,
+    // instead we define public / nonStatic after this region.
 
-    private static LiveData<Card> cardEditionById(String cardId) {
-        return new FirestoreQueryLiveData<>(
-                FirebaseFirestore
-                        .getInstance()
-                        .collection(Card.COLLECTION)
-                        .document(cardId), Card.class);
+    /**
+     * Get Query for all cards.
+     * @return Query for all cards
+     */
+    private static Query allEditionsQuery() {
+        return FirebaseFirestore
+                .getInstance()
+                .collection(CardEdition.COLLECTION);
     }
+
+    /**
+     * Get LiveData of all cardEditions.
+     * @return LiveDataArray of all cardEditions.
+     */
+    private final FirestoreQueryLiveDataArray<CardEdition> allCardEditions() {
+        return new FirestoreQueryLiveDataArray<>(
+                allEditionsQuery(), CardEdition.class);
+    }
+
+    /**
+     * Get DocumentReference of a single cardEdition.
+     * @param cardEditionId Id of the card.
+     * @return DocumentReference of a single cardEdition.
+     */
+    private static DocumentReference cardEditionByIdQuery(String cardEditionId) {
+        return FirebaseFirestore
+                .getInstance()
+                .collection(CardEdition.COLLECTION)
+                .document(cardEditionId);
+    }
+
+    /**
+     * Get LiveData of a single cardEdition.
+     * @param cardEditionId Id of the cardEdition.
+     * @return LiveData of a single cardEdition.
+     */
+    private static LiveData<CardEdition> cardEditionById(String cardEditionId) {
+        return new FirestoreQueryLiveData<>(
+                cardEditionByIdQuery(cardEditionId), CardEdition.class);
+    }
+
+    //endregion
+
+    //region public / nonStatic accessor
 
     public LiveData<List<CardEdition>> getAllEditions() {
-        return allCardEditions;
+        return allCardEditions();
     }
 
+    public LiveData<CardEdition> getEditionById(int cardEditionId) {
+        return cardEditionById(Integer.toString(cardEditionId));
+    }
+
+    //endregion
 }

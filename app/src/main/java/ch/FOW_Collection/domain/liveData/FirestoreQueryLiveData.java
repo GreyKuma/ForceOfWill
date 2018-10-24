@@ -1,9 +1,10 @@
-package ch.FOW_Collection.domain.utils;
+package ch.FOW_Collection.domain.liveData;
 
 import android.os.Handler;
 import androidx.lifecycle.LiveData;
 import ch.FOW_Collection.domain.models.Entity;
-import ch.FOW_Collection.presentation.utils.EntityClassSnapshotParser;
+import ch.FOW_Collection.data.parser.EntityClassSnapshotParser;
+import com.firebase.ui.firestore.SnapshotParser;
 import com.google.firebase.firestore.*;
 
 import javax.annotation.Nullable;
@@ -24,11 +25,16 @@ public class FirestoreQueryLiveData<T extends Entity> extends LiveData<T> implem
         }
     };
 
-    private EntityClassSnapshotParser<T> parser;
+    private SnapshotParser<T> parser;
 
     public FirestoreQueryLiveData(DocumentReference documentReference, Class<T> modelClass) {
         this.documentReference = documentReference;
         parser = new EntityClassSnapshotParser<T>(modelClass);
+    }
+
+    public FirestoreQueryLiveData(DocumentReference documentReference, SnapshotParser<T> parser) {
+        this.documentReference = documentReference;
+        this.parser = parser;
     }
 
     @Override

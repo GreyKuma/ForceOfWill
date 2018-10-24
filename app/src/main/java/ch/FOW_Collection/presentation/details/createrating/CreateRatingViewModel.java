@@ -1,7 +1,7 @@
 package ch.FOW_Collection.presentation.details.createrating;
 
 import android.util.Log;
-import ch.FOW_Collection.presentation.utils.EntityClassSnapshotParser;
+import ch.FOW_Collection.data.parser.EntityClassSnapshotParser;
 import ch.FOW_Collection.domain.models.Rating;
 import android.net.Uri;
 import androidx.lifecycle.ViewModel;

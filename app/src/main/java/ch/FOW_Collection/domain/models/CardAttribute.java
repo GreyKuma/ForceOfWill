@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class CardType extends MultiLanguageString implements Entity, Serializable {
-    public static final String COLLECTION = "cardType";
+public class CardAttribute extends MultiLanguageString implements Entity, Serializable {
+    public static final String COLLECTION = "CardAttribute";
 
     @Exclude
     private String id;

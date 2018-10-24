@@ -1,4 +1,4 @@
-package ch.FOW_Collection.presentation.utils;
+package ch.FOW_Collection.data.parser;
 
 import androidx.annotation.NonNull;
 import ch.FOW_Collection.domain.models.Entity;

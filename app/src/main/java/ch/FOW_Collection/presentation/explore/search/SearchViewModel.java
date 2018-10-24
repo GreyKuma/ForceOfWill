@@ -18,7 +18,7 @@ import java.util.List;
 
 import static androidx.lifecycle.Transformations.map;
 import static androidx.lifecycle.Transformations.switchMap;
-import static ch.FOW_Collection.domain.utils.LiveDataExtensions.zip;
+import static ch.FOW_Collection.domain.liveData.LiveDataExtensions.zip;
 
 public class SearchViewModel extends ViewModel implements CurrentUser {
 
