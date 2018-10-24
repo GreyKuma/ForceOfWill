@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">Beer Pro</string>
-    <string name="title_activity_home_screen">Beer Pro</string>
+    <string name="app_name">FoW Collection</string>
+    <string name="title_activity_home_screen">FoW Collection</string>
     <string name="action_settings">Einstellungen</string>
     <string name="action_logout">Abmelden</string>
     <string name="todo">TODO</string>
@@ -101,6 +101,6 @@
     <string name="toast_unexpected_error">Unexpected error</string>
     <string name="title_activity_wishlist">Wunschliste</string>
     <string name="title_activity_myratings">Meine Bewertungen</string>
-    <string name="title_activity_mybeers">Meine Biere</string>
-    <string name="action_search">Bier suchen</string>
+    <string name="title_activity_mybeers">Meine Collection</string>
+    <string name="action_search">Karte suchen</string>
 </resources>
