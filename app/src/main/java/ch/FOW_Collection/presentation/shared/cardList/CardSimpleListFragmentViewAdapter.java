@@ -1,34 +1,16 @@
 package ch.FOW_Collection.presentation.shared.cardList;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapShader;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.RectF;
-import android.graphics.Shader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RatingBar;
-import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
-import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
-import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
-import com.bumptech.glide.request.RequestOptions;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
-import java.security.MessageDigest;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.presentation.explore.CardPopularFragment;
@@ -69,7 +51,6 @@ public class CardSimpleListFragmentViewAdapter
          * a String - the first type parameter passed to the superclass), it needs a way to diff the entry items.
          * This is implemented in the StringDiffItemCallback class.
          */
-        ///super(new EntityDiffItemCallback<>());
         super(option);
 
         this.listener = listener;

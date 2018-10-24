@@ -1,10 +1,8 @@
 package ch.FOW_Collection.presentation.shared.cardList;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +16,6 @@ import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.presentation.explore.ExploreFragment;
 import ch.FOW_Collection.presentation.utils.GridAutofitLayoutManager;
-import ch.FOW_Collection.presentation.utils.GridSpacingItemDecoration;
 
 
 /**
@@ -98,25 +95,7 @@ public abstract class CardListFragment extends Fragment {
          * want nested scrolling behaviour so we can disabled that:
          */
         recyclerView.setNestedScrollingEnabled(nestedScrolling);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(layoutManager.getSpanCount(), getResources().getDimensionPixelSize(R.dimen.fragment_card_padding), false, 0));
-
-        /*
-        // The options for the adapter combine the paging configuration with query information
-        // and application-specific options for lifecycle, etc.
-        FirestoreRecyclerOptions<Card> options = new FirestoreRecyclerOptions.Builder<Card>()
-                .setLifecycleOwner(this)
-                .setQuery(listener.getQuery(), Card.class)
-                .build();
-
-        CardListFragmentViewAdapter adapter = new CardListFragmentViewAdapter(
-                GlideApp.with(getContext()),
-                options,
-                listener);*/
-
-        /*
-         * Now we register the scrollListener
-         * */
-        /// model.getCardsTopRated(12).observe(this, categories -> adapter.submitList(categories));
+        //recyclerView.addItemDecoration(new GridSpacingItemDecoration(layoutManager.getSpanCount(), getResources().getDimensionPixelSize(R.dimen.fragment_card_padding), false, 0));
 
         recyclerView.setAdapter(adapterFactory());
 
@@ -140,7 +119,6 @@ public abstract class CardListFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        Log.d("CardListFragment", "onPause");
 
         // save RecyclerView state
         mBundleRecyclerViewState = new Bundle();
@@ -152,31 +130,11 @@ public abstract class CardListFragment extends Fragment {
     public void onResume()
     {
         super.onResume();
-        Log.d("CardListFragment", "onResume");
 
         // restore RecyclerView state
         if (mBundleRecyclerViewState != null) {
             Parcelable listState = mBundleRecyclerViewState.getParcelable(KEY_RECYCLER_STATE);
             recyclerView.getLayoutManager().onRestoreInstanceState(listState);
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d("CardListFragment", "onDestroy");
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        Log.d("CardListFragment", "onConfigurationChanged");
-
-        GridAutofitLayoutManager layoutManager = (GridAutofitLayoutManager) recyclerView.getLayoutManager();
-        if (layoutManager != null) {
-            layoutManager.setDisplayWillRotate(newConfig.orientation);
-            //recyclerView.setVisibility(View.GONE);
-            //recyclerView.setVisibility(View.VISIBLE);
         }
     }
 }
