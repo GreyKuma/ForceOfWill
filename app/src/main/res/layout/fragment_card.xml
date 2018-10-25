@@ -7,21 +7,20 @@
     android:orientation="vertical"
     android:padding="@dimen/fragment_card_padding">
 
+
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imageCard"
+        android:transitionName="image"
         android:layout_width="@dimen/fragment_card_width"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="0dp"
-        android:layout_marginBottom="0dp"
-        android:backgroundTintMode="multiply"
-        android:padding="0dp"
         android:scaleType="fitStart" />
 
     <LinearLayout
+        android:transitionName="content"
         android:layout_width="@dimen/fragment_card_width"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="false"

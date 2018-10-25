@@ -6,6 +6,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
 import androidx.recyclerview.widget.RecyclerView;
 import ch.FOW_Collection.GlideApp;
+import ch.FOW_Collection.data.parser.CardClassSnapshotParser;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.presentation.explore.ExploreFragment;
 
@@ -34,7 +35,7 @@ public class CardSimpleListFragment extends CardListFragment {
         // and application-specific options for lifecycle, etc.
         FirestoreRecyclerOptions<Card> options = new FirestoreRecyclerOptions.Builder<Card>()
                 .setLifecycleOwner(this)
-                .setQuery(listener.getData(cardListId), Card.class)
+                .setQuery(listener.getData(cardListId), new CardClassSnapshotParser())
                 .build();
 
         return new CardSimpleListFragmentViewAdapter(

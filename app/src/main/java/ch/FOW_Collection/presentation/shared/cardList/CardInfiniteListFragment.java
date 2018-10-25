@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import ch.FOW_Collection.GlideApp;
 import ch.FOW_Collection.R;
+import ch.FOW_Collection.data.parser.CardClassSnapshotParser;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.presentation.explore.ExploreFragment;
 
@@ -57,7 +58,7 @@ public class CardInfiniteListFragment extends CardListFragment {
         // and application-specific options for lifecycle, etc.
         FirestorePagingOptions<Card> options = new FirestorePagingOptions.Builder<Card>()
                 .setLifecycleOwner(this)
-                .setQuery(listener.getData(cardListId), config, Card.class)
+                .setQuery(listener.getData(cardListId), config, new CardClassSnapshotParser())
                 .build();
 
         CardInfiniteListFragmentViewAdapter adapter = new CardInfiniteListFragmentViewAdapter(

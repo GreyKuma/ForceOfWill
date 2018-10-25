@@ -69,5 +69,9 @@ public class CardTypeRepository {
         return cardTypeById(Integer.toString(cardTypeId));
     }
 
+    public DocumentReference getCardTypeByIdQuery(int cardTypeId) {
+        return cardTypeByIdQuery(Integer.toString(cardTypeId));
+    }
+
     //endregion
 }

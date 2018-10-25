@@ -5,6 +5,7 @@ import com.google.firebase.firestore.Exclude;
 import java.io.Serializable;
 import java.util.List;
 
+import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveData;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,7 +30,8 @@ public class Card implements Entity, Serializable {
     private String rarity;
 
     private Integer editionId;
-    private CardEdition edition;
+    @Exclude
+    private FirestoreQueryLiveData<CardEdition> edition;
 
     private List<Integer> typeIds;
     @Exclude

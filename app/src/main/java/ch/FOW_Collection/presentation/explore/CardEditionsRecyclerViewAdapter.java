@@ -48,7 +48,7 @@ public class CardEditionsRecyclerViewAdapter
         @BindView(R.id.content)
         TextView content;
 
-        @BindView(R.id.imageView)
+        @BindView(R.id.imageCard)
         ImageView imageView;
 
         ViewHolder(View view) {

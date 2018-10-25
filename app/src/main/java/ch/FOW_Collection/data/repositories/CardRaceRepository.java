@@ -69,5 +69,9 @@ public class CardRaceRepository {
         return cardRaceById(Integer.toString(cardRaceId));
     }
 
+    public DocumentReference getCardRaceByIdQuery(int cardRaceId) {
+        return cardRaceByIdQuery(Integer.toString(cardRaceId));
+    }
+
     //endregion
 }

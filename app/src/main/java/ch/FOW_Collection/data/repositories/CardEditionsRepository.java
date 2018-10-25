@@ -69,5 +69,9 @@ public class CardEditionsRepository {
         return cardEditionById(Integer.toString(cardEditionId));
     }
 
+    public DocumentReference cardEditionByIdQuery(int cardEditionId) {
+        return cardEditionByIdQuery(Integer.toString(cardEditionId));
+    }
+
     //endregion
 }

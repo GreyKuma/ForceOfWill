@@ -39,7 +39,7 @@ public class CardsRepository {
      */
     private static FirestoreQueryLiveDataArray<Card> allCards() {
         return new FirestoreQueryLiveDataArray<>(
-                allCardsQuery(), Card.class);
+                allCardsQuery(), new CardClassSnapshotParser());
     }
 
     /**
@@ -61,7 +61,7 @@ public class CardsRepository {
      */
     private static FirestoreQueryLiveData<Card> cardById(String cardId) {
         return new FirestoreQueryLiveData<>(
-                cardByIdDocRef(cardId), Card.class);
+                cardByIdDocRef(cardId), new CardClassSnapshotParser());
     }
 
     /**

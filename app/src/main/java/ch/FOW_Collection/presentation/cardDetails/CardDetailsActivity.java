@@ -3,6 +3,7 @@ package ch.FOW_Collection.presentation.cardDetails;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,12 +12,18 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
@@ -29,7 +36,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ch.FOW_Collection.GlideApp;
 import ch.FOW_Collection.R;
-import ch.FOW_Collection.domain.models.Beer;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.Rating;
 import ch.FOW_Collection.domain.models.Wish;
@@ -48,8 +54,8 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
     @BindView(R.id.nested_scroll_view)
     NestedScrollView nestedScrollView;
 
-    @BindView(R.id.photo)
-    ImageView photo;
+    @BindView(R.id.imageCard)
+    ImageView imageView;
 
     @BindView(R.id.avgRating)
     TextView avgRating;
@@ -131,15 +137,36 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
 
     private void updateCard(Card item) {
         name.setText(item.getName().getDe());
-        //manufacturer.setText(item.getManufacturer());
-        //category.setText(item.getCategory());
+
+        item.getEdition().observe(this, cardEdition -> {
+            manufacturer.setText(cardEdition.getDe());
+        });
+
+
+
+        category.setText(item.getId());
         // name.setText(item.getName());
         //GlideApp.with(this).load(item.getPhoto()).apply(new RequestOptions().override(120, 160).centerInside())
-        //        .into(photo);
+        //        .into(imageView);
         GlideApp.with(this)
-                .load(item.getImageStorageUrl())
-                .apply(CardImageLoader.imageRenderer.override(120, 160).centerInside())
-                .into(photo);
+                .load(FirebaseStorage.getInstance().getReference().child(item.getImageStorageUrl()))
+                .apply(new RequestOptions().centerInside())
+                .apply(CardImageLoader.imageRenderer)
+                .dontAnimate()
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        supportStartPostponedEnterTransition();
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        supportStartPostponedEnterTransition();
+                        return false;
+                    }
+                })
+                .into(imageView);
 
         ratingBar.setNumStars(5);
         ratingBar.setRating(item.getAvgRating());

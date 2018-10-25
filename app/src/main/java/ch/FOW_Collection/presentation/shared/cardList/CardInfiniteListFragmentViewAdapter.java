@@ -112,6 +112,6 @@ public class CardInfiniteListFragmentViewAdapter
         /*
          * We just delegate all the work to the ViewHolder:
          */
-        holder.bind(card, cardListId, listener, glide);
+        holder.bind(card, listener, glide);
     }
 }

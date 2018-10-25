@@ -2,6 +2,8 @@ package ch.FOW_Collection.presentation.explore;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,8 +71,17 @@ public class CardPopularFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_explore_card_populars, container, false);
         ButterKnife.bind(this, view);
 
+        Transition transform = TransitionInflater
+                .from(this.getContext()).
+                inflateTransition(R.transition.change_view_transform);
+
+        CardSimpleListFragment cardListFragment = CardSimpleListFragment.newInstance("popular", false);
+        cardListFragment.setSharedElementReturnTransition(transform);
+        cardListFragment.setExitTransition(transform);
+
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.cardListFragment, CardSimpleListFragment.newInstance("popular", false));
+        ft.replace(R.id.cardListFragment, cardListFragment);
+        //ft.addSharedElement(container, "image");
         ft.commit();
 
         button.setOnClickListener(this::onShowMoreClick);

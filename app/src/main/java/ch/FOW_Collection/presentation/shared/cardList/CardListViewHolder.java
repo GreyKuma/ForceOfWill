@@ -1,27 +1,12 @@
 package ch.FOW_Collection.presentation.shared.cardList;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapShader;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.RectF;
-import android.graphics.Shader;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
-import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
-import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
-import com.bumptech.glide.request.RequestOptions;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
-import java.security.MessageDigest;
-
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,7 +28,7 @@ public class CardListViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.ratingBar)
     RatingBar ratingBar;
 
-    @BindView(R.id.imageView)
+    @BindView(R.id.imageCard)
     ImageView imageView;
 
     CardListViewHolder(View view) {
@@ -61,12 +46,12 @@ public class CardListViewHolder extends RecyclerView.ViewHolder {
      * binding the callback to the content instead and see how much harder it will be to interact with the list
      * item.
      */
-    void bind(Card item, String cardListId, ICardListFragmentListener listener, RequestManager glide) {
+    void bind(Card item, ICardListFragmentListener listener, RequestManager glide) {
         content.setText(item.getName().getDe());
         ratingBar.setRating(item.getAvgRating());
 
         if (listener != null) {
-            itemView.setOnClickListener(v -> listener.onCardSelected(cardListId, imageView, item));
+            itemView.setOnClickListener(v -> listener.onMoreClickedListener(imageView, item));
         }
 
         CardImageLoader.loadImageIntoImageView(glide, item.getImageStorageUrl(), imageView);

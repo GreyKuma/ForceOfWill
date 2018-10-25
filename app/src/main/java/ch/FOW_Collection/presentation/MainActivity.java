@@ -3,16 +3,21 @@ package ch.FOW_Collection.presentation;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
+import android.transition.Transition;
+import android.transition.TransitionSet;
 import android.util.Log;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.ViewCompat;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
@@ -29,6 +34,8 @@ import ch.FOW_Collection.presentation.ratings.RatingsFragment;
 import ch.FOW_Collection.presentation.shared.cardList.ICardListFragmentListener;
 import ch.FOW_Collection.presentation.splash.SplashScreenActivity;
 import ch.FOW_Collection.presentation.utils.ViewPagerAdapter;
+
+import com.bumptech.glide.request.transition.DrawableCrossFadeTransition;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -172,22 +179,6 @@ public class MainActivity
     }
 
     @Override
-    public void onCardSelected(String cardListId, ImageView imageView, Card card) {
-        // TODO implement
-        /*
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder
-                .setTitle("onCardSelected")
-                .setMessage(card.getName().getDe());
-        AlertDialog dialog = builder.create();
-        dialog.show();*/
-        Intent intent = new Intent(this, CardDetailsActivity.class);
-        intent.putExtra(CardDetailsActivity.ITEM_ID, card.getId());
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, imageView, "imageView");
-        startActivity(intent, options.toBundle());
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
         Log.d("MainActivity", "onDestroy");
@@ -203,5 +194,26 @@ public class MainActivity
     protected void onResume() {
         super.onResume();
         Log.d("MainActivity", "onResume");
+    }
+
+    @Override
+    public void onMoreClickedListener(ImageView imageView, Card card) {
+        // TODO implement
+        /*
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder
+                .setTitle("onCardSelected")
+                .setMessage(card.getName().getDe());
+        AlertDialog dialog = builder.create();
+        dialog.show();*/
+        Intent intent = new Intent(this, CardDetailsActivity.class);
+        intent.putExtra(CardDetailsActivity.ITEM_ID, card.getId());
+        ActivityOptions options = ActivityOptions
+                .makeSceneTransitionAnimation(
+                    this,
+                        Pair.create(imageView,"image")
+                );
+        startActivity(intent, options.toBundle());
+
     }
 }

@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class CardAbilityType extends MultiLanguageString implements Entity, Serializable {
-    public static final String COLLECTION = "CardAbility";
+    public static final String COLLECTION = "CardAbilityType";
 
     @Exclude
     private String id;
