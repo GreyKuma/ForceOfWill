@@ -1,6 +1,7 @@
 package ch.FOW_Collection.domain.models;
 
 import com.google.firebase.firestore.Exclude;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

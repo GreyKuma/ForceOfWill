@@ -1,10 +1,7 @@
 package ch.FOW_Collection.data.repositories;
 
 import android.util.Pair;
-import androidx.lifecycle.LiveData;
-import ch.FOW_Collection.domain.models.Rating;
-import ch.FOW_Collection.domain.models.Wish;
-import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveDataArray;
+
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -12,6 +9,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+
+import androidx.lifecycle.LiveData;
+import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveDataArray;
+import ch.FOW_Collection.domain.models.Rating;
+import ch.FOW_Collection.domain.models.Wish;
 
 import static androidx.lifecycle.Transformations.map;
 import static androidx.lifecycle.Transformations.switchMap;

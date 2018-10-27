@@ -7,6 +7,9 @@ import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+
+import java.util.List;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
@@ -18,10 +21,8 @@ import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Beer;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.Wish;
-import ch.FOW_Collection.presentation.details.DetailsActivity;
+import ch.FOW_Collection.presentation.cardDetails.CardDetailsActivity;
 import lombok.val;
-
-import java.util.List;
 
 public class WishlistActivity extends AppCompatActivity implements OnWishlistItemInteractionListener {
 

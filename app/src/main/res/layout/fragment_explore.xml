@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".presentation.explore.ExploreFragment">
 
     <!-- We need  focusableInTouchMode to prevent the initial rendering from scrolling down -->
@@ -77,10 +77,11 @@
 
     </com.google.android.material.tabs.TabLayout>
 
-    <view
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="2200dp"
+        android:minHeight="96dp"
         class="ch.FOW_Collection.presentation.shared.WrapContentHeightViewPager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

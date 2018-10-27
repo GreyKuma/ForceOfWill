@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/fragment_card_height"
     android:layout_gravity="center_horizontal"
@@ -7,21 +8,22 @@
     android:orientation="vertical"
     android:padding="@dimen/fragment_card_padding">
 
+
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imageCard"
         android:layout_width="@dimen/fragment_card_width"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="0dp"
-        android:layout_marginBottom="0dp"
-        android:backgroundTintMode="multiply"
-        android:padding="0dp"
-        android:scaleType="fitStart" />
+        android:scaleType="fitStart"
+        android:transitionName="image"
+        app:srcCompat="@drawable/card_back" />
 
     <LinearLayout
+        android:id="@+id/content"
+        android:transitionName="content"
         android:layout_width="@dimen/fragment_card_width"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="false"
@@ -45,7 +47,7 @@
             android:stepSize="0.1" />
 
         <TextView
-            android:id="@+id/content"
+            android:id="@+id/cardName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="4dp"

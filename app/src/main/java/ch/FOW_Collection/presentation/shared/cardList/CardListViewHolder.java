@@ -1,32 +1,18 @@
 package ch.FOW_Collection.presentation.shared.cardList;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapShader;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.RectF;
-import android.graphics.Shader;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
-import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
-import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
-import com.bumptech.glide.request.RequestOptions;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
-import java.security.MessageDigest;
-
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Card;
+import ch.FOW_Collection.presentation.shared.CardImageLoader;
 
 
 /**
@@ -37,12 +23,15 @@ import ch.FOW_Collection.domain.models.Card;
 public class CardListViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.content)
-    TextView content;
+    View content;
+
+    @BindView(R.id.cardName)
+    TextView cardName;
 
     @BindView(R.id.ratingBar)
     RatingBar ratingBar;
 
-    @BindView(R.id.imageView)
+    @BindView(R.id.imageCard)
     ImageView imageView;
 
     CardListViewHolder(View view) {
@@ -50,6 +39,7 @@ public class CardListViewHolder extends RecyclerView.ViewHolder {
 
         ButterKnife.bind(this, itemView);
     }
+
 
     /**
      * The entries in the list are rather simple so there's not that much data to bind to the view elements. The
@@ -60,56 +50,14 @@ public class CardListViewHolder extends RecyclerView.ViewHolder {
      * binding the callback to the content instead and see how much harder it will be to interact with the list
      * item.
      */
-    void bind(Card item, String cardListId, ICardListFragmentListener listener, RequestManager glide) {
-        content.setText(item.getName().getDe());
+    void bind(Card item, ICardListFragmentListener listener, RequestManager glide) {
+        cardName.setText(item.getName().getDe());
         ratingBar.setRating(item.getAvgRating());
 
         if (listener != null) {
-            itemView.setOnClickListener(v -> listener.onCardSelected(cardListId, item));
+            itemView.setOnClickListener(v -> listener.onCardSelectedListener(imageView, content, item));
         }
 
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(item.getImageStorageUrl());
-        glide.load(storageReference)
-                .apply(new RequestOptions().transforms(new BitmapTransformation() {
-                    @NonNull
-                    @Override
-                    protected Bitmap transform(BitmapPool pool, Bitmap toTransform,
-                                               int outWidth, int outHeight) {
-                        Bitmap imageRounded = Bitmap.createBitmap(toTransform.getWidth(), toTransform.getHeight(), toTransform.getConfig());
-
-                        Canvas canvas = new Canvas(imageRounded);
-                        Paint mpaint = new Paint();
-                        mpaint.setAntiAlias(true);
-                        mpaint.setShader(new BitmapShader(toTransform, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
-                        int corner = (int)Math.floor(Math.max(toTransform.getWidth(), toTransform.getHeight()) * 0.05);
-                        canvas.drawRoundRect((new RectF(0, 0, toTransform.getWidth(), toTransform.getHeight())), corner, corner, mpaint);// Round Image Corner 100 100 100 100
-                        return imageRounded;
-                    }
-
-                    @Override
-                    public void updateDiskCacheKey(@NonNull MessageDigest messageDigest) {
-
-                    }
-                }))
-                .into(imageView);
-                    /*.listener(new RequestListener<Drawable>() {
-                @Override
-                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                    return false;
-                }
-
-                @Override
-                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                    // do a CROP_TOP
-                    final Matrix matrix = imageView.getImageMatrix();
-                    final float imageWidth = resource.getIntrinsicWidth();
-                    final int screenWidth = itemView.getMeasuredWidth();
-                    final float scaleRatio = screenWidth / imageWidth;
-                    matrix.postScale(scaleRatio, scaleRatio);
-                    imageView.setImageMatrix(matrix);
-
-                    return false;
-                }
-            }).into(imageView);*/
+        CardImageLoader.loadImageIntoImageView(glide, item.getImageStorageUrl(), imageView);
     }
 }

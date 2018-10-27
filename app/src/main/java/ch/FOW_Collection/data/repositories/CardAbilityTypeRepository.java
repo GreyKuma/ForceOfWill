@@ -69,5 +69,9 @@ public class CardAbilityTypeRepository {
         return cardAbilityTypeById(Integer.toString(cardAbilityTypeId));
     }
 
+    public DocumentReference getCardAbilityTypeByIdQuery(int cardAbilityTypeId) {
+        return cardAbilityTypeByIdQuery(Integer.toString(cardAbilityTypeId));
+    }
+
     //endregion
 }

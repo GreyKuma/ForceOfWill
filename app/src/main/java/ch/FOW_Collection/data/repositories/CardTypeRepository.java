@@ -4,12 +4,15 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
 import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveData;
 import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveDataArray;
 import ch.FOW_Collection.domain.models.CardType;
+
+import static androidx.lifecycle.Transformations.map;
 
 public class CardTypeRepository {
     //region private static
@@ -65,8 +68,29 @@ public class CardTypeRepository {
         return allCardTypes();
     }
 
-    public LiveData<CardType> getTypeById(int cardTypeId) {
+    public LiveData<CardType> getCardTypeById(int cardTypeId) {
         return cardTypeById(Integer.toString(cardTypeId));
+    }
+
+    public DocumentReference getCardTypeByIdQuery(int cardTypeId) {
+        return cardTypeByIdQuery(Integer.toString(cardTypeId));
+    }
+
+    public LiveData<List<CardType>> getCardTypesByIds(List<Integer> cardTypesByIds) {
+        List<String> cardTypesIdsSet = new ArrayList<>();
+        for (Integer i : cardTypesByIds) {
+            cardTypesIdsSet.add(Integer.toString(i));
+        }
+
+        return map(allCardTypes(), input -> {
+            List<CardType> filtered = new ArrayList<>();
+            for (CardType cardType : input) {
+                if (cardTypesIdsSet.contains(cardType.getId())) {
+                    filtered.add(cardType);
+                }
+            }
+            return filtered;
+        });
     }
 
     //endregion

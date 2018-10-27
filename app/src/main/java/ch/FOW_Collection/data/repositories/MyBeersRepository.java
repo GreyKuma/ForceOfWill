@@ -1,16 +1,22 @@
 package ch.FOW_Collection.data.repositories;
 
+import org.apache.commons.lang3.tuple.Triple;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import androidx.lifecycle.LiveData;
 import ch.FOW_Collection.domain.models.Beer;
 import ch.FOW_Collection.domain.models.Entity;
-import ch.FOW_Collection.domain.models.Rating;
-import ch.FOW_Collection.domain.models.Wish;
 import ch.FOW_Collection.domain.models.MyBeer;
 import ch.FOW_Collection.domain.models.MyBeerFromRating;
 import ch.FOW_Collection.domain.models.MyBeerFromWishlist;
-import org.apache.commons.lang3.tuple.Triple;
-
-import java.util.*;
+import ch.FOW_Collection.domain.models.Rating;
+import ch.FOW_Collection.domain.models.Wish;
 
 import static androidx.lifecycle.Transformations.map;
 import static ch.FOW_Collection.domain.liveData.LiveDataExtensions.combineLatest;

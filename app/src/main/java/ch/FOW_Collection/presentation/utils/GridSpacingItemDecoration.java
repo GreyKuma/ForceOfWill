@@ -2,7 +2,9 @@ package ch.FOW_Collection.presentation.utils;
 
 import android.graphics.Rect;
 import android.view.View;
+
 import androidx.recyclerview.widget.RecyclerView;
+import ch.FOW_Collection.presentation.shared.GridAutofitLayoutManager;
 
 /**
  * Created by Android Studio

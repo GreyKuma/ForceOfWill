@@ -1,8 +1,8 @@
 package ch.FOW_Collection;
 
 import android.app.Application;
+
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 
 /**

@@ -4,12 +4,9 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-import java.util.List;
-
-import androidx.lifecycle.LiveData;
-import ch.FOW_Collection.domain.models.CardEdition;
 import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveData;
 import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveDataArray;
+import ch.FOW_Collection.domain.models.CardEdition;
 
 public class CardEditionsRepository {
     //region private static
@@ -52,7 +49,7 @@ public class CardEditionsRepository {
      * @param cardEditionId Id of the cardEdition.
      * @return LiveData of a single cardEdition.
      */
-    private static LiveData<CardEdition> cardEditionById(String cardEditionId) {
+    private static FirestoreQueryLiveData<CardEdition> cardEditionById(String cardEditionId) {
         return new FirestoreQueryLiveData<>(
                 cardEditionByIdQuery(cardEditionId), CardEdition.class);
     }
@@ -61,11 +58,11 @@ public class CardEditionsRepository {
 
     //region public / nonStatic accessor
 
-    public LiveData<List<CardEdition>> getAllEditions() {
+    public FirestoreQueryLiveDataArray<CardEdition> getAllEditions() {
         return allCardEditions();
     }
 
-    public LiveData<CardEdition> getEditionById(int cardEditionId) {
+    public FirestoreQueryLiveData<CardEdition> getEditionById(int cardEditionId) {
         return cardEditionById(Integer.toString(cardEditionId));
     }
 

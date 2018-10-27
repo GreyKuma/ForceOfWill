@@ -4,12 +4,15 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
 import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveData;
 import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveDataArray;
 import ch.FOW_Collection.domain.models.CardAttribute;
+
+import static androidx.lifecycle.Transformations.map;
 
 public class CardAttributeRepository {
     //region private static
@@ -52,7 +55,7 @@ public class CardAttributeRepository {
      * @param cardAttributeId Id of the cardAttribute.
      * @return LiveData of a single cardAttribute.
      */
-    private static LiveData<CardAttribute> cardAttributeById(String cardAttributeId) {
+    private static FirestoreQueryLiveData<CardAttribute> cardAttributeById(String cardAttributeId) {
         return new FirestoreQueryLiveData<>(
                 cardAttributeByIdQuery(cardAttributeId), CardAttribute.class);
     }
@@ -61,12 +64,29 @@ public class CardAttributeRepository {
 
     //region public / nonStatic accessor
 
-    public LiveData<List<CardAttribute>> getAllAttributes() {
+    public FirestoreQueryLiveDataArray<CardAttribute> getAllAttributes() {
         return allCardAttributes();
     }
 
-    public LiveData<CardAttribute> getAttributeById(int cardAttributeId) {
+    public FirestoreQueryLiveData<CardAttribute> getCardAttributeById(int cardAttributeId) {
         return cardAttributeById(Integer.toString(cardAttributeId));
+    }
+
+    public LiveData<List<CardAttribute>> getAttributesByIds(List<Integer> cardAttributeIds) {
+        List<String> cardAttributeIdsSet = new ArrayList<>();
+        for (Integer i : cardAttributeIds) {
+            cardAttributeIdsSet.add(Integer.toString(i));
+        }
+
+        return map(allCardAttributes(), input -> {
+            List<CardAttribute> filtered = new ArrayList<>();
+            for (CardAttribute cardAttribute : input) {
+                if (cardAttributeIdsSet.contains(cardAttribute.getId())) {
+                    filtered.add(cardAttribute);
+                }
+            }
+            return filtered;
+        });
     }
 
     //endregion

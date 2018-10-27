@@ -2,9 +2,11 @@ package ch.FOW_Collection.presentation.profile.myratings;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.Pair;
 import android.view.MenuItem;
+
+import java.util.List;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
@@ -15,10 +17,7 @@ import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Rating;
 import ch.FOW_Collection.domain.models.Wish;
-import ch.FOW_Collection.presentation.details.DetailsActivity;
-import lombok.val;
-
-import java.util.List;
+import ch.FOW_Collection.presentation.cardDetails.CardDetailsActivity;
 
 public class MyRatingsActivity extends AppCompatActivity implements OnMyRatingItemInteractionListener {
 
@@ -70,8 +69,8 @@ public class MyRatingsActivity extends AppCompatActivity implements OnMyRatingIt
 
     @Override
     public void onMoreClickedListener(Rating item) {
-        Intent intent = new Intent(this, DetailsActivity.class);
-        intent.putExtra(DetailsActivity.ITEM_ID, item.getBeerId());
+        Intent intent = new Intent(this, CardDetailsActivity.class);
+        intent.putExtra(CardDetailsActivity.ITEM_ID, item.getBeerId());
         startActivity(intent);
     }
 

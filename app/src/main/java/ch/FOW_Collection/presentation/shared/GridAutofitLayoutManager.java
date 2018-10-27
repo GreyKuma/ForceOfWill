@@ -1,4 +1,4 @@
-package ch.FOW_Collection.presentation.utils;
+package ch.FOW_Collection.presentation.shared;
 
 import android.content.Context;
 import android.util.TypedValue;

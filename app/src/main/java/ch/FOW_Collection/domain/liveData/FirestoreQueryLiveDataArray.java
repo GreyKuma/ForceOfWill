@@ -2,24 +2,30 @@ package ch.FOW_Collection.domain.liveData;
 
 import android.os.Handler;
 import android.util.Log;
-import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import ch.FOW_Collection.domain.models.Entity;
-import ch.FOW_Collection.data.parser.EntityClassSnapshotParser;
+
 import com.firebase.ui.common.ChangeEventType;
 import com.firebase.ui.firestore.ChangeEventListener;
 import com.firebase.ui.firestore.FirestoreArray;
-import com.firebase.ui.firestore.ObservableSnapshotArray;
 import com.firebase.ui.firestore.SnapshotParser;
-import com.google.firebase.firestore.*;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.MetadataChanges;
+import com.google.firebase.firestore.Query;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import ch.FOW_Collection.data.parser.EntityClassSnapshotParser;
+import ch.FOW_Collection.domain.models.Entity;
 
 public class FirestoreQueryLiveDataArray<T extends Entity> extends LiveData<List<T>> implements ChangeEventListener {
 
     private static final String TAG = "FQueryLiveDataArray";
 
-    private final ObservableSnapshotArray<T> mSnapshots;
+    private final Query mQuery;
+    private final SnapshotParser<T> mParser;
+    private final FirestoreArray<T> mSnapshots;
     private final Handler handler = new Handler();
     private boolean listenerRemovePending = false;
     private final Runnable removeListener = new Runnable() {
@@ -31,11 +37,14 @@ public class FirestoreQueryLiveDataArray<T extends Entity> extends LiveData<List
     };
 
     public FirestoreQueryLiveDataArray(Query query, Class<T> modelClass) {
-        this.mSnapshots = new FirestoreArray<>(query, MetadataChanges.EXCLUDE, new EntityClassSnapshotParser<>(modelClass));
+        this(query, new EntityClassSnapshotParser<>(modelClass));
     }
 
     public FirestoreQueryLiveDataArray(Query query, SnapshotParser<T> parser) {
-        this.mSnapshots = new FirestoreArray<>(query, MetadataChanges.EXCLUDE, parser);
+        this.mQuery = query;
+        this.mParser = parser;
+        this.mSnapshots = new FirestoreArray<>(mQuery, MetadataChanges.EXCLUDE, mParser);
+        setValue(mSnapshots);
     }
 
     @Override
@@ -69,6 +78,5 @@ public class FirestoreQueryLiveDataArray<T extends Entity> extends LiveData<List
     public void onError(@NonNull FirebaseFirestoreException e) {
         Log.e(TAG, "Error:", e);
     }
-
 
 }
