@@ -1,8 +1,8 @@
 package ch.FOW_Collection.domain.models;
 
-import lombok.Data;
-
 import java.util.Date;
+
+import lombok.Data;
 
 @Data
 public class MyBeerFromWishlist implements MyBeer {

@@ -1,19 +1,25 @@
 package ch.FOW_Collection.presentation.profile.mybeers;
 
 import android.util.Pair;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-import ch.FOW_Collection.data.repositories.*;
-import ch.FOW_Collection.domain.models.Beer;
-import ch.FOW_Collection.domain.models.Rating;
-import ch.FOW_Collection.domain.models.Wish;
-import ch.FOW_Collection.domain.models.MyBeer;
+
 import com.google.common.base.Strings;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+import ch.FOW_Collection.data.repositories.BeersRepository;
+import ch.FOW_Collection.data.repositories.CurrentUser;
+import ch.FOW_Collection.data.repositories.MyBeersRepository;
+import ch.FOW_Collection.data.repositories.RatingsRepository;
+import ch.FOW_Collection.data.repositories.WishlistRepository;
+import ch.FOW_Collection.domain.models.Beer;
+import ch.FOW_Collection.domain.models.MyBeer;
+import ch.FOW_Collection.domain.models.Rating;
+import ch.FOW_Collection.domain.models.Wish;
 
 import static androidx.lifecycle.Transformations.map;
 import static ch.FOW_Collection.domain.liveData.LiveDataExtensions.zip;

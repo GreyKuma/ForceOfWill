@@ -30,7 +30,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity android:name="ch.FOW_Collection.presentation.explore.search.SearchActivity" />
         <activity
-            android:name="ch.FOW_Collection.presentation.details.DetailsActivity"
+            android:name="ch.FOW_Collection.presentation.cardDetails.CardDetailsActivity"
             android:label="@string/title_activity_single_beer"
             android:parentActivityName="ch.FOW_Collection.presentation.explore.search.SearchActivity"
             android:theme="@style/DetailsPageTheme">
@@ -39,12 +39,12 @@
                 android:value="ch.FOW_Collection.presentation.explore.search.SearchActivity" />
         </activity>
         <activity
-            android:name="ch.FOW_Collection.presentation.details.createrating.CreateRatingActivity"
-            android:parentActivityName="ch.FOW_Collection.presentation.details.DetailsActivity"
+            android:name="ch.FOW_Collection.presentation.cardDetails.createrating.CreateRatingActivity"
+            android:parentActivityName="ch.FOW_Collection.presentation.cardDetails.CardDetailsActivity"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="ch.FOW_Collection.presentation.details.DetailsActivity" />
+                android:value="ch.FOW_Collection.presentation.cardDetails.CardDetailsActivity" />
         </activity>
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"

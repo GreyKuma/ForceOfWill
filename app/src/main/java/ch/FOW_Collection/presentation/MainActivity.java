@@ -7,6 +7,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +22,7 @@ import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
+import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveDataArray;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.CardEdition;
 import ch.FOW_Collection.presentation.explore.CardEditionsFragment;
@@ -23,14 +30,10 @@ import ch.FOW_Collection.presentation.explore.CardPopularFragment;
 import ch.FOW_Collection.presentation.explore.ExploreFragment;
 import ch.FOW_Collection.presentation.profile.ProfileFragment;
 import ch.FOW_Collection.presentation.ratings.RatingsFragment;
+import ch.FOW_Collection.presentation.shared.ICardSelectedListener;
 import ch.FOW_Collection.presentation.shared.cardList.ICardListFragmentListener;
 import ch.FOW_Collection.presentation.splash.SplashScreenActivity;
 import ch.FOW_Collection.presentation.utils.ViewPagerAdapter;
-import com.firebase.ui.auth.AuthUI;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.firestore.Query;
 
 /**
  * The {@link MainActivity} is the entry point for logged-in users (actually, users start at the
@@ -163,37 +166,30 @@ public class MainActivity
     }
 
     @Override
-    public Query getData(String cardListId) {
+    public FirestoreQueryLiveDataArray<Card> getData(String cardListId) {
         MainViewModel model = ViewModelProviders.of(this).get(MainViewModel.class);
-        return model.getCardsTopRatedQuery(12);
+        Log.d("Main", "GetQuery by " + cardListId);
+        return model.getCardsTopRated(12);
     }
 
     @Override
-    public void onCardSelected(String cardListId, Card card) {
+    public void onCardSelectedListener(ImageView imageView, View content, Card card) {
         // TODO implement
+        /*
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder
                 .setTitle("onCardSelected")
                 .setMessage(card.getName().getDe());
         AlertDialog dialog = builder.create();
-        dialog.show();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d("MainActivity", "onDestroy");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d("MainActivity", "onPause");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d("MainActivity", "onResume");
+        dialog.show();*//*
+        Intent intent = new Intent(this, CardDetailsActivity.class);
+        intent.putExtra(CardDetailsActivity.ITEM_ID, card.getId());
+        ActivityOptions options = ActivityOptions
+                .makeSceneTransitionAnimation(
+                    this,
+                        Pair.create(imageView,"image")
+                );
+        startActivity(intent, options.toBundle());*/
+        ICardSelectedListener.DefaultBehavior(this, imageView, content, card);
     }
 }

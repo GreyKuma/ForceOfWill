@@ -1,19 +1,16 @@
 package ch.FOW_Collection.data.repositories;
 
-import com.firebase.ui.firestore.FirestoreArray;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.MetadataChanges;
 import com.google.firebase.firestore.Query;
-
-import java.util.List;
 
 import androidx.lifecycle.LiveData;
 import ch.FOW_Collection.data.parser.CardClassSnapshotParser;
-import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveData;
 import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveDataArray;
-import ch.FOW_Collection.data.parser.EntityClassSnapshotParser;
+import ch.FOW_Collection.domain.models.Card;
+
+import static androidx.lifecycle.Transformations.switchMap;
 
 public class CardsRepository {
 
@@ -37,7 +34,7 @@ public class CardsRepository {
      */
     private static FirestoreQueryLiveDataArray<Card> allCards() {
         return new FirestoreQueryLiveDataArray<>(
-                allCardsQuery(), Card.class);
+                allCardsQuery(), new CardClassSnapshotParser());
     }
 
     /**
@@ -59,18 +56,28 @@ public class CardsRepository {
      */
     private static FirestoreQueryLiveData<Card> cardById(String cardId) {
         return new FirestoreQueryLiveData<>(
-                cardByIdDocRef(cardId), Card.class);
+                cardByIdDocRef(cardId), new CardClassSnapshotParser());
     }
 
     /**
      * Get query for top rated cards.
      * @return query for top rated cards.
      */
-    private static Query cardsTopRatedQuery() {
+    private static Query cardsTopRatedQuery(int limit) {
         return FirebaseFirestore
                         .getInstance()
                         .collection(Card.COLLECTION)
-                        .orderBy(Card.FIELD_RATING, Query.Direction.DESCENDING);
+                        .orderBy(Card.FIELD_RATING, Query.Direction.DESCENDING)
+                        .limit(limit);
+    }
+
+    /**
+     * Get LiveData of all cards.
+     * @return LiveDataArray of all cards.
+     */
+    private static FirestoreQueryLiveDataArray<Card> cardsTopRated(int limit) {
+        return new FirestoreQueryLiveDataArray<>(
+                cardsTopRatedQuery(limit), new CardClassSnapshotParser());
     }
 
     //endregion
@@ -81,7 +88,7 @@ public class CardsRepository {
      * Get LiveData of all cards.
      * @return LiveDataArray of all cards.
      */
-    public LiveData<List<Card>> getAllCards() {
+    public FirestoreQueryLiveDataArray<Card> getAllCards() {
         return new FirestoreQueryLiveDataArray<>(
                 allCardsQuery(), new CardClassSnapshotParser());
     }
@@ -96,13 +103,21 @@ public class CardsRepository {
                 cardByIdDocRef(cardId), new CardClassSnapshotParser());
     }
 
+    public LiveData<Card> getCardById(LiveData<String> cardId) {
+        return switchMap(cardId, CardsRepository::cardById);
+    }
+
     /**
      * Get Query for top rated cards.
      * Should only be used by Firestore-ui-Components which has setLifecycleOwner!
      * @return FirestoreArray for top rated cards.
      */
-    public Query getCardsTopRatedQuery(int limit) {
-        return cardsTopRatedQuery().limit(limit);
+    //public Query getCardsTopRatedQuery(int limit) {
+    //    return cardsTopRatedQuery().limit(limit);
+    //}
+
+    public FirestoreQueryLiveDataArray<Card> getCardsTopRated(int limit) {
+        return cardsTopRated(limit);
     }
 
     //endregion

@@ -1,15 +1,16 @@
 package ch.FOW_Collection.data.repositories;
 
-import androidx.lifecycle.LiveData;
-import ch.FOW_Collection.domain.models.Search;
-import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveDataArray;
-import ch.FOW_Collection.data.parser.EntityClassSnapshotParser;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 import java.util.List;
+
+import androidx.lifecycle.LiveData;
+import ch.FOW_Collection.data.parser.EntityClassSnapshotParser;
+import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveDataArray;
+import ch.FOW_Collection.domain.models.Search;
 
 public class SearchesRepository {
 

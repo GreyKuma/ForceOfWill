@@ -1,25 +1,26 @@
-package ch.FOW_Collection.presentation.details;
+package ch.FOW_Collection.presentation.cardDetails;
 
-import ch.FOW_Collection.GlideApp;
-import ch.FOW_Collection.R;
-import ch.FOW_Collection.domain.models.Rating;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.ListAdapter;
-import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import ch.FOW_Collection.presentation.utils.EntityDiffItemCallback;
 
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.text.DateFormat;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ListAdapter;
+import androidx.recyclerview.widget.RecyclerView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import ch.FOW_Collection.GlideApp;
+import ch.FOW_Collection.R;
+import ch.FOW_Collection.domain.models.Rating;
+import ch.FOW_Collection.presentation.utils.EntityDiffItemCallback;
 
 
 public class RatingsRecyclerViewAdapter extends ListAdapter<Rating, RatingsRecyclerViewAdapter.ViewHolder> {

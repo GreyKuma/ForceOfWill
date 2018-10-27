@@ -7,6 +7,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
+import com.bumptech.glide.request.RequestOptions;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.text.DateFormat;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
@@ -20,11 +26,6 @@ import ch.FOW_Collection.domain.models.MyBeer;
 import ch.FOW_Collection.domain.models.MyBeerFromRating;
 import ch.FOW_Collection.domain.models.MyBeerFromWishlist;
 import ch.FOW_Collection.presentation.utils.DrawableHelpers;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.google.firebase.auth.FirebaseUser;
-
-import java.text.DateFormat;
 
 
 public class MyBeersRecyclerViewAdapter extends ListAdapter<MyBeer, MyBeersRecyclerViewAdapter.ViewHolder> {

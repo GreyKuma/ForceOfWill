@@ -57,7 +57,8 @@ public class CardInfiniteListFragment extends CardListFragment {
         // and application-specific options for lifecycle, etc.
         FirestorePagingOptions<Card> options = new FirestorePagingOptions.Builder<Card>()
                 .setLifecycleOwner(this)
-                .setQuery(listener.getData(cardListId), config, Card.class)
+
+                //.setQuery(listener.getData(cardListId), config, new CardClassSnapshotParser())
                 .build();
 
         CardInfiniteListFragmentViewAdapter adapter = new CardInfiniteListFragmentViewAdapter(

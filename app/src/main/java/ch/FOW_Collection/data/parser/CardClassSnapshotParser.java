@@ -5,9 +5,7 @@ import android.util.Log;
 import com.firebase.ui.firestore.ClassSnapshotParser;
 import com.google.firebase.firestore.DocumentSnapshot;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import ch.FOW_Collection.data.repositories.CardAbilityTypeRepository;
@@ -17,12 +15,11 @@ import ch.FOW_Collection.data.repositories.CardRaceRepository;
 import ch.FOW_Collection.data.repositories.CardTypeRepository;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.CardAbility;
-import ch.FOW_Collection.domain.models.CardAttribute;
 import ch.FOW_Collection.domain.models.CardCost;
-import ch.FOW_Collection.domain.models.CardRace;
-import ch.FOW_Collection.domain.models.CardType;
 
 public class CardClassSnapshotParser extends ClassSnapshotParser<Card> {
+    public static final String TAG = "CardClassSnapshotParser";
+
     public CardClassSnapshotParser() {
         super(Card.class);
     }
@@ -33,57 +30,41 @@ public class CardClassSnapshotParser extends ClassSnapshotParser<Card> {
         Card card = super.parseSnapshot(snapshot);
         card.setId(snapshot.getId());
 
+        return parseCard(card);
+    }
+
+    public Card parseCard(Card card) {
+
+        Log.d(TAG, "Parsing started for \"" + card.getId() + "\"");
+
         // we just create new Repositories because we knew, its static behind and we
         //   are on the same layerLevel
         if (card.getEditionId() != null) {
             CardEditionsRepository cardEditionsRepository = new CardEditionsRepository();
-            card.setEdition(cardEditionsRepository.getEditionById(card.getEditionId()).getValue());
+            card.setEdition(cardEditionsRepository.getEditionById(card.getEditionId()));
         }
 
         if (card.getRaceIds() != null) {
             CardRaceRepository cardRaceRepository = new CardRaceRepository();
-            List<CardRace> cardRaces = new ArrayList<>();
-
-            Iterator<Integer> it = card.getRaceIds().iterator();
-            while(it.hasNext()) {
-                cardRaces.add(cardRaceRepository.getRaceById(it.next()).getValue());
-            }
-
-            card.setRaces(cardRaces);
+            card.setRaces(cardRaceRepository.getRacesByIds(card.getRaceIds()));
         }
 
+        CardAttributeRepository cardAttributeRepository = new CardAttributeRepository();
         if (card.getAttributeIds() != null) {
-            CardAttributeRepository cardAttributeRepository = new CardAttributeRepository();
-            List<CardAttribute> cardAttributes = new ArrayList<>();
-
-            Iterator<Integer> it = card.getAttributeIds().iterator();
-            while(it.hasNext()) {
-                cardAttributes.add(cardAttributeRepository.getAttributeById(it.next()).getValue());
-            }
-
-            card.setAttributes(cardAttributes);
+            card.setAttributes(cardAttributeRepository.getAttributesByIds(card.getAttributeIds()));
         }
 
-        CardTypeRepository cardTypeRepository = new CardTypeRepository();
         if (card.getTypeIds() != null) {
-            List<CardType> cardTypes = new ArrayList<>();
-
-            Iterator<Integer> it = card.getTypeIds().iterator();
-            while(it.hasNext()) {
-                cardTypes.add(cardTypeRepository.getTypeById(it.next()).getValue());
-            }
-
-            card.setTypes(cardTypes);
+            CardTypeRepository cardTypeRepository = new CardTypeRepository();
+            card.setTypes(cardTypeRepository.getCardTypesByIds(card.getTypeIds()));
         }
 
         if (card.getCost() != null) {
             Iterator<CardCost> it = card.getCost().iterator();
             while(it.hasNext()) {
                 CardCost current = it.next();
-                if (current != null && current.getTypeId() != null) {
-                    current.setType(
-                        cardTypeRepository.getTypeById(current.getTypeId()).getValue()
-                    );
+                if (current.getTypeId() != null) {
+                    current.setType(cardAttributeRepository.getCardAttributeById(current.getTypeId()));
                 }
             }
         }
@@ -94,27 +75,21 @@ public class CardClassSnapshotParser extends ClassSnapshotParser<Card> {
             Iterator<CardAbility> it = card.getAbility().iterator();
             while(it.hasNext()) {
                 CardAbility current = it.next();
-                if (current != null && current.getTypeId() != null) {
-                    current.setType(
-                            cardAbilityTypeRepository.getAbilityTypeById(current.getTypeId()).getValue()
-                    );
+                if (current.getTypeId() != null) {
+                    current.setType(cardAbilityTypeRepository.getAbilityTypeById(current.getTypeId()));
 
                     if (current.getCost() != null) {
                         Iterator<CardCost> itCost = current.getCost().iterator();
                         while(it.hasNext()) {
                             CardCost currentCost = itCost.next();
                             if (currentCost != null && currentCost.getTypeId() != null) {
-                                currentCost.setType(
-                                        cardTypeRepository.getTypeById(current.getTypeId()).getValue()
-                                );
+                                currentCost.setType(cardAttributeRepository.getCardAttributeById(currentCost.getTypeId()));
                             }
                         }
                     }
                 }
             }
         }
-
-        Log.d("CardClassParser", "Parsed \"" + card.getId() + "\"");
 
         return card;
     }

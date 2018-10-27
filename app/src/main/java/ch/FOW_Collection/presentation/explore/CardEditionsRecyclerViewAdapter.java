@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -48,7 +49,7 @@ public class CardEditionsRecyclerViewAdapter
         @BindView(R.id.content)
         TextView content;
 
-        @BindView(R.id.imageView)
+        @BindView(R.id.imageCard)
         ImageView imageView;
 
         ViewHolder(View view) {

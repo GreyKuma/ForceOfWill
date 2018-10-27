@@ -1,9 +1,11 @@
 package ch.FOW_Collection.domain.liveData;
 
 import android.util.Pair;
+
+import org.apache.commons.lang3.tuple.Triple;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
-import org.apache.commons.lang3.tuple.Triple;
 
 public class LiveDataExtensions {
 
