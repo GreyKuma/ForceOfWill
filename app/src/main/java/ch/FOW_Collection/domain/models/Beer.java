@@ -1,11 +1,12 @@
 package ch.FOW_Collection.domain.models;
 
 import com.google.firebase.firestore.Exclude;
+
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
 
 @Data
 @NoArgsConstructor

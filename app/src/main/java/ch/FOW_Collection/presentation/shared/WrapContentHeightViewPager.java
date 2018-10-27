@@ -3,8 +3,6 @@ package ch.FOW_Collection.presentation.shared;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
-
-import androidx.viewpager.widget.ViewPager;
 /*
  * A ViewPager with working "wrap_content".
  * To use it, add "class" in xml:
@@ -17,7 +15,7 @@ import androidx.viewpager.widget.ViewPager;
  * </code>
  * source: https://pristalovpavel.wordpress.com/2014/12/26/doing-it-right-vertical-scrollview-with-viewpager-and-listview/
  */
-public class WrapContentHeightViewPager extends ViewPager
+public class WrapContentHeightViewPager extends androidx.viewpager.widget.ViewPager
 {
     public WrapContentHeightViewPager(Context context)
     {
@@ -34,18 +32,25 @@ public class WrapContentHeightViewPager extends ViewPager
     {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        int height = 0;
-        for(int i = 0; i < getChildCount(); i++)
-        {
-            View child = getChildAt(i);
-            child.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+        int measureSpec = MeasureSpec.getMode(heightMeasureSpec);
+        boolean wrapHeight = measureSpec == MeasureSpec.UNSPECIFIED || measureSpec == MeasureSpec.AT_MOST;
+        if (wrapHeight) {
+            int height = 0;
+            for (int i = 0; i < getChildCount(); i++) {
+                View child = getChildAt(i);
+                if (child.getVisibility() != GONE) {
+                    final LayoutParams lp = (LayoutParams) child.getLayoutParams();
+                    if (lp != null && !lp.isDecor) {
+                        child.measure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
 
-            int h = child.getMeasuredHeight();
-            if(h > height) height = h;
+                        int h = child.getMeasuredHeight();
+                        if (h > height) height = h;
+                    }
+                }
+            }
+
+            heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         }
-
-        heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
-
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 }

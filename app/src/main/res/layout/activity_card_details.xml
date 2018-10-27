@@ -117,35 +117,35 @@
 
 
                         <TextView
-                            android:id="@+id/name"
+                            android:id="@+id/cardName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="8dp"
-                            android:text="Quöllfrisch Hell"
+                            android:text="CardName"
                             android:textAppearance="?attr/textAppearanceListItem"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/manufacturer" />
+                            app:layout_constraintTop_toBottomOf="@+id/cardId" />
 
                         <TextView
-                            android:id="@+id/manufacturer"
+                            android:id="@+id/cardId"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="8dp"
-                            android:text="Locher Appenzeller Bier"
+                            android:text="CardId"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/separator" />
 
                         <TextView
-                            android:id="@+id/category"
+                            android:id="@+id/cardEdition"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="8dp"
-                            android:text="Pale Lager"
+                            android:text="CardEdition"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/name" />
+                            app:layout_constraintTop_toBottomOf="@+id/cardName" />
 
                         <View
                             android:id="@+id/separator3"
@@ -155,7 +155,27 @@
                             android:layout_marginTop="16dp"
                             android:background="#ffeeeeee"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/category" />
+                            app:layout_constraintTop_toBottomOf="@+id/cardEdition" />
+
+                        <LinearLayout
+                            android:id="@+id/cardCost"
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/separator3" />
+
+                        <View
+                            android:id="@+id/separator4"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:background="#ffeeeeee"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/cardCost" />
 
                         <RatingBar
                             android:id="@+id/addRatingBar"
@@ -172,7 +192,7 @@
                             android:transitionName="rating"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/separator3" />
+                            app:layout_constraintTop_toBottomOf="@+id/separator4" />
 
                         <TextView
                             android:id="@+id/addRatingExplanation"

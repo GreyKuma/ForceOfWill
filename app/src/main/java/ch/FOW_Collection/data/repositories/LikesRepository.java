@@ -1,7 +1,5 @@
 package ch.FOW_Collection.data.repositories;
 
-import ch.FOW_Collection.data.parser.EntityClassSnapshotParser;
-import ch.FOW_Collection.domain.models.Rating;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -9,6 +7,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Transaction;
 
 import java.util.Map;
+
+import ch.FOW_Collection.data.parser.EntityClassSnapshotParser;
+import ch.FOW_Collection.domain.models.Rating;
 
 public class LikesRepository {
 

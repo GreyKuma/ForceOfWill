@@ -1,6 +1,13 @@
 package ch.FOW_Collection.presentation.explore.search;
 
 import android.util.Pair;
+
+import com.google.common.base.Strings;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -10,11 +17,6 @@ import ch.FOW_Collection.data.repositories.SearchesRepository;
 import ch.FOW_Collection.data.repositories.WishlistRepository;
 import ch.FOW_Collection.domain.models.Beer;
 import ch.FOW_Collection.domain.models.Search;
-import com.google.common.base.Strings;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import static androidx.lifecycle.Transformations.map;
 import static androidx.lifecycle.Transformations.switchMap;

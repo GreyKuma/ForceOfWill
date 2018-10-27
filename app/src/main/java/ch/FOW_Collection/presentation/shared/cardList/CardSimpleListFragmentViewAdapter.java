@@ -1,17 +1,12 @@
 package ch.FOW_Collection.presentation.shared.cardList;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.content.Context;
 
-import com.bumptech.glide.RequestManager;
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-
-import androidx.annotation.NonNull;
+import androidx.core.app.ComponentActivity;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
-import ch.FOW_Collection.R;
+import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveDataArray;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.presentation.explore.CardPopularFragment;
 
@@ -28,71 +23,15 @@ import ch.FOW_Collection.presentation.explore.CardPopularFragment;
  */
 public class CardSimpleListFragmentViewAdapter
         /// extends ListAdapter<Card, CardPopularRecyclerViewAdapter.ViewHolder> {
-        extends FirestoreRecyclerAdapter<Card, CardListViewHolder> {
+        extends CardListFragmentViewAdapter {
 
-    /**
-     * The entries of the adapter need a callback listener to notify the {@link ch.FOW_Collection.presentation.MainActivity}
-     * when an entry was clicked. This listener is passed from the {@link CardPopularFragment}.
-     */
-    private final ICardListFragmentListener listener;
-    private final RequestManager glide;
-    private final String cardListId;
+    private static final String TAG = "CardSimpleListFragment";
 
-    public CardSimpleListFragmentViewAdapter(
-            String cardListId,
-            RequestManager glide,
-            FirestoreRecyclerOptions option,
-            ICardListFragmentListener listener) {
-        /*
-         * Whenever a new list is submitted to the ListAdapter, it needs to compute the set of changes in the list.
-         * for example, a new string might have been added to the front of the list. in that case, the ListAdapter
-         * does not have to recreate all the items in the list but can just insert a new entry at the top of the list
-         * and shift the rest down. Because the ListAdapter can work with all kinds of classes (here it's just
-         * a String - the first type parameter passed to the superclass), it needs a way to diff the entry items.
-         * This is implemented in the StringDiffItemCallback class.
-         */
-        super(option);
-
-        this.listener = listener;
-        this.glide = glide;
-        this.cardListId = cardListId;
+    public CardSimpleListFragmentViewAdapter(ComponentActivity activity, FirestoreQueryLiveDataArray<Card> liveData, ICardListFragmentListener listener, String cardListId) {
+        super(activity, liveData, listener, cardListId);
     }
 
-    /**
-     * A recyclerview can display a heterogeneous list of items, i.e., not all entries need to use the same layout.
-     * These different layouts can be distinguished by the viewType parameter. In this list though, all items have
-     * the same layout so we can ignore the viewType and just create and return our
-     * fragment_explore_beer_categories_card layout.
-     * <p>
-     * For an adapter that implements different viewTypes, see
-     * {@link ch.FOW_Collection.presentation.explore.search.suggestions.SearchSuggestionsRecyclerViewAdapter}.
-     *
-     * @param parent   The parent of the layout, but we don't really do anything useful with it except getting to the
-     *                 context (the activity) from it.
-     * @param viewType Indicates the viewType, but as explained, we ignore that.
-     * @return the {@link CardListViewHolder} instance for this kind of entry.
-     */
-    @NonNull
-    @Override
-    public CardListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.fragment_card, parent, false);
-        return new CardListViewHolder(view);
-    }
-
-    /**
-     * With the onCreateViewHolder method, we instantiated an empty layout and a ViewHolder for the adapter. Now we
-     * also need to bind some data (our beer categories) to the list entries. The method will be called for each
-     * entry in the list.
-     *
-     * @param holder   The ViewHolder instance we created in onCreateViewHolder.
-     * @param position The position in the list we are currently drawing.
-     */
-    @Override
-    protected void onBindViewHolder(@NonNull final CardListViewHolder holder, int position, @NonNull Card card) {
-        /*
-         * We just delegate all the work to the ViewHolder:
-         */
-        holder.bind(card, listener, glide);
+    public CardSimpleListFragmentViewAdapter(Context context, LifecycleOwner lifecycleOwner, FirestoreQueryLiveDataArray<Card> liveData, ICardListFragmentListener listener, String cardListId) {
+        super(context, lifecycleOwner, liveData, listener, cardListId);
     }
 }

@@ -2,27 +2,18 @@ package ch.FOW_Collection.presentation.explore;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.transition.Transition;
-import android.transition.TransitionInflater;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.google.firebase.firestore.Query;
-
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProviders;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
-import ch.FOW_Collection.domain.models.Card;
-import ch.FOW_Collection.presentation.MainViewModel;
-import ch.FOW_Collection.presentation.shared.cardList.CardListFragment;
 import ch.FOW_Collection.presentation.shared.cardList.CardSimpleListFragment;
-import ch.FOW_Collection.presentation.shared.cardList.ICardListFragmentListener;
 
 
 /**
@@ -30,12 +21,13 @@ import ch.FOW_Collection.presentation.shared.cardList.ICardListFragmentListener;
  * {@link ch.FOW_Collection.presentation.MainActivity} shows a two by N grid with beer categories.
  */
 public class CardPopularFragment extends Fragment {
+    private final static String TAG = "CardPopularFragment";
 
-    // @BindView(R.id.cardListFragment)
-    // Fragment cardListFragment;
 
     @BindView(R.id.button)
     Button button;
+
+    CardSimpleListFragment cardListFragment;
 
     /**
      * The fragment needs to notify the {@link ch.FOW_Collection.presentation.MainActivity} when the user clicks on one of
@@ -56,6 +48,7 @@ public class CardPopularFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        Log.d(TAG, "onAttach: ");
         if (context instanceof ICardPopularFragmentListener) {
             listener = (ICardPopularFragmentListener) context;
         } else {
@@ -70,14 +63,17 @@ public class CardPopularFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_explore_card_populars, container, false);
         ButterKnife.bind(this, view);
+        Log.d(TAG, "onCreateView: " + (savedInstanceState == null ? "NULL" : savedInstanceState.toString()));
 
-        Transition transform = TransitionInflater
+
+        /*Transition transform = TransitionInflater
                 .from(this.getContext()).
-                inflateTransition(R.transition.change_view_transform);
+                inflateTransition(R.transition.change_view_transform);*/
 
-        CardSimpleListFragment cardListFragment = CardSimpleListFragment.newInstance("popular", false);
+        cardListFragment = CardSimpleListFragment.newInstance("popular", false);
+        /*
         cardListFragment.setSharedElementReturnTransition(transform);
-        cardListFragment.setExitTransition(transform);
+        cardListFragment.setExitTransition(transform);*/
 
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.cardListFragment, cardListFragment);
@@ -101,6 +97,7 @@ public class CardPopularFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        Log.d(TAG, "onDetach");
         listener = null;
     }
 

@@ -1,12 +1,10 @@
 package ch.FOW_Collection.presentation.cardDetails.createrating;
 
-import android.util.Log;
-import ch.FOW_Collection.data.parser.EntityClassSnapshotParser;
-import ch.FOW_Collection.domain.models.Rating;
 import android.net.Uri;
-import androidx.lifecycle.ViewModel;
-import ch.FOW_Collection.domain.models.Beer;
-import com.google.android.gms.tasks.*;
+import android.util.Log;
+
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -15,6 +13,11 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.Collections;
 import java.util.Date;
+
+import androidx.lifecycle.ViewModel;
+import ch.FOW_Collection.data.parser.EntityClassSnapshotParser;
+import ch.FOW_Collection.domain.models.Beer;
+import ch.FOW_Collection.domain.models.Rating;
 
 public class CreateRatingViewModel extends ViewModel {
 

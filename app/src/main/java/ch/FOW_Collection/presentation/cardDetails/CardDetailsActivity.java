@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -20,12 +21,15 @@ import com.bumptech.glide.request.target.Target;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.storage.FirebaseStorage;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -37,6 +41,7 @@ import butterknife.OnClick;
 import ch.FOW_Collection.GlideApp;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Card;
+import ch.FOW_Collection.domain.models.CardCost;
 import ch.FOW_Collection.domain.models.Rating;
 import ch.FOW_Collection.domain.models.Wish;
 import ch.FOW_Collection.presentation.cardDetails.createrating.CreateRatingActivity;
@@ -66,17 +71,20 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
     @BindView(R.id.ratingBar)
     RatingBar ratingBar;
 
-    @BindView(R.id.name)
-    TextView name;
+    @BindView(R.id.cardName)
+    TextView cardName;
+
+    @BindView(R.id.cardCost)
+    LinearLayout cardCost;
 
     @BindView(R.id.wishlist)
     ToggleButton wishlist;
 
-    @BindView(R.id.manufacturer)
-    TextView manufacturer;
+    @BindView(R.id.cardId)
+    TextView cardId;
 
-    @BindView(R.id.category)
-    TextView category;
+    @BindView(R.id.cardEdition)
+    TextView cardEdition;
 
     @BindView(R.id.addRatingBar)
     RatingBar addRatingBar;
@@ -121,7 +129,7 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
 
     private void addNewRating(RatingBar ratingBar, float v, boolean b) {
         Intent intent = new Intent(this, CreateRatingActivity.class);
-        intent.putExtra(CreateRatingActivity.ITEM, model.getCard().getValue());
+        intent.putExtra(CreateRatingActivity.ITEM, (Serializable)model.getCard().getValue());
         intent.putExtra(CreateRatingActivity.RATING, v);
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, addRatingBar, "rating");
         startActivity(intent, options.toBundle());
@@ -136,18 +144,21 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
     }
 
     private void updateCard(Card item) {
-        name.setText(item.getName().getDe());
+        toolbar.setTitle(item.getName().getDe());
+        cardName.setText(item.getName().getDe());
+        cardId.setText(item.getId());
 
-        item.getEdition().observe(this, cardEdition -> {
-            manufacturer.setText(cardEdition.getDe());
-        });
+        ratingBar.setNumStars(5);
+        ratingBar.setRating(item.getAvgRating());
+        avgRating.setText(getResources().getString(R.string.fmt_avg_rating, item.getAvgRating()));
+        numRatings.setText(getResources().getString(R.string.fmt_ratings, item.getNumRatings()));
 
+        if (!item.getEdition().hasActiveObservers()) {
+            item.getEdition().observe(this, cardEdition -> {
+                this.cardEdition.setText(cardEdition.getDe());
+            });
+        }
 
-
-        category.setText(item.getId());
-        // name.setText(item.getName());
-        //GlideApp.with(this).load(item.getPhoto()).apply(new RequestOptions().override(120, 160).centerInside())
-        //        .into(imageView);
         GlideApp.with(this)
                 .load(FirebaseStorage.getInstance().getReference().child(item.getImageStorageUrl()))
                 .apply(new RequestOptions().centerInside())
@@ -168,11 +179,55 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
                 })
                 .into(imageView);
 
-        ratingBar.setNumStars(5);
-        ratingBar.setRating(item.getAvgRating());
-        avgRating.setText(getResources().getString(R.string.fmt_avg_rating, item.getAvgRating()));
-        numRatings.setText(getResources().getString(R.string.fmt_ratings, item.getNumRatings()));
-        toolbar.setTitle(item.getName().getDe());
+        if (item.getCost() != null) {
+            TextView textKosten = new TextView(this);
+            textKosten.setText("Kosten: ");
+            this.cardCost.addView(textKosten);
+            textKosten.requestLayout();
+
+            Iterator<CardCost> cardCostIt = item.getCost().iterator();
+            while (cardCostIt.hasNext()) {
+                CardCost cardCost = cardCostIt.next();
+                if (cardCost.getCount() != null && cardCost.getCount() > 0 && cardCost.getType() != null) {
+                    if (!cardCost.getType().hasActiveObservers()) {
+                        cardCost.getType().observe(this, cardCostType -> {
+                            for (int i = 0; i < cardCost.getCount(); i++) {
+                                final int id = getDrawableIdCardAttribute(cardCostType.getDe());
+                                if (id != 0) {
+                                    ImageView image = new ImageView(this);
+                                    image.setImageDrawable(ContextCompat.getDrawable(this, id));
+                               /*image.getLayoutParams().height = 32;
+                               image.getLayoutParams().width = 32;
+                               image.setMinimumHeight(32);
+                               image.setMinimumWidth(32);*/
+                                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(64, 64);
+                                    image.setLayoutParams(layoutParams);
+                                    this.cardCost.addView(image);
+                                    image.requestLayout();
+                                } else {
+                                    TextView text = new TextView(this);
+                                    text.setText(Integer.toString(cardCost.getCount()));
+                                    this.cardCost.addView(text);
+                                    text.requestLayout();
+                                    break;
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        }
+    }
+
+    private static final int getDrawableIdCardAttribute(String de) {
+        switch (de) {
+            case "Licht": return R.drawable.ic_card_attribute_light;
+            case "Finsternis": return R.drawable.ic_card_attribute_shadow;
+            case "Feuer": return R.drawable.ic_card_attribute_fire;
+            case "Wasser": return R.drawable.ic_card_attribute_water;
+            case "Wind": return R.drawable.ic_card_attribute_wind;
+            default: return 0;
+        }
     }
 
     private void updateRatings(List<Rating> ratings) {

@@ -1,46 +1,39 @@
 package ch.FOW_Collection.presentation;
 
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
-import android.transition.Transition;
-import android.transition.TransitionSet;
 import android.util.Log;
-import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
+
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.ViewCompat;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
+import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveDataArray;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.CardEdition;
-import ch.FOW_Collection.presentation.cardDetails.CardDetailsActivity;
 import ch.FOW_Collection.presentation.explore.CardEditionsFragment;
 import ch.FOW_Collection.presentation.explore.CardPopularFragment;
 import ch.FOW_Collection.presentation.explore.ExploreFragment;
 import ch.FOW_Collection.presentation.profile.ProfileFragment;
 import ch.FOW_Collection.presentation.ratings.RatingsFragment;
+import ch.FOW_Collection.presentation.shared.ICardSelectedListener;
 import ch.FOW_Collection.presentation.shared.cardList.ICardListFragmentListener;
 import ch.FOW_Collection.presentation.splash.SplashScreenActivity;
 import ch.FOW_Collection.presentation.utils.ViewPagerAdapter;
-
-import com.bumptech.glide.request.transition.DrawableCrossFadeTransition;
-import com.firebase.ui.auth.AuthUI;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.firestore.Query;
 
 /**
  * The {@link MainActivity} is the entry point for logged-in users (actually, users start at the
@@ -173,31 +166,14 @@ public class MainActivity
     }
 
     @Override
-    public Query getData(String cardListId) {
+    public FirestoreQueryLiveDataArray<Card> getData(String cardListId) {
         MainViewModel model = ViewModelProviders.of(this).get(MainViewModel.class);
-        return model.getCardsTopRatedQuery(12);
+        Log.d("Main", "GetQuery by " + cardListId);
+        return model.getCardsTopRated(12);
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d("MainActivity", "onDestroy");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d("MainActivity", "onPause");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d("MainActivity", "onResume");
-    }
-
-    @Override
-    public void onMoreClickedListener(ImageView imageView, Card card) {
+    public void onCardSelectedListener(ImageView imageView, View content, Card card) {
         // TODO implement
         /*
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -205,7 +181,7 @@ public class MainActivity
                 .setTitle("onCardSelected")
                 .setMessage(card.getName().getDe());
         AlertDialog dialog = builder.create();
-        dialog.show();*/
+        dialog.show();*//*
         Intent intent = new Intent(this, CardDetailsActivity.class);
         intent.putExtra(CardDetailsActivity.ITEM_ID, card.getId());
         ActivityOptions options = ActivityOptions
@@ -213,7 +189,7 @@ public class MainActivity
                     this,
                         Pair.create(imageView,"image")
                 );
-        startActivity(intent, options.toBundle());
-
+        startActivity(intent, options.toBundle());*/
+        ICardSelectedListener.DefaultBehavior(this, imageView, content, card);
     }
 }

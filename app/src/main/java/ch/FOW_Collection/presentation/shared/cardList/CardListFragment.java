@@ -3,20 +3,20 @@ package ch.FOW_Collection.presentation.shared.cardList;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
-import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.presentation.explore.ExploreFragment;
-import ch.FOW_Collection.presentation.utils.GridAutofitLayoutManager;
+import ch.FOW_Collection.presentation.shared.GridAutofitLayoutManager;
 
 
 /**
@@ -24,6 +24,7 @@ import ch.FOW_Collection.presentation.utils.GridAutofitLayoutManager;
  * {@link ch.FOW_Collection.presentation.MainActivity} shows a two by N grid with beer categories.
  */
 public abstract class CardListFragment extends Fragment {
+    private static final String TAG = "CardListFragment";
     protected static final String ARG_Id = "cardListId";
     protected static final String ARG_NestedScrolling = "nestedScrolling";
 
@@ -68,6 +69,7 @@ public abstract class CardListFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        Log.d(TAG, "onAttach");
         if (context instanceof ICardListFragmentListener) {
             listener = (ICardListFragmentListener) context;
         } else {
@@ -82,13 +84,22 @@ public abstract class CardListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_card_list, container, false);
         ButterKnife.bind(this, view);
+        Log.d(TAG, "onCreateView");
+        if (savedInstanceState != null) {
+            Log.d(TAG, "onCreateView HAS savedInstanceState");
+
+        }
+
+        super.onCreateView(inflater, container, savedInstanceState);
+        //recyclerViewState = savedInstanceState;
+        //Log.d(TAG, "onCreateView: " + (recyclerViewState != null ? recyclerViewState.toString() : "NULL"));
 
         /*
          * We ususally use the RecyclerView for lists, but with a GridLayoutManager it can also display grids.
          * The GridAutofitLayoutManager also calcs it columnsCount by the given width (in pixel!),
          * so we don't have to care about it even if display gets rotated.
          * */
-        GridLayoutManager layoutManager = new GridAutofitLayoutManager(view.getContext(), getResources().getDimensionPixelSize(R.dimen.fragment_card_width));
+        LinearLayoutManager layoutManager = new GridAutofitLayoutManager(view.getContext(), getResources().getDimensionPixelSize(R.dimen.fragment_card_width));
         recyclerView.setLayoutManager(layoutManager);
 
         /*
@@ -112,30 +123,29 @@ public abstract class CardListFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         listener = null;
+        Log.d(TAG, "onDetach");
     }
 
-    private final static String KEY_RECYCLER_STATE = "recyclerViewState";
-    private Bundle mBundleRecyclerViewState;
-
+    Parcelable recyclerViewLayoutState;
     @Override
-    public void onPause() {
-        super.onPause();
-
-        // save RecyclerView state
-        mBundleRecyclerViewState = new Bundle();
-        Parcelable listState = recyclerView.getLayoutManager().onSaveInstanceState();
-        mBundleRecyclerViewState.putParcelable(KEY_RECYCLER_STATE, listState);
+    public void onStop() {
+        Log.d(TAG, "onStop");
+        recyclerViewLayoutState = recyclerView.getLayoutManager().onSaveInstanceState();
+        super.onStop();
     }
 
     @Override
-    public void onResume()
-    {
-        super.onResume();
+    public void onDestroy() {
+        Log.d(TAG, "onDestroy");
+        super.onDestroy();
+    }
 
-        // restore RecyclerView state
-        if (mBundleRecyclerViewState != null) {
-            Parcelable listState = mBundleRecyclerViewState.getParcelable(KEY_RECYCLER_STATE);
-            recyclerView.getLayoutManager().onRestoreInstanceState(listState);
+    @Override
+    public void onStart() {
+        Log.d(TAG, "onStart");
+        if (recyclerViewLayoutState != null) {
+            recyclerView.getLayoutManager().onRestoreInstanceState(recyclerViewLayoutState);
         }
+        super.onStart();
     }
 }

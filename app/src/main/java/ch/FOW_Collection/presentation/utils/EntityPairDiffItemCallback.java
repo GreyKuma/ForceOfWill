@@ -1,6 +1,7 @@
 package ch.FOW_Collection.presentation.utils;
 
 import android.util.Pair;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import ch.FOW_Collection.domain.models.Entity;

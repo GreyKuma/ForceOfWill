@@ -9,6 +9,10 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+
+import com.google.android.material.tabs.TabLayout;
+import com.google.common.base.Strings;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
@@ -19,8 +23,6 @@ import ch.FOW_Collection.presentation.explore.search.beers.SearchResultFragment;
 import ch.FOW_Collection.presentation.explore.search.suggestions.SearchSuggestionsFragment;
 import ch.FOW_Collection.presentation.profile.mybeers.MyBeersViewModel;
 import ch.FOW_Collection.presentation.profile.mybeers.OnMyBeerItemInteractionListener;
-import com.google.android.material.tabs.TabLayout;
-import com.google.common.base.Strings;
 
 public class SearchActivity extends AppCompatActivity
         implements SearchResultFragment.OnItemSelectedListener, SearchSuggestionsFragment.OnItemSelectedListener,

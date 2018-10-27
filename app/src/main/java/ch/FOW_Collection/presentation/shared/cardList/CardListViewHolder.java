@@ -23,7 +23,10 @@ import ch.FOW_Collection.presentation.shared.CardImageLoader;
 public class CardListViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.content)
-    TextView content;
+    View content;
+
+    @BindView(R.id.cardName)
+    TextView cardName;
 
     @BindView(R.id.ratingBar)
     RatingBar ratingBar;
@@ -37,6 +40,7 @@ public class CardListViewHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
+
     /**
      * The entries in the list are rather simple so there's not that much data to bind to the view elements. The
      * categories don't really have a background image assigned so we just get one from a helper class.
@@ -47,11 +51,11 @@ public class CardListViewHolder extends RecyclerView.ViewHolder {
      * item.
      */
     void bind(Card item, ICardListFragmentListener listener, RequestManager glide) {
-        content.setText(item.getName().getDe());
+        cardName.setText(item.getName().getDe());
         ratingBar.setRating(item.getAvgRating());
 
         if (listener != null) {
-            itemView.setOnClickListener(v -> listener.onMoreClickedListener(imageView, item));
+            itemView.setOnClickListener(v -> listener.onCardSelectedListener(imageView, content, item));
         }
 
         CardImageLoader.loadImageIntoImageView(glide, item.getImageStorageUrl(), imageView);

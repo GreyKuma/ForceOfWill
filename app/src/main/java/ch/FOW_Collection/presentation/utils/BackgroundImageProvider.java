@@ -2,9 +2,10 @@ package ch.FOW_Collection.presentation.utils;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import ch.FOW_Collection.R;
 
 import java.util.Arrays;
+
+import ch.FOW_Collection.R;
 
 public class BackgroundImageProvider {
 

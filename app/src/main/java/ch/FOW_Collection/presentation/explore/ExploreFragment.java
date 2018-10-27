@@ -3,9 +3,13 @@ package ch.FOW_Collection.presentation.explore;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.android.material.tabs.TabLayout;
+
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
@@ -16,7 +20,6 @@ import ch.FOW_Collection.R;
 import ch.FOW_Collection.presentation.MainViewModel;
 import ch.FOW_Collection.presentation.explore.search.SearchActivity;
 import ch.FOW_Collection.presentation.utils.ViewPagerAdapter;
-import com.google.android.material.tabs.TabLayout;
 
 /**
  * This fragment is the first fragment shown in the {@link ch.FOW_Collection.presentation.MainActivity}. It lets users
@@ -43,6 +46,7 @@ public class ExploreFragment extends Fragment {
         setHasOptionsMenu(true);
         View rootView = inflater.inflate(R.layout.fragment_explore, container, false);
         ButterKnife.bind(this, rootView);
+        Log.d(TAG, "onCreateView: " + (savedInstanceState == null ? "NULL" : savedInstanceState.toString()));
 
         /*
          * We get the same ViewModel as the MainActivity, and because the MainActivity is already running we get the

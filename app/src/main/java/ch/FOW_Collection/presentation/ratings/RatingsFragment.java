@@ -7,6 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,16 +19,11 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
-import ch.FOW_Collection.presentation.MainViewModel;
-import ch.FOW_Collection.presentation.cardDetails.CardDetailsActivity;
 import ch.FOW_Collection.domain.models.Rating;
 import ch.FOW_Collection.domain.models.Wish;
-
-import androidx.fragment.app.Fragment;
+import ch.FOW_Collection.presentation.MainViewModel;
+import ch.FOW_Collection.presentation.cardDetails.CardDetailsActivity;
 import lombok.val;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class RatingsFragment extends Fragment
         implements OnRatingsItemInteractionListener, SwipeRefreshLayout.OnRefreshListener {
