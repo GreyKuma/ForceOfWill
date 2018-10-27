@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import ch.FOW_Collection.data.repositories.*;
 import ch.FOW_Collection.domain.models.Beer;
+import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.Rating;
 import ch.FOW_Collection.domain.models.Wish;
 import com.google.android.gms.tasks.Task;
@@ -13,8 +14,8 @@ import java.util.List;
 
 public class DetailsViewModel extends ViewModel implements CurrentUser {
 
-    private final MutableLiveData<String> beerId = new MutableLiveData<>();
-    private final LiveData<Beer> beer;
+    private final MutableLiveData<String> cardId = new MutableLiveData<>();
+    private final LiveData<Card> card;
     private final LiveData<List<Rating>> ratings;
     private final LiveData<Wish> wish;
 
@@ -23,20 +24,21 @@ public class DetailsViewModel extends ViewModel implements CurrentUser {
 
     public DetailsViewModel() {
         // TODO We should really be injecting these!
-        BeersRepository beersRepository = new BeersRepository();
+//        BeersRepository beersRepository = new BeersRepository();
+        CardsRepository cardsRepository = new CardsRepository();
         RatingsRepository ratingsRepository = new RatingsRepository();
         likesRepository = new LikesRepository();
         wishlistRepository = new WishlistRepository();
 
         MutableLiveData<String> currentUserId = new MutableLiveData<>();
-        beer = beersRepository.getBeer(beerId);
-        wish = wishlistRepository.getMyWishForBeer(currentUserId, getBeer());
-        ratings = ratingsRepository.getRatingsForBeer(beerId);
+        card = cardsRepository.getCard(cardId);
+        wish = wishlistRepository.getMyWishForCard(currentUserId, getCard());
+        ratings = ratingsRepository.getRatingsForBeer(cardId);
         currentUserId.setValue(getCurrentUser().getUid());
     }
 
-    public LiveData<Beer> getBeer() {
-        return beer;
+    public LiveData<Card> getCard() {
+        return card;
     }
 
     public LiveData<Wish> getWish() {
@@ -47,8 +49,8 @@ public class DetailsViewModel extends ViewModel implements CurrentUser {
         return ratings;
     }
 
-    public void setBeerId(String beerId) {
-        this.beerId.setValue(beerId);
+    public void setCardId(String cardId) {
+        this.cardId.setValue(cardId);
     }
 
     public void toggleLike(Rating rating) {

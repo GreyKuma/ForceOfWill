@@ -1,6 +1,10 @@
 package ch.FOW_Collection.presentation;
 
+import android.util.Pair;
+import ch.FOW_Collection.domain.models.Rating;
+import ch.FOW_Collection.domain.models.Wish;
 import com.firebase.ui.firestore.FirestoreArray;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.Query;
 
 import androidx.lifecycle.LiveData;
@@ -22,14 +26,14 @@ public class MainViewModel extends ViewModel implements CurrentUser {
     private final CardsRepository cardsRepository;
     private final CardEditionsRepository cardEditionsRepository;
 
-    private final BeersRepository beersRepository;/*
-    private final LikesRepository likesRepository;
-    private final RatingsRepository ratingsRepository;
+//    private final BeersRepository beersRepository;
+//    private final LikesRepository likesRepository;
+//    private final RatingsRepository ratingsRepository;
     private final WishlistRepository wishlistRepository;
 
     private final LiveData<List<Wish>> myWishlist;
-    private final LiveData<List<Rating>> myRatings;
-    private final LiveData<List<MyBeer>> myBeers;*/
+//    private final LiveData<List<Rating>> myRatings;
+//    private final LiveData<List<MyBeer>> myBeers;
 
     public MainViewModel() {
         /*
@@ -38,16 +42,16 @@ public class MainViewModel extends ViewModel implements CurrentUser {
         cardsRepository = new CardsRepository();
         cardEditionsRepository = new CardEditionsRepository();
 
-        beersRepository = new BeersRepository();/*
-        likesRepository = new LikesRepository();
+//        beersRepository = new BeersRepository();
+//        likesRepository = new LikesRepository();
         wishlistRepository = new WishlistRepository();
-        ratingsRepository = new RatingsRepository();
-        MyBeersRepository myBeersRepository = new MyBeersRepository();
+//        ratingsRepository = new RatingsRepository();
+//        MyBeersRepository myBeersRepository = new MyBeersRepository();
 
-        LiveData<List<Beer>> allBeers = beersRepository.getAllBeers();
-*/
+//        LiveData<List<Beer>> allBeers = beersRepository.getAllBeers();
+
         MutableLiveData<String> currentUserId = new MutableLiveData<>();
-        // myWishlist = wishlistRepository.getMyWishlist(currentUserId);
+        myWishlist = wishlistRepository.getMyWishlist(currentUserId);
         // myRatings = ratingsRepository.getMyRatings(currentUserId);
         /// myBeers = myBeersRepository.getMyBeers(allBeers, myWishlist, myRatings);
 
@@ -62,38 +66,38 @@ public class MainViewModel extends ViewModel implements CurrentUser {
     }
 
 
-    /*
-    public LiveData<List<MyBeer>> getMyBeers() {
-        return myBeers;
-    }
 
-    public LiveData<List<Rating>> getMyRatings() {
-        return myRatings;
-    }
+//    public LiveData<List<MyBeer>> getMyBeers() {
+//        return myBeers;
+//    }
+
+//    public LiveData<List<Rating>> getMyRatings() {
+//        return myRatings;
+//    }
 
     public LiveData<List<Wish>> getMyWishlist() {
         return myWishlist;
     }
 
-    public LiveData<List<String>> getBeerCategories() {
-        return beersRepository.getBeerCategories();
-    }
+//    public LiveData<List<String>> getBeerCategories() {
+//        return beersRepository.getBeerCategories();
+//    }
+//
+//    public LiveData<List<String>> getBeerManufacturers() {
+//        return beersRepository.getBeerManufacturers();
+//    }
 
-    public LiveData<List<String>> getBeerManufacturers() {
-        return beersRepository.getBeerManufacturers();
-    }
-
-    public void toggleLike(Rating rating) {
-        likesRepository.toggleLike(rating);
-    }
+//    public void toggleLike(Rating rating) {
+//        likesRepository.toggleLike(rating);
+//    }
 
     public Task<Void> toggleItemInWishlist(String itemId) {
         return wishlistRepository.toggleUserWishlistItem(getCurrentUser().getUid(), itemId);
     }
 
-    public LiveData<List<Pair<Rating, Wish>>> getAllRatingsWithWishes() {
-        return ratingsRepository.getAllRatingsWithWishes(myWishlist);
-    }*/
+//    public LiveData<List<Pair<Rating, Wish>>> getAllRatingsWithWishes() {
+//        return ratingsRepository.getAllRatingsWithWishes(myWishlist);
+//    }
 
     public Query getCardsTopRatedQuery(int limit) {
         return cardsRepository.getCardsTopRatedQuery(limit);

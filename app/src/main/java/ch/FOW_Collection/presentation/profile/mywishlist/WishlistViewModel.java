@@ -4,10 +4,10 @@ import android.util.Pair;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import ch.FOW_Collection.data.repositories.BeersRepository;
+import ch.FOW_Collection.data.repositories.CardsRepository;
 import ch.FOW_Collection.data.repositories.CurrentUser;
 import ch.FOW_Collection.data.repositories.WishlistRepository;
-import ch.FOW_Collection.domain.models.Beer;
+import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.Wish;
 import com.google.android.gms.tasks.Task;
 
@@ -19,17 +19,17 @@ public class WishlistViewModel extends ViewModel implements CurrentUser {
 
     private final MutableLiveData<String> currentUserId = new MutableLiveData<>();
     private final WishlistRepository wishlistRepository;
-    private final BeersRepository beersRepository;
+    private final CardsRepository cardsRepository;
 
     public WishlistViewModel() {
         wishlistRepository = new WishlistRepository();
-        beersRepository = new BeersRepository();
+        cardsRepository = new CardsRepository();
 
         currentUserId.setValue(getCurrentUser().getUid());
     }
 
-    public LiveData<List<Pair<Wish, Beer>>> getMyWishlistWithBeers() {
-        return wishlistRepository.getMyWishlistWithBeers(currentUserId, beersRepository.getAllBeers());
+    public LiveData<List<Pair<Wish, Card>>> getMyWishlistWithCards() {
+        return wishlistRepository.getMyWishlistWithCards(currentUserId, cardsRepository.getAllCards());
     }
 
     public Task<Void> toggleItemInWishlist(String itemId) {

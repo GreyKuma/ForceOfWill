@@ -11,6 +11,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import ch.FOW_Collection.domain.models.Card;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
@@ -92,10 +93,10 @@ public class DetailsActivity extends AppCompatActivity implements OnRatingLikedL
                 .setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         toolbar.setTitleTextColor(Color.alpha(0));
 
-        String beerId = getIntent().getExtras().getString(ITEM_ID);
+        String cardId = getIntent().getExtras().getString(ITEM_ID);
 
         model = ViewModelProviders.of(this).get(DetailsViewModel.class);
-        model.setBeerId(beerId);
+        model.setCardId(cardId);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -103,7 +104,7 @@ public class DetailsActivity extends AppCompatActivity implements OnRatingLikedL
         adapter = new RatingsRecyclerViewAdapter(this, model.getCurrentUser());
         recyclerView.addItemDecoration(new DividerItemDecoration(this, layoutManager.getOrientation()));
 
-        model.getBeer().observe(this, this::updateBeer);
+        model.getCard().observe(this, this::updateCard);
         model.getRatings().observe(this, this::updateRatings);
         model.getWish().observe(this, this::toggleWishlistView);
 
@@ -113,7 +114,7 @@ public class DetailsActivity extends AppCompatActivity implements OnRatingLikedL
 
     private void addNewRating(RatingBar ratingBar, float v, boolean b) {
         Intent intent = new Intent(this, CreateRatingActivity.class);
-        intent.putExtra(CreateRatingActivity.ITEM, model.getBeer().getValue());
+        intent.putExtra(CreateRatingActivity.ITEM, model.getCard().getValue());
         intent.putExtra(CreateRatingActivity.RATING, v);
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, addRatingBar, "rating");
         startActivity(intent, options.toBundle());
@@ -127,18 +128,32 @@ public class DetailsActivity extends AppCompatActivity implements OnRatingLikedL
         dialog.show();
     }
 
-    private void updateBeer(Beer item) {
-        name.setText(item.getName());
-        manufacturer.setText(item.getManufacturer());
-        category.setText(item.getCategory());
-        name.setText(item.getName());
-        GlideApp.with(this).load(item.getPhoto()).apply(new RequestOptions().override(120, 160).centerInside())
+//    private void updateBeer(Beer item) {
+//        name.setText(item.getName());
+//        manufacturer.setText(item.getManufacturer());
+//        category.setText(item.getCategory());
+//        name.setText(item.getName());
+//        GlideApp.with(this).load(item.getPhoto()).apply(new RequestOptions().override(120, 160).centerInside())
+//                .into(photo);
+//        ratingBar.setNumStars(5);
+//        ratingBar.setRating(item.getAvgRating());
+//        avgRating.setText(getResources().getString(R.string.fmt_avg_rating, item.getAvgRating()));
+//        numRatings.setText(getResources().getString(R.string.fmt_ratings, item.getNumRatings()));
+//        toolbar.setTitle(item.getName());
+//    }
+
+    private void updateCard(Card item) {
+//        name.setText((String)item.getName());
+//        manufacturer.setText(item.getManufacturer());
+//        category.setText(item.getCategory());
+//        name.setText((String)item.getName());
+        GlideApp.with(this).load(item.getImageStorageUrl()).apply(new RequestOptions().override(120, 160).centerInside())
                 .into(photo);
-        ratingBar.setNumStars(5);
-        ratingBar.setRating(item.getAvgRating());
-        avgRating.setText(getResources().getString(R.string.fmt_avg_rating, item.getAvgRating()));
-        numRatings.setText(getResources().getString(R.string.fmt_ratings, item.getNumRatings()));
-        toolbar.setTitle(item.getName());
+//        ratingBar.setNumStars(5);
+//        ratingBar.setRating(item.getAvgRating());
+//        avgRating.setText(getResources().getString(R.string.fmt_avg_rating, item.getAvgRating()));
+//        numRatings.setText(getResources().getString(R.string.fmt_ratings, item.getNumRatings()));
+//        toolbar.setTitle((String)item.getName());
     }
 
     private void updateRatings(List<Rating> ratings) {
@@ -152,7 +167,7 @@ public class DetailsActivity extends AppCompatActivity implements OnRatingLikedL
 
     @OnClick(R.id.wishlist)
     public void onWishClickedListener(View view) {
-        model.toggleItemInWishlist(model.getBeer().getValue().getId());
+        model.toggleItemInWishlist(model.getCard().getValue().getId());
         /*
          * We won't get an update from firestore when the wish is removed, so we need to reset the UI state ourselves.
          * */

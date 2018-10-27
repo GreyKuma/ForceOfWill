@@ -16,7 +16,7 @@ public class MyBeerFromWishlist implements MyBeer {
 
     @Override
     public String getBeerId() {
-        return wish.getBeerId();
+        return wish.getCardId();
     }
 
     @Override

@@ -25,7 +25,7 @@ public class MyBeersRepository {
         ArrayList<MyBeer> result = new ArrayList<>();
         Set<String> beersAlreadyOnTheList = new HashSet<>();
         for (Wish wish : wishlist) {
-            String beerId = wish.getBeerId();
+            String beerId = wish.getCardId();
             result.add(new MyBeerFromWishlist(wish, beers.get(beerId)));
             beersAlreadyOnTheList.add(beerId);
         }

@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "65943711558-b39mh511gal517al8qbgealrpscnmlfb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ch.FOW_Collection",
+            "certificate_hash": "7c2b8deeb0155526b7e63625e41469dfe2bf7dfc"
+          }
+        },
+        {
           "client_id": "65943711558-ttrbqg2h1frcdaafne9uk27kcg8qmnp5.apps.googleusercontent.com",
           "client_type": 3
         }

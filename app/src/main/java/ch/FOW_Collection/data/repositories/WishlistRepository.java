@@ -3,6 +3,7 @@ package ch.FOW_Collection.data.repositories;
 import android.util.Pair;
 import androidx.lifecycle.LiveData;
 import ch.FOW_Collection.domain.models.Beer;
+import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.Entity;
 import ch.FOW_Collection.domain.models.Wish;
 import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveData;
@@ -30,11 +31,11 @@ public class WishlistRepository {
                 Wish.class);
     }
 
-    private static LiveData<Wish> getUserWishListFor(Pair<String, Beer> input) {
+    private static LiveData<Wish> getUserWishListFor(Pair<String, Card> input) {
         String userId = input.first;
-        Beer beer = input.second;
+        Card card = input.second;
         DocumentReference document = FirebaseFirestore.getInstance().collection(Wish.COLLECTION)
-                .document(Wish.generateId(userId, beer.getId()));
+                .document(Wish.generateId(userId, card.getId()));
         return new FirestoreQueryLiveData<>(document, Wish.class);
     }
 
@@ -57,16 +58,16 @@ public class WishlistRepository {
         });
     }
 
-    public LiveData<List<Pair<Wish, Beer>>> getMyWishlistWithBeers(LiveData<String> currentUserId,
-                                                                   LiveData<List<Beer>> allBeers) {
-        return map(combineLatest(getMyWishlist(currentUserId), map(allBeers, Entity::entitiesById)), input -> {
+    public LiveData<List<Pair<Wish, Card>>> getMyWishlistWithCards(LiveData<String> currentUserId,
+                                                                   LiveData<List<Card>> allCards) {
+        return map(combineLatest(getMyWishlist(currentUserId), map(allCards, Entity::entitiesById)), input -> {
             List<Wish> wishes = input.first;
-            HashMap<String, Beer> beersById = input.second;
+            HashMap<String, Card> cardsById = input.second;
 
-            ArrayList<Pair<Wish, Beer>> result = new ArrayList<>();
+            ArrayList<Pair<Wish, Card>> result = new ArrayList<>();
             for (Wish wish : wishes) {
-                Beer beer = beersById.get(wish.getBeerId());
-                result.add(Pair.create(wish, beer));
+                Card card = cardsById.get(wish.getCardId());
+                result.add(Pair.create(wish, card));
             }
             return result;
         });
@@ -77,11 +78,7 @@ public class WishlistRepository {
     }
 
 
-    public LiveData<Wish> getMyWishForBeer(LiveData<String> currentUserId, LiveData<Beer> beer) {
-
-
-        return switchMap(combineLatest(currentUserId, beer), WishlistRepository::getUserWishListFor);
+    public LiveData<Wish> getMyWishForCard(LiveData<String> currentUserId, LiveData<Card> card) {
+        return switchMap(combineLatest(currentUserId, card), WishlistRepository::getUserWishListFor);
     }
-
-
 }

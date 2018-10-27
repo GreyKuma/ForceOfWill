@@ -39,7 +39,7 @@ public class RatingsRepository {
         return map(combineLatest(getAllRatings(), map(myWishlist, entries -> {
             HashMap<String, Wish> byId = new HashMap<>();
             for (Wish entry : entries) {
-                byId.put(entry.getBeerId(), entry);
+                byId.put(entry.getCardId(), entry);
             }
             return byId;
         })), input -> {
@@ -72,7 +72,7 @@ public class RatingsRepository {
             List<Wish> wishes = input.second == null ? Collections.emptyList() : input.second;
             HashMap<String, Wish> wishesByItem = new HashMap<>();
             for (Wish wish : wishes) {
-                wishesByItem.put(wish.getBeerId(), wish);
+                wishesByItem.put(wish.getCardId(), wish);
             }
 
             ArrayList<Pair<Rating, Wish>> result = new ArrayList<>();

@@ -16,6 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.GlideApp;
 import ch.FOW_Collection.R;
+import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.presentation.utils.EntityPairDiffItemCallback;
 import ch.FOW_Collection.domain.models.Beer;
 import ch.FOW_Collection.domain.models.Wish;
@@ -25,11 +26,11 @@ import com.bumptech.glide.request.RequestOptions;
 import java.text.DateFormat;
 
 
-public class WishlistRecyclerViewAdapter extends ListAdapter<Pair<Wish, Beer>, WishlistRecyclerViewAdapter.ViewHolder> {
+public class WishlistRecyclerViewAdapter extends ListAdapter<Pair<Wish, Card>, WishlistRecyclerViewAdapter.ViewHolder> {
 
     private static final String TAG = "WishlistRecyclerViewAda";
 
-    private static final DiffUtil.ItemCallback<Pair<Wish, Beer>> DIFF_CALLBACK = new EntityPairDiffItemCallback<>();
+    private static final DiffUtil.ItemCallback<Pair<Wish, Card>> DIFF_CALLBACK = new EntityPairDiffItemCallback<>();
 
     private final OnWishlistItemInteractionListener listener;
 
@@ -48,7 +49,7 @@ public class WishlistRecyclerViewAdapter extends ListAdapter<Pair<Wish, Beer>, W
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-        Pair<Wish, Beer> item = getItem(position);
+        Pair<Wish, Card> item = getItem(position);
         holder.bind(item.first, item.second, listener);
     }
 
@@ -57,8 +58,8 @@ public class WishlistRecyclerViewAdapter extends ListAdapter<Pair<Wish, Beer>, W
         @BindView(R.id.name)
         TextView name;
 
-        @BindView(R.id.manufacturer)
-        TextView manufacturer;
+//        @BindView(R.id.manufacturer)
+//        TextView manufacturer;
 
         @BindView(R.id.category)
         TextView category;
@@ -66,11 +67,11 @@ public class WishlistRecyclerViewAdapter extends ListAdapter<Pair<Wish, Beer>, W
         @BindView(R.id.photo)
         ImageView photo;
 
-        @BindView(R.id.ratingBar)
-        RatingBar ratingBar;
+//        @BindView(R.id.ratingBar)
+//        RatingBar ratingBar;
 
-        @BindView(R.id.numRatings)
-        TextView numRatings;
+//        @BindView(R.id.numRatings)
+//        TextView numRatings;
 
         @BindView(R.id.addedAt)
         TextView addedAt;
@@ -83,16 +84,16 @@ public class WishlistRecyclerViewAdapter extends ListAdapter<Pair<Wish, Beer>, W
             ButterKnife.bind(this, itemView);
         }
 
-        void bind(Wish wish, Beer item, OnWishlistItemInteractionListener listener) {
-            name.setText(item.getName());
-            manufacturer.setText(item.getManufacturer());
-            category.setText(item.getCategory());
-            name.setText(item.getName());
-            GlideApp.with(itemView).load(item.getPhoto()).apply(new RequestOptions().override(240, 240).centerInside())
+        void bind(Wish wish, Card item, OnWishlistItemInteractionListener listener) {
+//            name.setText(item.getName());
+//            manufacturer.setText(item.getManufacturer());
+//            category.setText(item.getCategory());
+//            name.setText(item.getName());
+            GlideApp.with(itemView).load(item.getImageStorageUrl()).apply(new RequestOptions().override(240, 240).centerInside())
                     .into(photo);
-            ratingBar.setNumStars(5);
-            ratingBar.setRating(item.getAvgRating());
-            numRatings.setText(itemView.getResources().getString(R.string.fmt_num_ratings, item.getNumRatings()));
+//            ratingBar.setNumStars(5);
+//            ratingBar.setRating(item.getAvgRating());
+//            numRatings.setText(itemView.getResources().getString(R.string.fmt_num_ratings, item.getNumRatings()));
             itemView.setOnClickListener(v -> listener.onMoreClickedListener(photo, item));
 
             String formattedDate =
