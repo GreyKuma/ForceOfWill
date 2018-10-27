@@ -85,8 +85,8 @@ public class WishlistActivity extends AppCompatActivity implements OnWishlistIte
 
     @Override
     public void onMoreClickedListener(ImageView animationSource, Card card) {
-        Intent intent = new Intent(this, DetailsActivity.class);
-        intent.putExtra(DetailsActivity.ITEM_ID, card.getId());
+        Intent intent = new Intent(this, CardDetailsActivity.class);
+        intent.putExtra(CardDetailsActivity.ITEM_ID, card.getId());
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, animationSource, "image");
         startActivity(intent, options.toBundle());
     }

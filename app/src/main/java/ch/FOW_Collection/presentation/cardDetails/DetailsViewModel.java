@@ -1,5 +1,6 @@
 package ch.FOW_Collection.presentation.details;
 
+import ch.FOW_Collection.data.repositories.*;
 import com.google.android.gms.tasks.Task;
 
 import java.util.List;
@@ -7,11 +8,6 @@ import java.util.List;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import ch.FOW_Collection.data.repositories.BeersRepository;
-import ch.FOW_Collection.data.repositories.CurrentUser;
-import ch.FOW_Collection.data.repositories.LikesRepository;
-import ch.FOW_Collection.data.repositories.RatingsRepository;
-import ch.FOW_Collection.data.repositories.WishlistRepository;
 import ch.FOW_Collection.domain.models.Beer;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.Rating;

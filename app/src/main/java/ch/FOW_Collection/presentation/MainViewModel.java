@@ -1,6 +1,7 @@
 package ch.FOW_Collection.presentation;
 
 import android.util.Pair;
+import ch.FOW_Collection.data.repositories.*;
 import ch.FOW_Collection.domain.models.Rating;
 import ch.FOW_Collection.domain.models.Wish;
 import com.firebase.ui.firestore.FirestoreArray;
@@ -10,13 +11,11 @@ import com.google.firebase.firestore.Query;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import ch.FOW_Collection.data.repositories.BeersRepository;
-import ch.FOW_Collection.data.repositories.CardEditionsRepository;
-import ch.FOW_Collection.data.repositories.CardsRepository;
-import ch.FOW_Collection.data.repositories.CurrentUser;
 import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveDataArray;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.CardEdition;
+
+import java.util.List;
 
 /**
  * This is the viewmodel for the {@link MainActivity}, which is also used by the three pages/fragments contained in it.
