@@ -1,0 +1,87 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	tools:showIn="@layout/fragment_searchresult_listentry">
+
+	<ImageView
+		android:id="@+id/photo"
+		android:layout_width="80dp"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="8dp"
+		android:layout_marginEnd="8dp"
+		android:transitionName="image"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintHorizontal_bias="1.0"
+		app:layout_constraintStart_toStartOf="parent"
+		tools:layout_editor_absoluteY="3dp"
+		tools:srcCompat="@tools:sample/avatars" />
+
+	<TextView
+		android:id="@+id/name"
+		android:layout_width="78dp"
+		android:layout_height="23dp"
+		android:layout_marginTop="8dp"
+		android:layout_marginBottom="8dp"
+		android:text="Title"
+		android:textAppearance="?attr/textAppearanceListItem"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintVertical_bias="0.0"
+		tools:layout_editor_absoluteX="2dp" />
+
+	<TextView
+		android:id="@+id/cardId"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="8dp"
+		android:layout_marginEnd="8dp"
+		android:text="Subtitle"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toEndOf="@+id/category"
+		tools:layout_editor_absoluteY="3dp" />
+
+	<TextView
+		android:id="@+id/category"
+		android:layout_width="wrap_content"
+		android:layout_height="20dp"
+		android:layout_marginStart="8dp"
+		android:text="Category"
+		app:layout_constraintStart_toEndOf="@+id/name"
+		tools:layout_editor_absoluteY="2dp" />
+
+	<RatingBar
+		android:id="@+id/ratingBar"
+		style="?android:attr/ratingBarStyleSmall"
+		android:layout_width="wrap_content"
+		android:layout_height="22dp"
+		android:layout_marginStart="8dp"
+		android:layout_marginTop="8dp"
+		android:layout_marginEnd="8dp"
+		android:layout_marginBottom="8dp"
+		android:isIndicator="true"
+		android:numStars="5"
+		android:rating="3"
+		android:stepSize="0.5"
+		android:theme="@style/RatingBar"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintHorizontal_bias="0.25"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/category"
+		app:layout_constraintVertical_bias="0.887" />
+
+	<TextView
+		android:id="@+id/numRatings"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="20dp"
+		android:color="@android:color/darker_gray"
+		android:gravity="center_vertical"
+		android:textSize="12sp"
+		app:layout_constraintStart_toEndOf="@+id/ratingBar"
+		tools:layout_editor_absoluteY="90dp"
+		tools:text="(10)" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

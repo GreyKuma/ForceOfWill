@@ -69,10 +69,10 @@ public class ProfileFragment extends Fragment {
         ButterKnife.bind(this, rootView);
 
         model = ViewModelProviders.of(this).get(MainViewModel.class);
-        /*
+
         model.getMyWishlist().observe(this, this::updateWishlistCount);
-        model.getMyRatings().observe(this, this::updateRatingsCount);
-        model.getMyBeers().observe(this, this::updateMyBeersCount); */
+//        model.getMyRatings().observe(this, this::updateRatingsCount);
+//        model.getMyBeers().observe(this, this::updateMyBeersCount);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -104,14 +104,14 @@ public class ProfileFragment extends Fragment {
     }
 
     @OnClick(R.id.myBeers)
-    public void handleMyBeersClick(View view) {
+    public void handleDecksClick(View view) {
         Intent intent = new Intent(getActivity(), MyBeersActivity.class);
         startActivity(intent);
     }
 
-    private void updateRatingsCount(List<Rating> ratings) {
-        myRatingsCount.setText(String.valueOf(ratings.size()));
-    }
+//    private void updateRatingsCount(List<Rating> ratings) {
+//        myRatingsCount.setText(String.valueOf(ratings.size()));
+//    }
 
     private void updateWishlistCount(List<Wish> wishes) {
         myWishlistCount.setText(String.valueOf(wishes.size()));

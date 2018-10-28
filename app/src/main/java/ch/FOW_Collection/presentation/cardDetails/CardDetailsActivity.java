@@ -148,7 +148,7 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
 
         model.getCard().observe(this, this::updateCard);
         //model.getRatings().observe(this, this::updateRatings);
-        //model.getWish().observe(this, this::toggleWishlistView);
+        model.getWish().observe(this, this::toggleWishlistView);
 
         recyclerView.setAdapter(adapter);
         addRatingBar.setOnRatingBarChangeListener(this::addNewRating);
@@ -484,7 +484,7 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
 
     @OnClick(R.id.wishlist)
     public void onWishClickedListener(View view) {
-        //model.toggleItemInWishlist(model.getCard().getValue().getId());
+        model.toggleItemInWishlist(model.getCard().getValue().getId());
         /*
          * We won't get an update from firestore when the wish is removed, so we need to reset the UI state ourselves.
          * */
