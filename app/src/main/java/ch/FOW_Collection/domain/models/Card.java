@@ -45,10 +45,6 @@ public class Card implements Entity, Serializable, Parcelable {
     @Exclude
     private LiveData<List<CardRace>> races;
 
-    private List<Integer> attributeIds;
-    @Exclude
-    private LiveData<List<CardAttribute>> attributes;
-
     private List<CardAbility> ability;
     private List<CardCost> cost;
 
@@ -89,7 +85,6 @@ public class Card implements Entity, Serializable, Parcelable {
 
         typeIds = in.readArrayList(Integer.class.getClassLoader());
         raceIds = in.readArrayList(Integer.class.getClassLoader());
-        attributeIds = in.readArrayList(Integer.class.getClassLoader());
         ability = in.readArrayList(CardAttribute.class.getClassLoader());
         cost = in.readArrayList(CardCost.class.getClassLoader());
 
@@ -132,7 +127,6 @@ public class Card implements Entity, Serializable, Parcelable {
         dest.writeInt(editionId != null ? editionId : -1);
         dest.writeArray(typeIds != null ? typeIds.toArray() : null);
         dest.writeArray(raceIds != null ? raceIds.toArray() : null);
-        dest.writeArray(attributeIds != null ? attributeIds.toArray() : null);
         dest.writeArray(ability != null ? ability.toArray() : null);
         dest.writeArray(cost != null ? cost.toArray() : null);
         dest.writeString(imageStorageUrl);
