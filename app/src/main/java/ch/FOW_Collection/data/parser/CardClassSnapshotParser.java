@@ -49,16 +49,12 @@ public class CardClassSnapshotParser extends ClassSnapshotParser<Card> {
             card.setRaces(cardRaceRepository.getRacesByIds(card.getRaceIds()));
         }
 
-        CardAttributeRepository cardAttributeRepository = new CardAttributeRepository();
-        if (card.getAttributeIds() != null) {
-            card.setAttributes(cardAttributeRepository.getAttributesByIds(card.getAttributeIds()));
-        }
-
         if (card.getTypeIds() != null) {
             CardTypeRepository cardTypeRepository = new CardTypeRepository();
             card.setTypes(cardTypeRepository.getCardTypesByIds(card.getTypeIds()));
         }
 
+        CardAttributeRepository cardAttributeRepository = new CardAttributeRepository();
         if (card.getCost() != null) {
             Iterator<CardCost> it = card.getCost().iterator();
             while(it.hasNext()) {
