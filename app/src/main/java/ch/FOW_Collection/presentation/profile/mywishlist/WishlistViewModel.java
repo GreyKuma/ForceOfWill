@@ -2,6 +2,7 @@ package ch.FOW_Collection.presentation.profile.mywishlist;
 
 import android.util.Pair;
 
+import ch.FOW_Collection.presentation.MainViewModel;
 import com.google.android.gms.tasks.Task;
 
 import java.util.List;
@@ -15,7 +16,7 @@ import ch.FOW_Collection.data.repositories.WishlistRepository;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.Wish;
 
-public class WishlistViewModel extends ViewModel implements CurrentUser {
+public class WishlistViewModel extends MainViewModel implements CurrentUser {
 
     private static final String TAG = "WishlistViewModel";
 

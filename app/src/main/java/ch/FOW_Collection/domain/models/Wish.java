@@ -1,5 +1,6 @@
 package ch.FOW_Collection.domain.models;
 
+import androidx.lifecycle.LiveData;
 import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
@@ -29,8 +30,16 @@ public class Wish implements Entity {
     private String id;
     @NonNull
     private String userId;
+
+    @Exclude
+    private LiveData<User> user;
+
     @NonNull
     private String cardId;
+
+    @Exclude
+    private LiveData<Card> card;
+
     @NonNull
     private Date addedAt;
 

@@ -17,7 +17,7 @@ import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.CardAbility;
 import ch.FOW_Collection.domain.models.CardCost;
 
-public class CardClassSnapshotParser extends ClassSnapshotParser<Card> {
+public class CardClassSnapshotParser extends EntityClassSnapshotParser<Card> {
     public static final String TAG = "CardClassSnapshotParser";
 
     public CardClassSnapshotParser() {
@@ -28,7 +28,7 @@ public class CardClassSnapshotParser extends ClassSnapshotParser<Card> {
     @Override
     public Card parseSnapshot(@NonNull DocumentSnapshot snapshot) {
         Card card = super.parseSnapshot(snapshot);
-        card.setId(snapshot.getId());
+        //card.setId(snapshot.getId());
 
         return parseCard(card);
     }
