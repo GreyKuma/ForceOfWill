@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
-import ch.FOW_Collection.domain.models.Beer;
+import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.Wish;
 import ch.FOW_Collection.presentation.cardDetails.CardDetailsActivity;
 import lombok.val;
@@ -48,7 +48,7 @@ public class WishlistActivity extends AppCompatActivity implements OnWishlistIte
 
 
         model = ViewModelProviders.of(this).get(WishlistViewModel.class);
-        model.getMyWishlistWithBeers().observe(this, this::updateWishlist);
+        model.getMyWishlistWithCards().observe(this, this::updateWishlist);
 
         val layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -59,7 +59,7 @@ public class WishlistActivity extends AppCompatActivity implements OnWishlistIte
 
     }
 
-    private void updateWishlist(List<Pair<Wish, Beer>> entries) {
+    private void updateWishlist(List<Pair<Wish, Card>> entries) {
         adapter.submitList(entries);
         if (entries.isEmpty()) {
             emptyView.setVisibility(View.VISIBLE);
@@ -83,15 +83,15 @@ public class WishlistActivity extends AppCompatActivity implements OnWishlistIte
     }
 
     @Override
-    public void onMoreClickedListener(ImageView animationSource, Beer beer) {
+    public void onMoreClickedListener(ImageView animationSource, Card card) {
         Intent intent = new Intent(this, CardDetailsActivity.class);
-        intent.putExtra(CardDetailsActivity.ITEM_ID, beer.getId());
+        intent.putExtra(CardDetailsActivity.ITEM_ID, card.getId());
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, animationSource, "image");
         startActivity(intent, options.toBundle());
     }
 
     @Override
-    public void onWishClickedListener(Beer beer) {
-        model.toggleItemInWishlist(beer.getId());
+    public void onWishClickedListener(Card card) {
+        model.toggleItemInWishlist(card.getId());
     }
 }
