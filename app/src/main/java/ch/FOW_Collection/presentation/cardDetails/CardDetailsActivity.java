@@ -47,6 +47,7 @@ import butterknife.OnClick;
 import ch.FOW_Collection.GlideApp;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Card;
+import ch.FOW_Collection.domain.models.CardAbility;
 import ch.FOW_Collection.domain.models.CardAttribute;
 import ch.FOW_Collection.domain.models.CardCost;
 import ch.FOW_Collection.domain.models.CardEdition;
@@ -99,6 +100,9 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
 
     @BindView(R.id.cardDef)
     LinearLayout cardDef;
+
+    @BindView(R.id.cardAbility)
+    LinearLayout cardAbility;
 
     @BindView(R.id.wishlist)
     ToggleButton wishlist;
@@ -351,7 +355,7 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
         }
 
         // render CardCost
-        if (item.getCost() != null) {
+        if (item.getCost() != null && item.getCost().size() > 0) {
             // clear LinearLayout
             cardCost.removeAllViews();
 
@@ -379,20 +383,19 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
                                 // remove itself (Observer)
                                 cardCost.getType().removeObserver(this);
 
+                                // make LayoutParams
+                                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                                        Math.round(getResources().getDimension(R.dimen.activity_card_detail_attribute_size)),
+                                        Math.round(getResources().getDimension(R.dimen.activity_card_detail_attribute_size)));
+                                layoutParams.rightMargin = Math.round(getResources().getDimension(R.dimen.activity_card_detail_attribute_margin));
+
                                 // get and set data
                                 for (int i = 0; i < cardCost.getCount(); i++) {
-                                    // make LayoutParams
-                                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                                            Math.round(getResources().getDimension(R.dimen.activity_card_detail_attribute_size)),
-                                            Math.round(getResources().getDimension(R.dimen.activity_card_detail_attribute_size)));
-                                    layoutParams.rightMargin = Math.round(getResources().getDimension(R.dimen.activity_card_detail_attribute_margin));
-
-                                    // get R.Drawable.ic_ .. for the CardAttribute
-                                    final int id = getDrawableIdCardAttribute(cardCostType.getDe());
-                                    if (id != 0) {
+                                    // drawable present?
+                                    if (cardCostType.getDrawableId() != 0) {
                                         // id found, add imageView
                                         ImageView image = new ImageView(CardDetailsActivity.this);
-                                        image.setImageDrawable(ContextCompat.getDrawable(CardDetailsActivity.this, id));
+                                        image.setImageDrawable(ContextCompat.getDrawable(CardDetailsActivity.this, cardCostType.getDrawableId()));
                                         image.setLayoutParams(layoutParams);
                                         CardDetailsActivity.this.cardCost.addView(image);
                                         image.requestLayout();
@@ -416,17 +419,27 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
             }
         }
 
+        // render cardAbility
+        if (item.getAbility() != null && item.getAbility().size() > 0) {
+            // clear LinearLayout
+            cardAbility.removeAllViews();
 
-    }
+            // append marginTop
+            appendMarginTop(cardAbility);
 
-    private static int getDrawableIdCardAttribute(String de) {
-        switch (de) {
-            case "Licht": return R.drawable.ic_card_attribute_light;
-            case "Finsternis": return R.drawable.ic_card_attribute_shadow;
-            case "Feuer": return R.drawable.ic_card_attribute_fire;
-            case "Wasser": return R.drawable.ic_card_attribute_water;
-            case "Wind": return R.drawable.ic_card_attribute_wind;
-            default: return 0;
+            //
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+
+            // for each CardAbility
+            Iterator<CardAbility> cardAbilityIt = item.getAbility().iterator();
+            while (cardAbilityIt.hasNext()) {
+                AbilityTextView abilityTextView = new AbilityTextView(this, cardAbilityIt.next());
+                abilityTextView.setLayoutParams(layoutParams);
+                cardAbility.addView(abilityTextView);
+                abilityTextView.requestLayout();
+            }
         }
     }
 
