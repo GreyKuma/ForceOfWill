@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Card implements Entity, Serializable, Parcelable {
+public class Card implements Entity, Parcelable { // Serializable
     public static final String COLLECTION = "Cards";
 
     @Exclude
@@ -59,39 +59,31 @@ public class Card implements Entity, Serializable, Parcelable {
 
     protected Card(Parcel in) {
         id = in.readString();
-        idNumeric = in.readInt();
         idStr = in.readString();
-        name = in.readParcelable(MultiLanguageString.class.getClassLoader());
-        flavor = in.readParcelable(MultiLanguageString.class.getClassLoader());
-        if (in.readByte() == 0) {
-            atk = null;
-        } else {
-            atk = in.readInt();
-            atk = atk == -1 ? null : atk;
-        }
-        if (in.readByte() == 0) {
-            def = null;
-        } else {
-            def = in.readInt();
-            def = def == -1 ? null : def;
-        }
+        idNumeric = in.readInt();
         rarity = in.readString();
-        if (in.readByte() == 0) {
-            editionId = null;
-        } else {
-            editionId = in.readInt();
-            editionId = editionId == -1 ? null : editionId;
-        }
-
-        typeIds = in.readArrayList(Integer.class.getClassLoader());
-        raceIds = in.readArrayList(Integer.class.getClassLoader());
-        ability = in.readArrayList(CardAttribute.class.getClassLoader());
-        cost = in.readArrayList(CardCost.class.getClassLoader());
-
         imageStorageUrl = in.readString();
         imageSrcUrl = in.readString();
         avgRating = in.readFloat();
         numRatings = in.readInt();
+
+        atk = in.readInt();
+        atk = atk == -1 ? null : atk;
+
+        def = in.readInt();
+        def = def == -1 ? null : def;
+
+        editionId = in.readInt();
+        editionId = editionId == -1 ? null : editionId;
+
+        name = in.readParcelable(MultiLanguageString.class.getClassLoader());
+        flavor = in.readParcelable(MultiLanguageString.class.getClassLoader());
+        typeIds = in.readArrayList(Integer.class.getClassLoader());
+        raceIds = in.readArrayList(Integer.class.getClassLoader());
+        //ability = in.readArrayList(CardAttribute.class.getClassLoader());
+        ability = in.createTypedArrayList(CardAbility.CREATOR);
+        //cost = in.readArrayList(CardCost.class.getClassLoader());
+        cost = in.createTypedArrayList(CardCost.CREATOR);
 
         // and parse me please
         new CardClassSnapshotParser().parseCard(this);
@@ -119,19 +111,19 @@ public class Card implements Entity, Serializable, Parcelable {
         dest.writeString(id);
         dest.writeString(idStr);
         dest.writeInt(idNumeric);
-        dest.writeParcelable(name, 0);
-        dest.writeParcelable(flavor, 0);
-        dest.writeInt(atk != null ? atk : -1);
-        dest.writeInt(def != null ? def : -1);
         dest.writeString(rarity);
-        dest.writeInt(editionId != null ? editionId : -1);
-        dest.writeArray(typeIds != null ? typeIds.toArray() : null);
-        dest.writeArray(raceIds != null ? raceIds.toArray() : null);
-        dest.writeArray(ability != null ? ability.toArray() : null);
-        dest.writeArray(cost != null ? cost.toArray() : null);
         dest.writeString(imageStorageUrl);
         dest.writeString(imageSrcUrl);
         dest.writeFloat(avgRating);
         dest.writeInt(numRatings);
+        dest.writeInt(atk != null && atk > 0 ? atk : -1);
+        dest.writeInt(def != null && def > 0 ? def : -1);
+        dest.writeInt(editionId != null ? editionId : -1);
+        dest.writeParcelable(name, 0);
+        dest.writeParcelable(flavor, 0);
+        dest.writeList(typeIds);
+        dest.writeList(raceIds);
+        dest.writeTypedList(ability);
+        dest.writeTypedList(cost);
     }
 }

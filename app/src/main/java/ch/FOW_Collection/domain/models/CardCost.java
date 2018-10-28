@@ -26,18 +26,11 @@ public class CardCost implements Serializable, Parcelable {
     /*********************************/
 
     protected CardCost(Parcel in) {
-        if (in.readByte() == 0) {
-            typeId = null;
-        } else {
-            typeId = in.readInt();
-            typeId = typeId == -1 ? null : typeId;
-        }
-        if (in.readByte() == 0) {
-            count = null;
-        } else {
-            count = in.readInt();
-            count = count == -1 ? null : count;
-        }
+        typeId = in.readInt();
+        typeId = typeId == -1 ? null : typeId;
+
+        count = in.readInt();
+        count = count == -1 ? null : count;
     }
 
     public static final Creator<CardCost> CREATOR = new Creator<CardCost>() {
