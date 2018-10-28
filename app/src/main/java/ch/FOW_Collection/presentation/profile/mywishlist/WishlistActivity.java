@@ -48,7 +48,8 @@ public class WishlistActivity extends AppCompatActivity implements OnWishlistIte
 
 
         model = ViewModelProviders.of(this).get(WishlistViewModel.class);
-        model.getMyWishlistWithCards().observe(this, this::updateWishlist);
+        //model.getMyWishlistWithCards().observe(this, this::updateWishlist);
+        model.getMyWishlist().observe(this, this::updateWishlist);
 
         val layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -59,7 +60,7 @@ public class WishlistActivity extends AppCompatActivity implements OnWishlistIte
 
     }
 
-    private void updateWishlist(List<Pair<Wish, Card>> entries) {
+    private void updateWishlist(List<Wish> entries) { //(List<Pair<Wish, Card>> entries) {
         adapter.submitList(entries);
         if (entries.isEmpty()) {
             emptyView.setVisibility(View.VISIBLE);

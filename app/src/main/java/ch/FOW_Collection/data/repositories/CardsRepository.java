@@ -100,7 +100,7 @@ public class CardsRepository {
      * @param cardId Id of the card.
      * @return LiveData of all cards.
      */
-    public static LiveData<Card> getCardById(String cardId) {
+    public LiveData<Card> getCardById(String cardId) {
         return new FirestoreQueryLiveData<>(
                 cardByIdDocRef(cardId), new CardClassSnapshotParser());
     }
@@ -125,6 +125,6 @@ public class CardsRepository {
     //endregion
 
     public LiveData<Card> getCard(LiveData<String> cardId) {
-        return switchMap(cardId, CardsRepository::getCardById);
+        return switchMap(cardId, this::getCardById);
     }
 }
