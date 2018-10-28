@@ -32,13 +32,11 @@ public class CardAbility implements Entity, Serializable, Parcelable {
 
     protected CardAbility(Parcel in) {
         id = in.readString();
-        if (in.readByte() == 0) {
-            typeId = null;
-        } else {
-            typeId = in.readInt();
-            typeId = typeId == -1 ? null : typeId;
-        }
-        cost = in.readArrayList(CardCost.class.getClassLoader());
+
+        typeId = in.readInt();
+        typeId = typeId == -1 ? null : typeId;
+
+        cost = in.createTypedArrayList(CardCost.CREATOR);
         value = in.readParcelable(MultiLanguageString.class.getClassLoader());
     }
 
@@ -63,7 +61,7 @@ public class CardAbility implements Entity, Serializable, Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
         dest.writeInt(typeId != null ? typeId : -1);
-        dest.writeArray(cost != null ? cost.toArray() : null);
+        dest.writeTypedList(cost);
         dest.writeParcelable(value, 0);
     }
 }
