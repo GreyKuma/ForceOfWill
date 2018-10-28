@@ -1,5 +1,6 @@
 package ch.FOW_Collection.presentation.profile.mywishlist;
 
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.Beer;
 import ch.FOW_Collection.domain.models.Wish;
 import ch.FOW_Collection.presentation.utils.EntityPairDiffItemCallback;
+import com.google.firebase.storage.FirebaseStorage;
 
 
 public class WishlistRecyclerViewAdapter extends ListAdapter<Pair<Wish, Card>, WishlistRecyclerViewAdapter.ViewHolder> {
@@ -51,6 +53,7 @@ public class WishlistRecyclerViewAdapter extends ListAdapter<Pair<Wish, Card>, W
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         Pair<Wish, Card> item = getItem(position);
+        Log.d(TAG, "item.wish = " + item.first.toString() + " item.card = " + item.second.toString());
         holder.bind(item.first, item.second, listener);
     }
 
@@ -86,11 +89,16 @@ public class WishlistRecyclerViewAdapter extends ListAdapter<Pair<Wish, Card>, W
         }
 
         void bind(Wish wish, Card item, OnWishlistItemInteractionListener listener) {
-//            name.setText(item.getName());
+            if(getItemCount() > 0){
+                name.setText(item.getName().getDe());
+            }else{
+                Log.d(TAG, "No List found");
+            }
+
 //            manufacturer.setText(item.getManufacturer());
 //            category.setText(item.getCategory());
-//            name.setText(item.getName());
-            GlideApp.with(itemView).load(item.getImageStorageUrl()).apply(new RequestOptions().override(240, 240).centerInside()).into(photo);
+
+//            GlideApp.with(itemView).load(FirebaseStorage.getInstance().getReference().child(item.getImageStorageUrl())).apply(new RequestOptions().override(240, 240).centerInside()).into(photo);
 //            ratingBar.setNumStars(5);
 //            ratingBar.setRating(item.getAvgRating());
 //            numRatings.setText(itemView.getResources().getString(R.string.fmt_num_ratings, item.getNumRatings()));
