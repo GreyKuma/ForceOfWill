@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
-import ch.FOW_Collection.domain.models.Beer;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.Wish;
 import ch.FOW_Collection.presentation.cardDetails.CardDetailsActivity;

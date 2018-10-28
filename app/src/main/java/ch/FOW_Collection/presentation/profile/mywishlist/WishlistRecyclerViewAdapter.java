@@ -90,8 +90,7 @@ public class WishlistRecyclerViewAdapter extends ListAdapter<Pair<Wish, Card>, W
 //            manufacturer.setText(item.getManufacturer());
 //            category.setText(item.getCategory());
 //            name.setText(item.getName());
-            GlideApp.with(itemView).load(item.getImageStorageUrl()).apply(new RequestOptions().override(240, 240).centerInside())
-                    .into(photo);
+            GlideApp.with(itemView).load(item.getImageStorageUrl()).apply(new RequestOptions().override(240, 240).centerInside()).into(photo);
 //            ratingBar.setNumStars(5);
 //            ratingBar.setRating(item.getAvgRating());
 //            numRatings.setText(itemView.getResources().getString(R.string.fmt_num_ratings, item.getNumRatings()));

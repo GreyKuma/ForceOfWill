@@ -81,7 +81,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             });
 
 //        userDoc.update(User.FIELD_NAME, displayName, User.FIELD_PHOTO, photoUrl);
-        Log.d(TAG, "Updating User document");
+//        Log.d(TAG, "Updating User document");
 
         startActivity(new Intent(this, MainActivity.class));
         finish();
