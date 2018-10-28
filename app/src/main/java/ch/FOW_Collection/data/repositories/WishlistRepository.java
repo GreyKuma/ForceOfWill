@@ -2,6 +2,7 @@ package ch.FOW_Collection.data.repositories;
 
 import android.util.Pair;
 
+import ch.FOW_Collection.data.parser.WishClassSnapshotParser;
 import ch.FOW_Collection.domain.models.Card;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
@@ -30,7 +31,7 @@ public class WishlistRepository {
     private static LiveData<List<Wish>> getWishesByUser(String userId) {
         return new FirestoreQueryLiveDataArray<>(FirebaseFirestore.getInstance().collection(Wish.COLLECTION)
                 .orderBy(Wish.FIELD_ADDED_AT, Query.Direction.DESCENDING).whereEqualTo(Wish.FIELD_USER_ID, userId),
-                Wish.class);
+                new WishClassSnapshotParser());
     }
 
     private static LiveData<Wish> getUserWishListFor(Pair<String, Card> input) {
@@ -38,7 +39,7 @@ public class WishlistRepository {
         Card card = input.second;
         DocumentReference document = FirebaseFirestore.getInstance().collection(Wish.COLLECTION)
                 .document(Wish.generateId(userId, card.getId()));
-        return new FirestoreQueryLiveData<>(document, Wish.class);
+        return new FirestoreQueryLiveData<>(document, new WishClassSnapshotParser());
     }
 
     public Task<Void> toggleUserWishlistItem(String userId, String itemId) {
