@@ -77,6 +77,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ch.FOW_Collection.presentation.MainActivity" />
         </activity>
+        <activity
+            android:name="ch.FOW_Collection.presentation.profile.mycollection.MyCollectionActivity"
+            android:label="@string/title_activity_mybeers"
+            android:parentActivityName="ch.FOW_Collection.presentation.MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ch.FOW_Collection.presentation.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

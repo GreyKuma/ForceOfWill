@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import ch.FOW_Collection.domain.models.MyCard;
+import ch.FOW_Collection.presentation.profile.mycollection.MyCollectionActivity;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -43,8 +45,8 @@ public class ProfileFragment extends Fragment {
     @BindView(R.id.userProfileNameText)
     TextView userProfileNameText;
 
-    @BindView(R.id.myBeersCount)
-    TextView myBeersCount;
+    @BindView(R.id.myCollectionCount)
+    TextView myCollectionCount;
 
     @BindView(R.id.myFridgeCount)
     TextView myFridgeCount;
@@ -72,7 +74,7 @@ public class ProfileFragment extends Fragment {
 
         model.getMyWishlist().observe(this, this::updateWishlistCount);
 //        model.getMyRatings().observe(this, this::updateRatingsCount);
-//        model.getMyBeers().observe(this, this::updateMyBeersCount);
+        model.getMyCollection().observe(this, this::updateMyCollectionCount);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -87,8 +89,8 @@ public class ProfileFragment extends Fragment {
         return rootView;
     }
 
-    private void updateMyBeersCount(List<MyBeer> myBeers) {
-        myBeersCount.setText(String.valueOf(myBeers.size()));
+    private void updateMyCollectionCount(List<MyCard> myCollection) {
+        myCollectionCount.setText(String.valueOf(myCollection.size()));
     }
 
     @OnClick(R.id.myRatings)
@@ -103,9 +105,9 @@ public class ProfileFragment extends Fragment {
         startActivity(intent);
     }
 
-    @OnClick(R.id.myBeers)
+    @OnClick(R.id.myCollection)
     public void handleDecksClick(View view) {
-        Intent intent = new Intent(getActivity(), MyBeersActivity.class);
+        Intent intent = new Intent(getActivity(), MyCollectionActivity.class);
         startActivity(intent);
     }
 
