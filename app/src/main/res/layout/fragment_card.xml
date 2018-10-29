@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/fragment_card_height"
+    android:layout_gravity="center_horizontal"
+    android:layout_margin="0dp"
+    android:orientation="vertical"
+    android:padding="@dimen/fragment_card_padding">
+
+
+    <ImageView
+        android:id="@+id/imageCard"
+        android:layout_width="@dimen/fragment_card_width"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:scaleType="fitStart"
+        android:transitionName="image"
+        app:srcCompat="@drawable/card_back" />
+
+    <LinearLayout
+        android:id="@+id/content"
+        android:transitionName="content"
+        android:layout_width="@dimen/fragment_card_width"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="0dp"
+        android:background="@drawable/view_rounded_corner"
+        android:minHeight="81dp"
+        android:orientation="vertical"
+        android:padding="4dp">
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            style="@style/RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:numStars="5"
+            android:rating="5"
+            android:stepSize="0.1" />
+
+        <TextView
+            android:id="@+id/cardName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="4dp"
+            android:textAlignment="textStart"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,518 @@
+package ch.FOW_Collection.presentation.cardDetails;
+
+import android.app.ActivityOptions;
+import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.os.Bundle;
+import android.view.Gravity;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RatingBar;
+import android.widget.TextView;
+import android.widget.ToggleButton;
+
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.firebase.storage.FirebaseStorage;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
+import androidx.core.widget.NestedScrollView;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import ch.FOW_Collection.GlideApp;
+import ch.FOW_Collection.R;
+import ch.FOW_Collection.domain.models.Card;
+import ch.FOW_Collection.domain.models.CardAbility;
+import ch.FOW_Collection.domain.models.CardAttribute;
+import ch.FOW_Collection.domain.models.CardCost;
+import ch.FOW_Collection.domain.models.CardEdition;
+import ch.FOW_Collection.domain.models.CardRace;
+import ch.FOW_Collection.domain.models.CardType;
+import ch.FOW_Collection.domain.models.Rating;
+import ch.FOW_Collection.domain.models.Wish;
+import ch.FOW_Collection.presentation.cardDetails.createrating.CreateRatingActivity;
+import ch.FOW_Collection.presentation.shared.CardImageLoader;
+
+import static ch.FOW_Collection.presentation.utils.DrawableHelpers.setDrawableTint;
+
+public class CardDetailsActivity extends AppCompatActivity implements OnRatingLikedListener {
+
+    public static final String ITEM_ID = "item_id";
+    private static final String TAG = "CardDetailsActivity";
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    @BindView(R.id.nested_scroll_view)
+    NestedScrollView nestedScrollView;
+
+    @BindView(R.id.imageCard)
+    ImageView imageView;
+
+    @BindView(R.id.avgRating)
+    TextView avgRating;
+
+    @BindView(R.id.numRatings)
+    TextView numRatings;
+
+    @BindView(R.id.ratingBar)
+    RatingBar ratingBar;
+
+    @BindView(R.id.cardName)
+    TextView cardName;
+
+    @BindView(R.id.cardType)
+    LinearLayout cardType;
+
+    @BindView(R.id.cardCost)
+    LinearLayout cardCost;
+
+    @BindView(R.id.cardRace)
+    LinearLayout cardRace;
+
+
+    @BindView(R.id.cardAtk)
+    LinearLayout cardAtk;
+
+    @BindView(R.id.cardDef)
+    LinearLayout cardDef;
+
+    @BindView(R.id.cardAbility)
+    LinearLayout cardAbility;
+
+    @BindView(R.id.wishlist)
+    ToggleButton wishlist;
+
+    @BindView(R.id.cardId)
+    TextView cardId;
+
+    @BindView(R.id.cardEdition)
+    TextView cardEdition;
+
+    @BindView(R.id.addRatingBar)
+    RatingBar addRatingBar;
+
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
+
+    private RatingsRecyclerViewAdapter adapter;
+
+    private CardDetailsViewModel model;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_card_details);
+        ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        getWindow().getDecorView()
+                .setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        toolbar.setTitleTextColor(Color.alpha(0));
+
+        String cardId = getIntent().getExtras().getString(ITEM_ID);
+
+        model = ViewModelProviders.of(this).get(CardDetailsViewModel.class);
+        model.setCardId(cardId);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        adapter = new RatingsRecyclerViewAdapter(this, model.getCurrentUser());
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, layoutManager.getOrientation()));
+
+        model.getCard().observe(this, this::updateCard);
+        //model.getRatings().observe(this, this::updateRatings);
+        model.getWish().observe(this, this::toggleWishlistView);
+
+        recyclerView.setAdapter(adapter);
+        addRatingBar.setOnRatingBarChangeListener(this::addNewRating);
+    }
+
+    private void addNewRating(RatingBar ratingBar, float v, boolean b) {
+        Intent intent = new Intent(this, CreateRatingActivity.class);
+        intent.putExtra(CreateRatingActivity.ITEM, (Serializable)model.getCard().getValue());
+        intent.putExtra(CreateRatingActivity.RATING, v);
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, addRatingBar, "rating");
+        startActivity(intent, options.toBundle());
+    }
+
+    @OnClick(R.id.actionsButton)
+    public void showBottomSheetDialog() {
+        View view = getLayoutInflater().inflate(R.layout.single_bottom_sheet_dialog, null);
+        BottomSheetDialog dialog = new BottomSheetDialog(this);
+        dialog.setContentView(view);
+        dialog.show();
+    }
+
+    private void updateCard(Card item) {
+        // This values are static and will not change.
+        // Its this function is more a promise..
+
+        // render meta
+        toolbar.setTitle(item.getName().getDe());
+        cardName.setText(item.getName().getDe());
+        cardId.setText(item.getId());
+
+        ratingBar.setNumStars(5);
+        ratingBar.setRating(item.getAvgRating());
+        avgRating.setText(getResources().getString(R.string.fmt_avg_rating, item.getAvgRating()));
+        numRatings.setText(getResources().getString(R.string.fmt_ratings, item.getNumRatings()));
+
+        // prepare LayoutParams for the labels
+        LinearLayout.LayoutParams labelLayoutParams = new LinearLayout.LayoutParams(
+                Math.round(getResources().getDimension(R.dimen.activity_card_detail_label_width)),
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        // render ATK
+        if (item.getAtk() != null && item.getAtk() > 0) {
+            // clear LinearLayout
+            cardAtk.removeAllViews();
+
+            // append marginTop
+            appendMarginTop(cardAtk);
+
+            // titleText
+            TextView textCardAtk = new TextView(this);
+            textCardAtk.setText("ATK:");
+            textCardAtk.setLayoutParams(labelLayoutParams);
+            cardAtk.addView(textCardAtk);
+            textCardAtk.requestLayout();
+
+            // value
+            TextView valCardAtk = new TextView(this);
+            valCardAtk.setText(Integer.toString(item.getAtk()));
+            valCardAtk.setLayoutParams(labelLayoutParams);
+            cardAtk.addView(valCardAtk);
+            valCardAtk.requestLayout();
+        }
+
+        // render DEF
+        if (item.getDef() != null && item.getDef() > 0) {
+            // clear LinearLayout
+            cardDef.removeAllViews();
+
+            // append marginTop
+            appendMarginTop(cardDef);
+
+            // titleText
+            TextView textCardDef = new TextView(this);
+            textCardDef.setText("DEF:");
+            textCardDef.setLayoutParams(labelLayoutParams);
+            cardDef.addView(textCardDef);
+            textCardDef.requestLayout();
+
+            // value
+            TextView valCardDef = new TextView(this);
+            valCardDef.setText(Integer.toString(item.getDef()));
+            valCardDef.setLayoutParams(labelLayoutParams);
+            cardDef.addView(valCardDef);
+            valCardDef.requestLayout();
+        }
+
+        // For the ForeignValues, we observe once to keep it nice and clean.
+
+        // render CardEdition
+        if (item.getEdition() != null) {
+            // ObserveOnce of CardEdition
+            final Observer<CardEdition> osCE = new Observer<CardEdition>() {
+                @Override
+                public void onChanged(CardEdition ce) {
+                    // get and set data
+                    cardEdition.setText(ce.getDe());
+                    // remove itself
+                    item.getEdition().removeObserver(this);
+                }
+            };
+            item.getEdition().observe(this, osCE);
+        }
+
+        // render Image of Card
+        GlideApp.with(this)
+                .load(FirebaseStorage.getInstance().getReference().child(item.getImageStorageUrl()))
+                .apply(new RequestOptions().centerInside())
+                .apply(CardImageLoader.imageRenderer)
+                // for the animation
+                .dontAnimate()
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        supportStartPostponedEnterTransition();
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        supportStartPostponedEnterTransition();
+                        return false;
+                    }
+                })
+                .into(imageView);
+
+        // render CardTypes
+        if (item.getTypes() != null) {
+            // ObserveOnce of CardType
+            final Observer<List<CardType>> osCT = new Observer<List<CardType>>() {
+                @Override
+                public void onChanged(List<CardType> cardTypes) {
+                    // when not loaded, result is empty
+                    if (cardTypes.size() > 0) {
+                        // remove itself (Observer)
+                        item.getTypes().removeObserver(this);
+
+                        // clear LinearLayout
+                        cardType.removeAllViews();
+
+                        // append marginTop
+                        appendMarginTop(cardType);
+
+                        // titleText
+                        TextView textCardType = new TextView(CardDetailsActivity.this);
+                        textCardType.setText("Typ:");
+                        textCardType.setLayoutParams(labelLayoutParams);
+                        CardDetailsActivity.this.cardType.addView(textCardType);
+                        textCardType.requestLayout();
+
+                        // for each CardType
+                        Iterator<CardType> cardTypeIt = cardTypes.iterator();
+                        while (cardTypeIt.hasNext()) {
+                            CardType cardType = cardTypeIt.next();
+
+                            TextView text = new TextView(CardDetailsActivity.this);
+                            text.setText(cardType.getDe());
+                            CardDetailsActivity.this.cardType.addView(text);
+                            text.requestLayout();
+                        }
+                    }
+                }
+            };
+            item.getTypes().observe(this, osCT);
+        }
+
+        // render CardRace
+        if (item.getRaces() != null) {
+            // ObserveOnce of CardType
+            final Observer<List<CardRace>> osCR = new Observer<List<CardRace>>() {
+                @Override
+                public void onChanged(List<CardRace> cardRaces) {
+                    // when not loaded, result is empty
+                    if (cardRaces.size() > 0) {
+                        // remove itself (Observer)
+                        item.getRaces().removeObserver(this);
+
+                        // clear LinearLayout
+                        cardRace.removeAllViews();
+
+                        // append marginTop
+                        appendMarginTop(cardRace);
+
+                        // titleText
+                        TextView textCardCost = new TextView(CardDetailsActivity.this);
+                        textCardCost.setText("Rasse:");
+                        textCardCost.setLayoutParams(labelLayoutParams);
+                        cardRace.addView(textCardCost);
+                        textCardCost.requestLayout();
+
+                        // for each CardRace
+                        Iterator<CardRace> cardTypeIt = cardRaces.iterator();
+                        while (cardTypeIt.hasNext()) {
+                            CardRace cardRace = cardTypeIt.next();
+
+                            TextView text = new TextView(CardDetailsActivity.this);
+                            text.setText(cardRace.getDe());
+                            CardDetailsActivity.this.cardRace.addView(text);
+                            text.requestLayout();
+                        }
+                    }
+                }
+            };
+            item.getRaces().observe(this, osCR);
+        }
+
+        // render CardCost
+        if (item.getCost() != null && item.getCost().size() > 0) {
+            // clear LinearLayout
+            cardCost.removeAllViews();
+
+            // append marginTop
+            appendMarginTop(cardCost);
+
+            // titleText
+            TextView textCardCost = new TextView(this);
+            textCardCost.setText("Kosten:");
+            textCardCost.setLayoutParams(labelLayoutParams);
+            this.cardCost.addView(textCardCost);
+            textCardCost.requestLayout();
+
+            // for each CardCost
+            Iterator<CardCost> cardCostIt = item.getCost().iterator();
+            while (cardCostIt.hasNext()) {
+                CardCost cardCost = cardCostIt.next();
+                if (cardCost.getCount() != null && cardCost.getCount() > 0 && cardCost.getType() != null) {
+                    // ObserveOnce of CardAttribute of CardCost
+                    final Observer<CardAttribute> osCA = new Observer<CardAttribute>() {
+                        @Override
+                        public void onChanged(CardAttribute cardCostType) {
+                            // request successful?
+                            if (cardCostType != null) {
+                                // remove itself (Observer)
+                                cardCost.getType().removeObserver(this);
+
+                                // make LayoutParams
+                                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                                        Math.round(getResources().getDimension(R.dimen.activity_card_detail_attribute_size)),
+                                        Math.round(getResources().getDimension(R.dimen.activity_card_detail_attribute_size)));
+                                layoutParams.rightMargin = Math.round(getResources().getDimension(R.dimen.activity_card_detail_attribute_margin));
+
+                                // get and set data
+                                for (int i = 0; i < cardCost.getCount(); i++) {
+                                    // drawable present?
+                                    if (cardCostType.getDrawableId() != 0) {
+                                        // id found, add imageView
+                                        ImageView image = new ImageView(CardDetailsActivity.this);
+                                        image.setImageDrawable(ContextCompat.getDrawable(CardDetailsActivity.this, cardCostType.getDrawableId()));
+                                        image.setLayoutParams(layoutParams);
+                                        CardDetailsActivity.this.cardCost.addView(image);
+                                        image.requestLayout();
+                                    } else {
+                                        // id not found, add number (AnyAttribute)
+                                        View circle = getViewCardAttributeCircle(
+                                                CardDetailsActivity.this,
+                                                Integer.toString(cardCost.getCount()));
+                                        circle.setLayoutParams(layoutParams);
+                                        CardDetailsActivity.this.cardCost.addView(circle);
+                                        circle.requestLayout();
+                                        // break out of loop
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    };
+                    cardCost.getType().observe(this, osCA);
+                }
+            }
+        }
+
+        // render cardAbility
+        if (item.getAbility() != null && item.getAbility().size() > 0) {
+            // clear LinearLayout
+            cardAbility.removeAllViews();
+
+            // append marginTop
+            appendMarginTop(cardAbility);
+
+            //
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+
+            // for each CardAbility
+            Iterator<CardAbility> cardAbilityIt = item.getAbility().iterator();
+            while (cardAbilityIt.hasNext()) {
+                AbilityTextView abilityTextView = new AbilityTextView(this, cardAbilityIt.next());
+                abilityTextView.setLayoutParams(layoutParams);
+                cardAbility.addView(abilityTextView);
+                abilityTextView.requestLayout();
+            }
+        }
+    }
+
+    private void appendMarginTop(LinearLayout layout) {
+        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) layout.getLayoutParams();
+        layoutParams.topMargin = Math.round(getResources().getDimension(R.dimen.activity_card_detail_margin_top));
+        layout.setLayoutParams(layoutParams);
+    }
+
+    private static View getViewCardAttributeCircle(CardDetailsActivity context, String text) {
+        GradientDrawable shape = new GradientDrawable();
+        shape.setShape(GradientDrawable.OVAL);
+        shape.setColor(Color.rgb(0,0,0));
+
+        LinearLayout view = new LinearLayout(context);
+        view.setBackground(shape);
+
+        TextView textView = new TextView(context);
+        textView.setText(text);
+        textView.setTextColor(Color.rgb(255,255,255));
+        textView.setGravity(Gravity.CENTER);
+        textView.setTextAlignment(View.TEXT_ALIGNMENT_GRAVITY);
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        textView.setLayoutParams(layoutParams);
+
+        view.addView(textView);
+
+        return view;
+    }
+
+    private void updateRatings(List<Rating> ratings) {
+        adapter.submitList(new ArrayList<>(ratings));
+    }
+
+    @Override
+    public void onRatingLikedListener(Rating rating) {
+        // model.toggleLike(rating);
+    }
+
+    @OnClick(R.id.wishlist)
+    public void onWishClickedListener(View view) {
+        model.toggleItemInWishlist(model.getCard().getValue().getId());
+        /*
+         * We won't get an update from firestore when the wish is removed, so we need to reset the UI state ourselves.
+         * */
+        if (!wishlist.isChecked()) {
+            toggleWishlistView(null);
+        }
+    }
+
+    private void toggleWishlistView(Wish wish) {
+        if (wish != null) {
+            int color = getResources().getColor(R.color.colorPrimary);
+            setDrawableTint(wishlist, color);
+            wishlist.setChecked(true);
+        } else {
+            int color = getResources().getColor(android.R.color.darker_gray);
+            setDrawableTint(wishlist, color);
+            wishlist.setChecked(false);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                supportFinishAfterTransition();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+}

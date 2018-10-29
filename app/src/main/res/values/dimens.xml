@@ -5,4 +5,13 @@
     <dimen name="text_margin">16dp</dimen>
     <dimen name="grid_layout_margin">1dp</dimen>
     <dimen name="app_bar_height">200dp</dimen>
+
+    <dimen name="fragment_card_width">108dp</dimen>
+    <dimen name="fragment_card_height">180dp</dimen>
+    <dimen name="fragment_card_padding">4dp</dimen>
+
+    <dimen name="activity_card_detail_margin_top">8dp</dimen>
+    <dimen name="activity_card_detail_label_width">64dp</dimen>
+    <dimen name="activity_card_detail_attribute_size">24dp</dimen>
+    <dimen name="activity_card_detail_attribute_margin">4dp</dimen>
 </resources>

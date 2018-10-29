@@ -5,7 +5,7 @@
 ## Aufgabenstellungen
 
 Die Beer Pro App ist bereits funktionstüchtig, allerdings werden Sie merken, dass einige Features noch nicht eingebaut sind. 
-Unter [Issues](https://github.com/Gachnang/beerpro/issues) finden Sie einige Themenvorschläge die Sie umsetzen können.
+Unter [Issues](https://github.com/Gachnang/FOW_Collection/issues) finden Sie einige Themenvorschläge die Sie umsetzen können.
 Jede Aufgabe gibt je nach Schwierigkeit eine Menge an Punkten: Für die Testaterreichung benötigen Sie mindestens 10 Punkte (2er Team, für ein 3er Team entsprechend 15 Punkte, und so weiter).
 
 Sie können sich auch mit anderen Teams absprechen und zusammen arbeiten um am Ende eine möglichst vollständige App zu

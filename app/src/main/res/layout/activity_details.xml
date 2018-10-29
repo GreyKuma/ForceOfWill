@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusableInTouchMode="true"
-    tools:context=".presentation.details.DetailsActivity">
+    tools:context=".presentation.cardDetails.CardDetailsActivity">
 
 
     <androidx.core.widget.NestedScrollView
@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context=".presentation.details.DetailsActivity"
+        tools:context=".presentation.cardDetails.CardDetailsActivity"
         tools:showIn="@layout/activity_details">
 
         <LinearLayout
@@ -126,7 +126,7 @@
                             app:layout_constraintTop_toBottomOf="@+id/manufacturer" />
 
                         <TextView
-                            android:id="@+id/manufacturer"
+                            android:id="@+id/cardId"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
@@ -302,7 +302,7 @@
         android:layout_height="wrap_content"
         android:elevation="4dp"
         android:orientation="vertical"
-        app:layout_behavior="ch.beerpro.presentation.utils.ToolbarScrollingBehaviour">
+        app:layout_behavior="ch.FOW_Collection.presentation.utils.ToolbarScrollingBehaviour">
 
         <View
             android:layout_width="match_parent"

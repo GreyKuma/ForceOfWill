@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="ch.beerpro">
+    package="ch.FOW_Collection">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".MyApplication"
+        android:name="ch.FOW_Collection.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".presentation.splash.SplashScreenActivity"
+            android:name="ch.FOW_Collection.presentation.splash.SplashScreenActivity"
             android:theme="@style/LoginScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,57 +24,67 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".presentation.MainActivity"
+            android:name="ch.FOW_Collection.presentation.MainActivity"
             android:label="@string/title_activity_home_screen"
-            android:theme="@style/AppTheme" />
-        <activity android:name=".presentation.explore.search.SearchActivity" />
+            android:theme="@style/AppTheme"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity android:name="ch.FOW_Collection.presentation.explore.search.SearchActivity" />
         <activity
-            android:name=".presentation.details.DetailsActivity"
+            android:name="ch.FOW_Collection.presentation.cardDetails.CardDetailsActivity"
             android:label="@string/title_activity_single_beer"
-            android:parentActivityName=".presentation.explore.search.SearchActivity"
+            android:parentActivityName="ch.FOW_Collection.presentation.explore.search.SearchActivity"
             android:theme="@style/DetailsPageTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".presentation.explore.search.SearchActivity" />
+                android:value="ch.FOW_Collection.presentation.explore.search.SearchActivity" />
         </activity>
         <activity
-            android:name=".presentation.details.createrating.CreateRatingActivity"
-            android:parentActivityName=".presentation.details.DetailsActivity"
+            android:name="ch.FOW_Collection.presentation.cardDetails.createrating.CreateRatingActivity"
+            android:parentActivityName="ch.FOW_Collection.presentation.cardDetails.CardDetailsActivity"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".presentation.details.DetailsActivity" />
+                android:value="ch.FOW_Collection.presentation.cardDetails.CardDetailsActivity" />
         </activity>
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".presentation.profile.mywishlist.WishlistActivity"
+            android:name="ch.FOW_Collection.presentation.profile.mywishlist.WishlistActivity"
             android:label="@string/title_activity_wishlist"
-            android:parentActivityName=".presentation.MainActivity"
+            android:parentActivityName="ch.FOW_Collection.presentation.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".presentation.MainActivity" />
+                android:value="ch.FOW_Collection.presentation.MainActivity" />
         </activity>
         <activity
-            android:name=".presentation.profile.myratings.MyRatingsActivity"
+            android:name="ch.FOW_Collection.presentation.profile.myratings.MyRatingsActivity"
             android:label="@string/title_activity_myratings"
-            android:parentActivityName=".presentation.MainActivity"
+            android:parentActivityName="ch.FOW_Collection.presentation.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".presentation.MainActivity" />
+                android:value="ch.FOW_Collection.presentation.MainActivity" />
         </activity>
         <activity
-            android:name=".presentation.profile.mybeers.MyBeersActivity"
+            android:name="ch.FOW_Collection.presentation.profile.mybeers.MyBeersActivity"
             android:label="@string/title_activity_mybeers"
-            android:parentActivityName=".presentation.MainActivity"
+            android:parentActivityName="ch.FOW_Collection.presentation.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".presentation.MainActivity" />
+                android:value="ch.FOW_Collection.presentation.MainActivity" />
+        </activity>
+        <activity
+            android:name="ch.FOW_Collection.presentation.profile.mycollection.MyCollectionActivity"
+            android:label="@string/title_activity_mybeers"
+            android:parentActivityName="ch.FOW_Collection.presentation.MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ch.FOW_Collection.presentation.MainActivity" />
         </activity>
     </application>
 
