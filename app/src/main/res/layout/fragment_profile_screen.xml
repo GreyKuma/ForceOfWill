@@ -48,7 +48,7 @@
 
             <LinearLayout
 
-                android:id="@+id/myBeers"
+                android:id="@+id/myCollection"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:background="?android:attr/selectableItemBackground"
@@ -70,11 +70,11 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="8dp"
                         android:layout_weight="1"
-                        android:text="Decks"/>
+                        android:text="Meine Kollektion"/>
 
 
                 <TextView
-                    android:id="@+id/myBeersCount"
+                    android:id="@+id/myCollectionCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
