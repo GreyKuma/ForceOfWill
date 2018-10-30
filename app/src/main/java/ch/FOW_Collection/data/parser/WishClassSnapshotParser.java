@@ -19,9 +19,7 @@ public class WishClassSnapshotParser extends EntityClassSnapshotParser<Wish> {
     @NonNull
     @Override
     public Wish parseSnapshot(@NonNull DocumentSnapshot snapshot) {
-        Wish wish = super.parseSnapshot(snapshot);
-
-        return parseWish(wish);
+        return parseWish(super.parseSnapshot(snapshot));
     }
 
     public Wish parseWish(Wish wish) {

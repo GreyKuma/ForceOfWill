@@ -70,12 +70,12 @@ public class MyRatingsActivity extends AppCompatActivity implements OnMyRatingIt
     @Override
     public void onMoreClickedListener(Rating item) {
         Intent intent = new Intent(this, CardDetailsActivity.class);
-        intent.putExtra(CardDetailsActivity.ITEM_ID, item.getBeerId());
+        intent.putExtra(CardDetailsActivity.ITEM_ID, item.getCardId());
         startActivity(intent);
     }
 
     @Override
     public void onWishClickedListener(Rating item) {
-        model.toggleItemInWishlist(item.getBeerId());
+        model.toggleItemInWishlist(item.getCardId());
     }
 }

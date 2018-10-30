@@ -5,10 +5,14 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import ch.FOW_Collection.data.repositories.CardsRepository;
 import ch.FOW_Collection.data.repositories.CurrentUser;
+import ch.FOW_Collection.data.repositories.RatingsRepository;
 import ch.FOW_Collection.data.repositories.WishlistRepository;
 import ch.FOW_Collection.domain.models.Card;
+import ch.FOW_Collection.domain.models.Rating;
 import ch.FOW_Collection.domain.models.Wish;
 import com.google.android.gms.tasks.Task;
+
+import java.util.List;
 
 //import ch.FOW_Collection.domain.models.Beer;
 //import ch.FOW_Collection.domain.models.Rating;
@@ -18,7 +22,8 @@ public class CardDetailsViewModel extends ViewModel implements CurrentUser {
 
     private final MutableLiveData<String> cardId = new MutableLiveData<>();
     private final LiveData<Card> card;
-    //private final LiveData<List<Rating>> ratings;
+    private final LiveData<List<Rating>> ratings;
+    private final LiveData<Rating> ownRating;
     private final LiveData<Wish> wish;
 
     //private final LikesRepository likesRepository;
@@ -27,16 +32,16 @@ public class CardDetailsViewModel extends ViewModel implements CurrentUser {
     public CardDetailsViewModel() {
         // TODO We should really be injecting these!
         CardsRepository cardsRepository = new CardsRepository();
-        //BeersRepository beersRepository = new BeersRepository();
-        //RatingsRepository ratingsRepository = new RatingsRepository();
+        RatingsRepository ratingsRepository = new RatingsRepository();
         //likesRepository = new LikesRepository();
         wishlistRepository = new WishlistRepository();
 
         MutableLiveData<String> currentUserId = new MutableLiveData<>();
         card = cardsRepository.getCardById(cardId);
-        //card = cardRepository.getBeer(cardId);
         wish = wishlistRepository.getMyWishForCard(currentUserId, getCard());
-        //ratings = ratingsRepository.getRatingsForBeer(cardId);
+        ratings = ratingsRepository.getRatingsByCardId(cardId);
+        ownRating = ratingsRepository.getRatingsByCardIdAndUserId(cardId, currentUserId);
+
         currentUserId.setValue(getCurrentUser().getUid());
     }
 
@@ -49,9 +54,13 @@ public class CardDetailsViewModel extends ViewModel implements CurrentUser {
         return wish;
     }
 
-//    public LiveData<List<Rating>> getRatings() {
-//        return ratings;
-//    }
+    public LiveData<List<Rating>> getRatings() {
+        return ratings;
+    }
+
+    public LiveData<Rating> getOwnRating() {
+        return ownRating;
+    }
 
     public void setCardId(String cardId) {
         this.cardId.setValue(cardId);

@@ -9,6 +9,9 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import androidx.lifecycle.Observer;
+import ch.FOW_Collection.domain.models.Card;
+import ch.FOW_Collection.domain.models.User;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -104,7 +107,15 @@ public class RatingsRecyclerViewAdapter extends ListAdapter<Pair<Rating, Wish>, 
         void bind(Rating item, Wish wish, OnRatingsItemInteractionListener listener) {
             // TODO This code is almost the same in MyBeersRecyclerViewAdapter.. could be simplified
             // with databinding!
-            beerName.setText(item.getBeerName());
+            item.getCard().observeForever(new Observer<Card>() {
+                @Override
+                public void onChanged(Card card) {
+                    if (card != null) {
+                        item.getCard().removeObserver(this);
+                        beerName.setText(card.getName().getDe());
+                    }
+                }
+            });
             comment.setText(item.getComment());
 
             ratingBar.setNumStars(5);
@@ -122,8 +133,16 @@ public class RatingsRecyclerViewAdapter extends ListAdapter<Pair<Rating, Wish>, 
                 photo.setVisibility(View.GONE);
             }
 
-            authorName.setText(item.getUserName());
-            GlideApp.with(fragment).load(item.getUserPhoto()).apply(new RequestOptions().circleCrop()).into(avatar);
+            item.getUser().observeForever(new Observer<User>() {
+                @Override
+                public void onChanged(User user) {
+                    if (user != null) {
+                        item.getUser().removeObserver(this);
+                        authorName.setText(user.getName());
+                        GlideApp.with(itemView).load(user.getPhoto()).apply(new RequestOptions().circleCrop()).into(avatar);
+                    }
+                }
+            });
 
             numLikes.setText(itemView.getResources().getString(R.string.fmt_num_ratings, item.getLikes().size()));
 
