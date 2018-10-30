@@ -73,7 +73,8 @@ public class ProfileFragment extends Fragment {
 
         model.getMyWishlist().observe(this, this::updateWishlistCount);
 //        model.getMyRatings().observe(this, this::updateRatingsCount);
-        model.getMyCollection().observe(this, this::updateMyCollectionCount);
+        // todo make it work MyCollection
+//        model.getMyCollection().observe(this, this::updateMyCollectionCount);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 

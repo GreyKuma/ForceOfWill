@@ -42,22 +42,16 @@ public class MainViewModel extends ViewModel implements CurrentUser {
         cardsRepository = new CardsRepository();
         cardEditionsRepository = new CardEditionsRepository();
 
-//        beersRepository = new BeersRepository();
-//        likesRepository = new LikesRepository();
         wishlistRepository = new WishlistRepository();
         ratingsRepository = new RatingsRepository();
-//        MyBeersRepository myBeersRepository = new MyBeersRepository();
         MyCollectionRepository myCollectionRepository = new MyCollectionRepository();
-
-//        LiveData<List<Beer>> allBeers = beersRepository.getAllBeers();
-        LiveData<List<Card>> allCards = cardsRepository.getAllCards();
 
         MutableLiveData<String> currentUserId = new MutableLiveData<>();
         myWishlist = wishlistRepository.getMyWishlist(currentUserId);
         myRatings = ratingsRepository.getMyRatings(currentUserId);
-        myCollection = myCollectionRepository.getCollectionByUser(currentUserId.getValue());
-//        myCollection = myCollectionRepository.getMyCollection();
-        // myBeers = myBeersRepository.getMyBeers(allBeers, myWishlist, myRatings);
+
+        // todo make it work MyCollection
+        myCollection = null; // myCollectionRepository.getCollectionByUser(currentUserId.getValue());
 
 
         /*

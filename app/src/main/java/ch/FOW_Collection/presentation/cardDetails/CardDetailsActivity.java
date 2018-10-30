@@ -195,20 +195,6 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
         }
     }
 
-    @OnClick(R.id.actionsButton)
-    public void showBottomSheetDialog() {
-        View view = getLayoutInflater().inflate(R.layout.single_bottom_sheet_dialog, null);
-        BottomSheetDialog dialog = new BottomSheetDialog(this);
-        dialog.setContentView(view);
-        Button addToFridge = view.findViewById(R.id.addToFridge);
-        addToFridge.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("FRIDGE", "FRIDGE");
-            }
-        });
-        dialog.show();
-    }
 
     private void updateCard(Card item) {
         // This values are static and will not change. (except ownRating)

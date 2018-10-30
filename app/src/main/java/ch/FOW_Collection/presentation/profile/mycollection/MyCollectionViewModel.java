@@ -29,4 +29,14 @@ public class MyCollectionViewModel extends ViewModel implements CurrentUser {
     }
 
     public LiveData<List<MyCard>> getMyCollection() {return myCollection;}
+
+    public void setSearchTerm(String searchTerm) {
+        // todo make it work MyCollection
+        throw new UnsupportedOperationException();
+    }
+
+    public LiveData<List<MyCard>> getMyFilteredCards() {
+        // todo make it work MyCollection
+        throw new UnsupportedOperationException();
+    }
 }
