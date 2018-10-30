@@ -45,19 +45,19 @@ public class MyCollectionActivity extends AppCompatActivity implements OnMyCardI
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                model.setSearchTerm(query);
+//                model.setSearchTerm(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                model.setSearchTerm(null);
+//                model.setSearchTerm(null);
                 return false;
             }
         });
 
         searchView.setOnCloseListener(() -> {
-            model.setSearchTerm(null);
+//            model.setSearchTerm(null);
             return false;
         });
 
@@ -85,6 +85,6 @@ public class MyCollectionActivity extends AppCompatActivity implements OnMyCardI
 
     @Override
     public void onWishClickedListener(Card item) {
-        model.toggleItemInWishlist(item.getId());
+//        model.toggleItemInWishlist(item.getId());
     }
 }

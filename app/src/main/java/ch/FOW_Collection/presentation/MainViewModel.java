@@ -55,7 +55,7 @@ public class MainViewModel extends ViewModel implements CurrentUser {
         MutableLiveData<String> currentUserId = new MutableLiveData<>();
         myWishlist = wishlistRepository.getMyWishlist(currentUserId);
         myRatings = ratingsRepository.getMyRatings(currentUserId);
-        myCollection = myCollectionRepository.getMyCards(allCards, myWishlist, myRatings);
+        myCollection = myCollectionRepository.getCollectionByUser(currentUserId.getValue());
 //        myCollection = myCollectionRepository.getMyCollection();
         // myBeers = myBeersRepository.getMyBeers(allBeers, myWishlist, myRatings);
 

@@ -46,8 +46,8 @@ public class MyCollectionFragment extends Fragment {
 
 
         MyCollectionViewModel model = ViewModelProviders.of(getActivity()).get(MyCollectionViewModel.class);
+        model.getMyCollection().observe(getActivity(), this::handleCollectionChanged);
 
-        //TODO was here
 
         adapter = new MyCollectionRecyclerViewAdapter(interactionListener, model.getCurrentUser());
 

@@ -18,57 +18,15 @@ import static ch.FOW_Collection.domain.liveData.LiveDataExtensions.zip;
 public class MyCollectionViewModel extends ViewModel implements CurrentUser {
 
     private static final String TAG = "MyCollectionViewModel";
-    private final MutableLiveData<String> searchTerm = new MutableLiveData<>();
 
-    private final WishlistRepository wishlistRepository;
-    private final LiveData<List<MyCard>> myFilteredCards;
+    private final LiveData<List<MyCard>> myCollection;
 
     public MyCollectionViewModel() {
-
-        wishlistRepository = new WishlistRepository();
-        CardsRepository cardsRepository = new CardsRepository();
         MyCollectionRepository myCollectionRepository = new MyCollectionRepository();
-        RatingsRepository ratingsRepository = new RatingsRepository();
-
-        LiveData<List<Card>> allCards = cardsRepository.getAllCards();
         MutableLiveData<String> currentUserId = new MutableLiveData<>();
-        LiveData<List<Wish>> myWishlist = wishlistRepository.getMyWishlist(currentUserId);
-        LiveData<List<Rating>> myRatings = ratingsRepository.getMyRatings(currentUserId);
-
-        LiveData<List<MyCard>> myCards = myCollectionRepository.getMyCards(allCards, myWishlist, myRatings);
-
-        myFilteredCards = map(zip(searchTerm, myCards), MyCollectionViewModel::filter);
-
+        myCollection = myCollectionRepository.getCollectionByUser(currentUserId.getValue());
         currentUserId.setValue(getCurrentUser().getUid());
     }
 
-    private static List<MyCard> filter(Pair<String, List<MyCard>> input) {
-        String searchTerm1 = input.first;
-        List<MyCard> myCards = input.second;
-        if (Strings.isNullOrEmpty(searchTerm1)) {
-            return myCards;
-        }
-        if (myCards == null) {
-            return Collections.emptyList();
-        }
-        ArrayList<MyCard> filtered = new ArrayList<>();
-        for (MyCard card : myCards) {
-            if (card.getCard().getName().getDe().toLowerCase().contains(searchTerm1.toLowerCase())) {
-                filtered.add(card);
-            }
-        }
-        return filtered;
-    }
-
-    public LiveData<List<MyCard>> getMyFilteredCards() {
-        return myFilteredCards;
-    }
-
-    public void toggleItemInWishlist(String cardId) {
-        wishlistRepository.toggleUserWishlistItem(getCurrentUser().getUid(), cardId);
-    }
-
-    public void setSearchTerm(String searchTerm) {
-        this.searchTerm.setValue(searchTerm);
-    }
+    public LiveData<List<MyCard>> getMyCollection() {return myCollection;}
 }
