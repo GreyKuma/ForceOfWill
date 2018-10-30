@@ -11,11 +11,11 @@ import java.util.List;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import ch.FOW_Collection.data.repositories.BeersRepository;
+import ch.FOW_Collection.data.repositories.CardsRepository;
 import ch.FOW_Collection.data.repositories.CurrentUser;
 import ch.FOW_Collection.data.repositories.SearchesRepository;
 import ch.FOW_Collection.data.repositories.WishlistRepository;
-import ch.FOW_Collection.domain.models.Beer;
+import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.Search;
 
 import static androidx.lifecycle.Transformations.map;
@@ -28,39 +28,40 @@ public class SearchViewModel extends ViewModel implements CurrentUser {
     private final MutableLiveData<String> searchTerm = new MutableLiveData<>();
     private final MutableLiveData<String> currentUserId = new MutableLiveData<>();
 
-    private final LiveData<List<Beer>> filteredBeers;
-    private final BeersRepository beersRepository;
+    private final LiveData<List<Card>> filteredCards;
+    private final CardsRepository cardsRepository;
     private final WishlistRepository wishlistRepository;
     private final SearchesRepository searchesRepository;
     private final LiveData<List<Search>> myLatestSearches;
 
     public SearchViewModel() {
-        beersRepository = new BeersRepository();
+        cardsRepository = new CardsRepository();
         wishlistRepository = new WishlistRepository();
         searchesRepository = new SearchesRepository();
-        filteredBeers = map(zip(searchTerm, getAllBeers()), SearchViewModel::filter);
+        filteredCards = map(zip(searchTerm, getAllCards()), SearchViewModel::filter);
         myLatestSearches = switchMap(currentUserId, SearchesRepository::getLatestSearchesByUser);
 
         currentUserId.setValue(getCurrentUser().getUid());
     }
 
-    public LiveData<List<Beer>> getAllBeers() {
-        return beersRepository.getAllBeers();
+    public LiveData<List<Card>> getAllCards() {
+        return cardsRepository.getAllCards();
     }
 
-    private static List<Beer> filter(Pair<String, List<Beer>> input) {
+    private static List<Card> filter(Pair<String, List<Card>> input) {
         String searchTerm1 = input.first;
-        List<Beer> allBeers = input.second;
+        List<Card> allCards = input.second;
         if (Strings.isNullOrEmpty(searchTerm1)) {
-            return allBeers;
+            return allCards;
         }
-        if (allBeers == null) {
+        if (allCards == null) {
             return Collections.emptyList();
         }
-        ArrayList<Beer> filtered = new ArrayList<>();
-        for (Beer beer : allBeers) {
-            if (beer.getName().toLowerCase().contains(searchTerm1.toLowerCase())) {
-                filtered.add(beer);
+        ArrayList<Card> filtered = new ArrayList<>();
+        for (Card card : allCards) {
+            //TODO getName().getDe() should work
+            if (card.getIdStr().toLowerCase().contains(searchTerm1.toLowerCase())) {
+                filtered.add(card);
             }
         }
         return filtered;
@@ -74,8 +75,8 @@ public class SearchViewModel extends ViewModel implements CurrentUser {
         this.searchTerm.setValue(searchTerm);
     }
 
-    public LiveData<List<Beer>> getFilteredBeers() {
-        return filteredBeers;
+    public LiveData<List<Card>> getFilteredCards() {
+        return filteredCards;
     }
 
 

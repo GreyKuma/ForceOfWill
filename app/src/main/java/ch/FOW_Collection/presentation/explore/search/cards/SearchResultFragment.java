@@ -1,4 +1,4 @@
-package ch.FOW_Collection.presentation.explore.search.beers;
+package ch.FOW_Collection.presentation.explore.search.cards;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
-import ch.FOW_Collection.domain.models.Beer;
+import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.presentation.explore.search.SearchViewModel;
 
 public class SearchResultFragment extends Fragment {
@@ -35,9 +35,9 @@ public class SearchResultFragment extends Fragment {
     public SearchResultFragment() {
     }
 
-    private void handleBeersChanged(List<Beer> beers) {
-        adapter.submitList(new ArrayList<>(beers));
-        if (beers.isEmpty()) {
+    private void handleCardsChanged(List<Card> cards) {
+        adapter.submitList(new ArrayList<>(cards));
+        if (cards.isEmpty()) {
             emptyView.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
         } else {
@@ -67,7 +67,8 @@ public class SearchResultFragment extends Fragment {
         adapter = new SearchResultRecyclerViewAdapter(mListener);
 
         SearchViewModel model = ViewModelProviders.of(getActivity()).get(SearchViewModel.class);
-        model.getFilteredBeers().observe(getActivity(), this::handleBeersChanged);
+        //TODO try with .observeForever()
+        model.getFilteredCards().observe(getActivity() , this::handleCardsChanged);
 
         recyclerView.setAdapter(adapter);
         return view;
@@ -80,6 +81,6 @@ public class SearchResultFragment extends Fragment {
     }
 
     public interface OnItemSelectedListener {
-        void onSearchResultListItemSelected(View animationSource, Beer item);
+        void onSearchResultListItemSelected(View animationSource, Card card);
     }
 }

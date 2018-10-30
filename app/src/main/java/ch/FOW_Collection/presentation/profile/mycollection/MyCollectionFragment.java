@@ -14,7 +14,7 @@ import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.MyBeer;
 import ch.FOW_Collection.domain.models.MyCard;
-import ch.FOW_Collection.presentation.profile.mybeers.OnMyBeerItemInteractionListener;
+import ch.FOW_Collection.presentation.profile.mycollection.OnMyCardItemInteractionListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,9 +48,14 @@ public class MyCollectionFragment extends Fragment {
         MyCollectionViewModel model = ViewModelProviders.of(getActivity()).get(MyCollectionViewModel.class);
         model.getMyCollection().observe(getActivity(), this::handleCollectionChanged);
 
+
         adapter = new MyCollectionRecyclerViewAdapter(interactionListener, model.getCurrentUser());
 
         recyclerView.setAdapter(adapter);
+
+        //TODO works here
+        model.getMyFilteredCards().observe(getActivity(), this::handleCollectionChanged);
+
         return view;
     }
 
