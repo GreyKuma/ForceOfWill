@@ -4,9 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-import ch.FOW_Collection.presentation.explore.search.beers.SearchResultFragment;
+import ch.FOW_Collection.presentation.explore.search.cards.SearchResultFragment;
 import ch.FOW_Collection.presentation.explore.search.suggestions.SearchSuggestionsFragment;
-import ch.FOW_Collection.presentation.profile.mybeers.MyBeersFragment;
+import ch.FOW_Collection.presentation.profile.mycollection.MyCollectionFragment;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -14,7 +14,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     private Fragment searchSuggestionsFragment;
     private Fragment searchResultFragment;
-    private Fragment myBeersFragment;
+    private Fragment myCollectionFragment;
 
     private boolean showSuggestions = true;
     private boolean hasChanged = false;
@@ -23,7 +23,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         super(manager);
         searchSuggestionsFragment = new SearchSuggestionsFragment();
         searchResultFragment = new SearchResultFragment();
-        myBeersFragment = new MyBeersFragment();
+        myCollectionFragment = new MyCollectionFragment();
     }
 
     public void setShowSuggestions(boolean showSuggestions) {
@@ -41,7 +41,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
                     return searchResultFragment;
                 }
             case 1:
-                return myBeersFragment;
+                return myCollectionFragment;
         }
         return null;
     }
@@ -54,7 +54,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public int getItemPosition(@NonNull Object object) {
         // https://stackoverflow.com/questions/7746652/fragment-in-viewpager-using-fragmentpageradapter-is-blank-the-second-time-it-is
-        if (object instanceof MyBeersFragment) {
+        if (object instanceof MyCollectionFragment) {
             return POSITION_UNCHANGED;
         } else if (hasChanged) {
             this.hasChanged = false;
@@ -68,9 +68,9 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return "ALLE BIERE";
+                return "Alle Karten";
             case 1:
-                return "MEINE BIERE";
+                return "Meine Karten";
         }
         return null;
     }

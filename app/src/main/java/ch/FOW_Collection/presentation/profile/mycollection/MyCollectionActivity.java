@@ -13,10 +13,9 @@ import androidx.lifecycle.ViewModelProviders;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
-import ch.FOW_Collection.domain.models.Beer;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.presentation.cardDetails.CardDetailsActivity;
-import ch.FOW_Collection.presentation.profile.mybeers.OnMyBeerItemInteractionListener;
+import ch.FOW_Collection.presentation.profile.mycollection.OnMyCardItemInteractionListener;
 
 
 public class MyCollectionActivity extends AppCompatActivity implements OnMyCardItemInteractionListener {

@@ -24,11 +24,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ch.FOW_Collection.GlideApp;
 import ch.FOW_Collection.R;
-import ch.FOW_Collection.domain.models.MyBeer;
 import ch.FOW_Collection.domain.models.Rating;
 import ch.FOW_Collection.domain.models.Wish;
 import ch.FOW_Collection.presentation.MainViewModel;
-import ch.FOW_Collection.presentation.profile.mybeers.MyBeersActivity;
+import ch.FOW_Collection.presentation.profile.mycollection.MyCollectionActivity;
 import ch.FOW_Collection.presentation.profile.myratings.MyRatingsActivity;
 import ch.FOW_Collection.presentation.profile.mywishlist.WishlistActivity;
 

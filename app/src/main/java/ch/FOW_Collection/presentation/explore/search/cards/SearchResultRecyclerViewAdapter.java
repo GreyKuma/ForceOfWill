@@ -1,4 +1,4 @@
-package ch.FOW_Collection.presentation.explore.search.beers;
+package ch.FOW_Collection.presentation.explore.search.cards;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,14 +16,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.GlideApp;
 import ch.FOW_Collection.R;
-import ch.FOW_Collection.domain.models.Beer;
-import ch.FOW_Collection.presentation.explore.search.beers.SearchResultFragment.OnItemSelectedListener;
+import ch.FOW_Collection.domain.models.Card;
+import ch.FOW_Collection.presentation.explore.search.cards.SearchResultFragment.OnItemSelectedListener;
 import ch.FOW_Collection.presentation.utils.EntityDiffItemCallback;
 
 
-public class SearchResultRecyclerViewAdapter extends ListAdapter<Beer, SearchResultRecyclerViewAdapter.ViewHolder> {
+public class SearchResultRecyclerViewAdapter extends ListAdapter<Card, SearchResultRecyclerViewAdapter.ViewHolder> {
 
-    private static final EntityDiffItemCallback<Beer> DIFF_CALLBACK = new EntityDiffItemCallback<>();
+    private static final EntityDiffItemCallback<Card> DIFF_CALLBACK = new EntityDiffItemCallback<>();
 
     private final OnItemSelectedListener listener;
 
@@ -50,9 +50,6 @@ public class SearchResultRecyclerViewAdapter extends ListAdapter<Beer, SearchRes
         @BindView(R.id.name)
         TextView name;
 
-        @BindView(R.id.manufacturer)
-        TextView manufacturer;
-
         @BindView(R.id.category)
         TextView category;
 
@@ -70,17 +67,15 @@ public class SearchResultRecyclerViewAdapter extends ListAdapter<Beer, SearchRes
             ButterKnife.bind(this, itemView);
         }
 
-        void bind(Beer item, OnItemSelectedListener listener) {
-            name.setText(item.getName());
-            manufacturer.setText(item.getManufacturer());
-            category.setText(item.getCategory());
-            name.setText(item.getName());
-            GlideApp.with(itemView).load(item.getPhoto()).apply(new RequestOptions().override(240, 240).centerInside())
+        void bind(Card card, OnItemSelectedListener listener) {
+            name.setText(card.getName().getDe());
+            category.setText(card.getRarity());
+            GlideApp.with(itemView).load(card.getImageSrcUrl()).apply(new RequestOptions().override(240, 240).centerInside())
                     .into(photo);
             ratingBar.setNumStars(5);
-            ratingBar.setRating(item.getAvgRating());
-            numRatings.setText(itemView.getResources().getString(R.string.fmt_num_ratings, item.getNumRatings()));
-            itemView.setOnClickListener(v -> listener.onSearchResultListItemSelected(photo, item));
+            ratingBar.setRating(card.getAvgRating());
+            numRatings.setText(itemView.getResources().getString(R.string.fmt_num_ratings, card.getNumRatings()));
+            itemView.setOnClickListener(v -> listener.onSearchResultListItemSelected(photo, card));
         }
     }
 }
