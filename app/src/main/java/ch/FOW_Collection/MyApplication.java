@@ -2,8 +2,10 @@ package ch.FOW_Collection;
 
 import android.app.Application;
 
+import android.util.Log;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.storage.FirebaseStorage;
 
 /**
  * The MyApplication class is instantiated once for the whole application and can (but should not) be used as a
@@ -28,5 +30,13 @@ public class MyApplication extends Application {
                 .setPersistenceEnabled(true)
                 .build();
         FirebaseFirestore.getInstance().setFirestoreSettings(settings);
+
+        FirebaseStorage.getInstance().setMaxUploadRetryTimeMillis(12000);
+        // DISABLE NETWORK-TRAFFIC
+        //
+        /*
+        FirebaseFirestore.getInstance().disableNetwork().continueWith(t ->
+                Log.d("APP", "FirebaseFirestore_disableNetwork: " + (
+                        t.isSuccessful() ? "Diasbled" : "Enabled" )));*/
     }
 }

@@ -6,6 +6,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Transaction;
 
+import java.util.List;
 import java.util.Map;
 
 import ch.FOW_Collection.data.parser.EntityClassSnapshotParser;

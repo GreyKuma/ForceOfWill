@@ -21,7 +21,6 @@ import com.bumptech.glide.request.target.Target;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.storage.FirebaseStorage;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -50,7 +49,7 @@ import ch.FOW_Collection.domain.models.CardRace;
 import ch.FOW_Collection.domain.models.CardType;
 import ch.FOW_Collection.domain.models.Rating;
 import ch.FOW_Collection.domain.models.Wish;
-import ch.FOW_Collection.presentation.cardDetails.createrating.CreateRatingActivity;
+import ch.FOW_Collection.presentation.cardDetails.createRating.CreateCardRatingActivity;
 import ch.FOW_Collection.presentation.shared.CardImageLoader;
 
 import static ch.FOW_Collection.presentation.utils.DrawableHelpers.setDrawableTint;
@@ -59,6 +58,8 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
 
     public static final String ITEM_ID = "item_id";
     private static final String TAG = "CardDetailsActivity";
+    private static final int RATING_REQUEST = 1337;
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -89,7 +90,6 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
     @BindView(R.id.cardRace)
     LinearLayout cardRace;
 
-
     @BindView(R.id.cardAtk)
     LinearLayout cardAtk;
 
@@ -111,6 +111,9 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
     @BindView(R.id.addRatingBar)
     RatingBar addRatingBar;
 
+    @BindView(R.id.addRatingExplanation)
+    TextView addRatingExplanation;
+
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
@@ -121,6 +124,9 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Log.d(TAG, "onCreate: " + (savedInstanceState != null ? "true" : "false"));
+
         setContentView(R.layout.activity_card_details);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
@@ -130,7 +136,12 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
                 .setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         toolbar.setTitleTextColor(Color.alpha(0));
 
-        String cardId = getIntent().getExtras().getString(ITEM_ID);
+        Bundle extras = getIntent().getExtras();
+        if (extras == null) {
+            onBackPressed();
+            return;
+        }
+        String cardId = extras.getString(ITEM_ID);
 
         model = ViewModelProviders.of(this).get(CardDetailsViewModel.class);
         model.setCardId(cardId);
@@ -142,7 +153,8 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
         recyclerView.addItemDecoration(new DividerItemDecoration(this, layoutManager.getOrientation()));
 
         model.getCard().observe(this, this::updateCard);
-        //model.getRatings().observe(this, this::updateRatings);
+        model.getRatings().observe(this, this::updateRatings);
+        model.getOwnRating().observe(this, this::updateOwnRatings);
         model.getWish().observe(this, this::toggleWishlistView);
 
         recyclerView.setAdapter(adapter);
@@ -150,17 +162,56 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
     }
 
     private void addNewRating(RatingBar ratingBar, float v, boolean b) {
-        Intent intent = new Intent(this, CreateRatingActivity.class);
-        intent.putExtra(CreateRatingActivity.ITEM, (Serializable)model.getCard().getValue());
-        intent.putExtra(CreateRatingActivity.RATING, v);
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, addRatingBar, "rating");
-        startActivity(intent, options.toBundle());
+        Observer<Card> os = new Observer<Card>() {
+            @Override
+            public void onChanged(Card card) {
+                if (card != null) {
+                    model.getCard().removeObserver(this);
+
+                    Intent intent = new Intent(CardDetailsActivity.this, CreateCardRatingActivity.class);
+                    intent.putExtra(CreateCardRatingActivity.ITEM_CARD, card);
+                    intent.putExtra(CreateCardRatingActivity.RATING_VALUE, v);
+                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(CardDetailsActivity.this, addRatingBar, "ownRating");
+                    // startActivity(intent, options.toBundle());
+                    startActivityForResult(intent, RATING_REQUEST, options.toBundle());
+                }
+            }
+        };
+        if (model.getCard().getValue() != null) {
+            os.onChanged(model.getCard().getValue());
+        } else {
+            model.getCard().observe(this, os);
+        }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == RATING_REQUEST && resultCode == RESULT_OK) {
+            // todo dont know what now to do..
+            //Rating rating = data.getParcelableExtra(CreateCardRatingActivity.ITEM_RATING);
+            //Log.d(TAG, "RatingResult: " + rating.getId());
+        }
+    }
+
+    @OnClick(R.id.actionsButton)
+    public void showBottomSheetDialog() {
+        View view = getLayoutInflater().inflate(R.layout.single_bottom_sheet_dialog, null);
+        BottomSheetDialog dialog = new BottomSheetDialog(this);
+        dialog.setContentView(view);
+        Button addToFridge = view.findViewById(R.id.addToFridge);
+        addToFridge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("FRIDGE", "FRIDGE");
+            }
+        });
+        dialog.show();
+    }
 
     private void updateCard(Card item) {
-        // This values are static and will not change.
+        // This values are static and will not change. (except ownRating)
         // Its this function is more a promise..
 
         // render meta
@@ -432,6 +483,13 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
         }
     }
 
+    private void updateOwnRatings(Rating rating) {
+        if(rating != null) {
+            addRatingBar.setRating(rating.getRating());
+            addRatingExplanation.setText("Bewertung durch klicken und ziehen ändern.");
+        }
+    }
+
     private void appendMarginTop(LinearLayout layout) {
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) layout.getLayoutParams();
         layoutParams.topMargin = Math.round(getResources().getDimension(R.dimen.activity_card_detail_margin_top));
@@ -466,9 +524,10 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
         adapter.submitList(new ArrayList<>(ratings));
     }
 
+
     @Override
     public void onRatingLikedListener(Rating rating) {
-        // model.toggleLike(rating);
+        // model.toggleLike(ownRating);
     }
 
     @OnClick(R.id.wishlist)

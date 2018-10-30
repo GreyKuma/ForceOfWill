@@ -8,7 +8,6 @@ import java.util.List;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import ch.FOW_Collection.domain.models.Beer;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.Rating;
 import ch.FOW_Collection.domain.models.Wish;
@@ -18,6 +17,7 @@ public class DetailsViewModel extends ViewModel implements CurrentUser {
     private final MutableLiveData<String> cardId = new MutableLiveData<>();
     private final LiveData<Card> card;
     private final LiveData<List<Rating>> ratings;
+    private final LiveData<Rating> ownRating;
     private final LiveData<Wish> wish;
 
     private final LikesRepository likesRepository;
@@ -32,9 +32,10 @@ public class DetailsViewModel extends ViewModel implements CurrentUser {
         wishlistRepository = new WishlistRepository();
 
         MutableLiveData<String> currentUserId = new MutableLiveData<>();
-        card = cardsRepository.getCard(cardId);
+        card = cardsRepository.getCardById(cardId);
         wish = wishlistRepository.getMyWishForCard(currentUserId, getCard());
-        ratings = ratingsRepository.getRatingsForBeer(cardId);
+        ratings = ratingsRepository.getRatingsByCardId(cardId);
+        ownRating = ratingsRepository.getRatingsByCardIdAndUserId(cardId, currentUserId);
         currentUserId.setValue(getCurrentUser().getUid());
     }
 
@@ -48,6 +49,10 @@ public class DetailsViewModel extends ViewModel implements CurrentUser {
 
     public LiveData<List<Rating>> getRatings() {
         return ratings;
+    }
+
+    public LiveData<Rating> getOwnRating() {
+        return ownRating;
     }
 
     public void setCardId(String cardId) {

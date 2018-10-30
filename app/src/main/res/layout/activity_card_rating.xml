@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context=".presentation.cardDetails.createRating.CreateRatingActivity">
+    tools:context=".presentation.cardDetails.createRating.CreateCardRatingActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -116,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/default_margin"
                 android:layout_marginTop="8dp"
-                android:text="Was denkst du über das Bier?"
+                android:text="Was denkst du über diese Karte?"
                 android:textAppearance="?attr/textAppearanceListItem"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/separator4" />
@@ -156,6 +156,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ratingText" />
 
+            <!--
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -175,7 +176,8 @@
                     android:text="Ort Hinzufügen"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="10sp" />
-                <!--
+
+                <!
                                 <View
                                     android:layout_width="1dp"
                                     android:layout_height="match_parent"
@@ -192,8 +194,8 @@
                                     android:text="Wunschliste"
                                     android:textColor="@android:color/darker_gray"
                                     android:textSize="10sp" />
-                -->
-            </LinearLayout>
+                -
+            </LinearLayout>-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
