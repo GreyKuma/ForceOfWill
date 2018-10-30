@@ -17,7 +17,6 @@ import java.util.List;
 import androidx.lifecycle.LiveData;
 import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveData;
 import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveDataArray;
-import ch.FOW_Collection.domain.models.Beer;
 import ch.FOW_Collection.domain.models.Entity;
 import ch.FOW_Collection.domain.models.Wish;
 

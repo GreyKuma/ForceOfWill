@@ -2,20 +2,16 @@ package ch.FOW_Collection.presentation.cardDetails;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RatingBar;
-import android.widget.TextView;
-import android.widget.ToggleButton;
+import android.widget.*;
 
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
@@ -33,7 +29,6 @@ import java.util.List;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.lifecycle.Observer;
@@ -162,13 +157,7 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
         startActivity(intent, options.toBundle());
     }
 
-    @OnClick(R.id.actionsButton)
-    public void showBottomSheetDialog() {
-        View view = getLayoutInflater().inflate(R.layout.single_bottom_sheet_dialog, null);
-        BottomSheetDialog dialog = new BottomSheetDialog(this);
-        dialog.setContentView(view);
-        dialog.show();
-    }
+
 
     private void updateCard(Card item) {
         // This values are static and will not change.
@@ -503,6 +492,22 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
             setDrawableTint(wishlist, color);
             wishlist.setChecked(false);
         }
+    }
+
+    @OnClick(R.id.actionsButton)
+    public void showBottomSheetDialog() {
+        View view = getLayoutInflater().inflate(R.layout.single_bottom_sheet_dialog, null);
+        BottomSheetDialog dialog = new BottomSheetDialog(this);
+        dialog.setContentView(view);
+        Button addToCollection = view.findViewById(R.id.addToCollection);
+        addToCollection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("FRIDGE", "FRIDGE");
+
+            }
+        });
+        dialog.show();
     }
 
     @Override

@@ -13,10 +13,8 @@ import androidx.lifecycle.ViewModelProviders;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
-import ch.FOW_Collection.domain.models.Beer;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.presentation.cardDetails.CardDetailsActivity;
-import ch.FOW_Collection.presentation.profile.mybeers.OnMyBeerItemInteractionListener;
 
 
 public class MyCollectionActivity extends AppCompatActivity implements OnMyCardItemInteractionListener {
@@ -46,19 +44,19 @@ public class MyCollectionActivity extends AppCompatActivity implements OnMyCardI
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                model.setSearchTerm(query);
+//                model.setSearchTerm(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                model.setSearchTerm(null);
+//                model.setSearchTerm(null);
                 return false;
             }
         });
 
         searchView.setOnCloseListener(() -> {
-            model.setSearchTerm(null);
+//            model.setSearchTerm(null);
             return false;
         });
 
@@ -86,6 +84,6 @@ public class MyCollectionActivity extends AppCompatActivity implements OnMyCardI
 
     @Override
     public void onWishClickedListener(Card item) {
-        model.toggleItemInWishlist(item.getId());
+//        model.toggleItemInWishlist(item.getId());
     }
 }

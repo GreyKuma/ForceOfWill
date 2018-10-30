@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Card implements Entity, Parcelable { // Serializable
     public static final String COLLECTION = "Cards";
+    public static final String CARD_ID = "id";
 
     @Exclude
     private String id;

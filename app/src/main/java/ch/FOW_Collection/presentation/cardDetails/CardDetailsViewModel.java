@@ -34,9 +34,9 @@ public class CardDetailsViewModel extends ViewModel implements CurrentUser {
 
         MutableLiveData<String> currentUserId = new MutableLiveData<>();
         card = cardsRepository.getCardById(cardId);
-        //card = cardRepository.getBeer(cardId);
+        //card = cardRepository.getBeer(id);
         wish = wishlistRepository.getMyWishForCard(currentUserId, getCard());
-        //ratings = ratingsRepository.getRatingsForBeer(cardId);
+        //ratings = ratingsRepository.getRatingsForBeer(id);
         currentUserId.setValue(getCurrentUser().getUid());
     }
 

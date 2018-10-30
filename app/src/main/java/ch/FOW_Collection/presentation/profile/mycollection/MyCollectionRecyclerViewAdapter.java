@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
@@ -16,13 +15,9 @@ import butterknife.ButterKnife;
 import ch.FOW_Collection.GlideApp;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.*;
-import ch.FOW_Collection.presentation.profile.mybeers.OnMyBeerItemInteractionListener;
-import ch.FOW_Collection.presentation.utils.DrawableHelpers;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
-
-import java.text.DateFormat;
 
 
 public class MyCollectionRecyclerViewAdapter extends ListAdapter<MyCard, MyCollectionRecyclerViewAdapter.ViewHolder> {
@@ -32,7 +27,7 @@ public class MyCollectionRecyclerViewAdapter extends ListAdapter<MyCard, MyColle
     private static final DiffUtil.ItemCallback<MyCard> DIFF_CALLBACK = new DiffUtil.ItemCallback<MyCard>() {
         @Override
         public boolean areItemsTheSame(@NonNull MyCard oldItem, @NonNull MyCard newItem) {
-            return oldItem.getCardId().equals(newItem.getCardId());
+            return oldItem.getId().equals(newItem.getId());
         }
 
         @Override
@@ -100,37 +95,26 @@ public class MyCollectionRecyclerViewAdapter extends ListAdapter<MyCard, MyColle
 
         public void bind(MyCard entry, OnMyCardItemInteractionListener listener) {
 
-            Card item = entry.getCard();
+//            Card item = entry.getCard();
 
-            name.setText(item.getName().getDe());
+//            name.setText(item.getName().getDe());
 //            manufacturer.setText(item.getManufacturer());
 //            category.setText(item.getCategory());
 //            name.setText(item.getName());
 //            GlideApp.with(itemView).load(item.getPhoto()).apply(new RequestOptions().override(240, 240).centerInside())
 //                    .into(photo);
-            GlideApp.with(itemView)
-                    .load(FirebaseStorage.getInstance().getReference().child(item.getImageStorageUrl()))
-                    .apply(new RequestOptions().override(240, 240).centerInside()).into(photo);
+//            GlideApp.with(itemView)
+//                    .load(FirebaseStorage.getInstance().getReference().child(item.getImageStorageUrl()))
+//                    .apply(new RequestOptions().override(240, 240).centerInside()).into(photo);
 //            ratingBar.setNumStars(5);
 //            ratingBar.setRating(item.getAvgRating());
 //            numRatings.setText(itemView.getResources().getString(R.string.fmt_num_ratings, item.getNumRatings()));
-            itemView.setOnClickListener(v -> listener.onMoreClickedListener(photo, item));
-            removeFromWishlist.setOnClickListener(v -> listener.onWishClickedListener(item));
+//            itemView.setOnClickListener(v -> listener.onMoreClickedListener(photo, item));
+//            removeFromWishlist.setOnClickListener(v -> listener.onWishClickedListener(item));
 
-            String formattedDate =
-                    DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.SHORT).format(entry.getDate());
-            addedAt.setText(formattedDate);
-
-            if (entry instanceof MyBeerFromWishlist) {
-                DrawableHelpers
-                        .setDrawableTint(removeFromWishlist, itemView.getResources().getColor(R.color.colorPrimary));
-                onTheListSince.setText("auf der Wunschliste seit");
-            } else if (entry instanceof MyBeerFromRating) {
-                DrawableHelpers.setDrawableTint(removeFromWishlist,
-                        itemView.getResources().getColor(android.R.color.darker_gray));
-                removeFromWishlist.setText("Wunschliste");
-                onTheListSince.setText("beurteilt am");
-            }
+//            String formattedDate =
+//                    DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.SHORT).format(entry.getDate());
+//            addedAt.setText(formattedDate);
         }
     }
 }
