@@ -24,7 +24,8 @@ public class MyCollectionViewModel extends ViewModel implements CurrentUser {
     public MyCollectionViewModel() {
         MyCollectionRepository myCollectionRepository = new MyCollectionRepository();
         MutableLiveData<String> currentUserId = new MutableLiveData<>();
-        myCollection = myCollectionRepository.getCollectionByUser(currentUserId.getValue());
+        // todo make it work MyCollection
+        myCollection = null; //myCollectionRepository.getCollectionByUser(currentUserId.getValue());
         currentUserId.setValue(getCurrentUser().getUid());
     }
 
