@@ -17,21 +17,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 import ch.FOW_Collection.R;
-import ch.FOW_Collection.domain.models.Beer;
+import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.presentation.cardDetails.CardDetailsActivity;
-import ch.FOW_Collection.presentation.explore.search.beers.SearchResultFragment;
+import ch.FOW_Collection.presentation.explore.search.cards.SearchResultFragment;
 import ch.FOW_Collection.presentation.explore.search.suggestions.SearchSuggestionsFragment;
-import ch.FOW_Collection.presentation.profile.mybeers.MyBeersViewModel;
-import ch.FOW_Collection.presentation.profile.mybeers.OnMyBeerItemInteractionListener;
+import ch.FOW_Collection.presentation.profile.mycollection.MyCollectionViewModel;
+import ch.FOW_Collection.presentation.profile.mycollection.OnMyCardItemInteractionListener;
 
 public class SearchActivity extends AppCompatActivity
         implements SearchResultFragment.OnItemSelectedListener, SearchSuggestionsFragment.OnItemSelectedListener,
-        OnMyBeerItemInteractionListener {
+        OnMyCardItemInteractionListener {
 
     private SearchViewModel searchViewModel;
     private ViewPagerAdapter adapter;
     private EditText searchEditText;
-    private MyBeersViewModel myBeersViewModel;
+    private MyCollectionViewModel myCollectionViewModel;
     private TabLayout tabLayout;
 
     @Override
@@ -61,12 +61,12 @@ public class SearchActivity extends AppCompatActivity
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setSaveFromParentEnabled(false);
         searchViewModel = ViewModelProviders.of(this).get(SearchViewModel.class);
-        myBeersViewModel = ViewModelProviders.of(this).get(MyBeersViewModel.class);
+        myCollectionViewModel = ViewModelProviders.of(this).get(MyCollectionViewModel.class);
     }
 
     private void handleSearch(String text) {
         searchViewModel.setSearchTerm(text);
-        myBeersViewModel.setSearchTerm(text);
+        myCollectionViewModel.setSearchTerm(text);
         adapter.setShowSuggestions(Strings.isNullOrEmpty(text));
         adapter.notifyDataSetChanged();
     }
@@ -76,9 +76,9 @@ public class SearchActivity extends AppCompatActivity
     }
 
     @Override
-    public void onSearchResultListItemSelected(View animationSource, Beer item) {
+    public void onSearchResultListItemSelected(View animationSource, Card card) {
         Intent intent = new Intent(this, CardDetailsActivity.class);
-        intent.putExtra(CardDetailsActivity.ITEM_ID, item.getId());
+        intent.putExtra(CardDetailsActivity.ITEM_ID, card.getId());
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, animationSource, "image");
         startActivity(intent, options.toBundle());
     }
@@ -99,15 +99,15 @@ public class SearchActivity extends AppCompatActivity
     }
 
     @Override
-    public void onMoreClickedListener(ImageView photo, Beer item) {
+    public void onMoreClickedListener(ImageView photo, Card card) {
         Intent intent = new Intent(this, CardDetailsActivity.class);
-        intent.putExtra(CardDetailsActivity.ITEM_ID, item.getId());
+        intent.putExtra(CardDetailsActivity.ITEM_ID, card.getId());
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, photo, "image");
         startActivity(intent, options.toBundle());
     }
 
     @Override
-    public void onWishClickedListener(Beer item) {
-        searchViewModel.toggleItemInWishlist(item.getId());
+    public void onWishClickedListener(Card card) {
+        searchViewModel.toggleItemInWishlist(card.getId());
     }
 }

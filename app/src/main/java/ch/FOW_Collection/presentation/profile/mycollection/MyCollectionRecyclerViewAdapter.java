@@ -16,7 +16,7 @@ import butterknife.ButterKnife;
 import ch.FOW_Collection.GlideApp;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.*;
-import ch.FOW_Collection.presentation.profile.mybeers.OnMyBeerItemInteractionListener;
+import ch.FOW_Collection.presentation.profile.mycollection.OnMyCardItemInteractionListener;
 import ch.FOW_Collection.presentation.utils.DrawableHelpers;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseUser;
