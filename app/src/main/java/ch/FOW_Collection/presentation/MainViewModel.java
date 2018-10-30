@@ -4,6 +4,8 @@ import ch.FOW_Collection.data.repositories.*;
 import ch.FOW_Collection.domain.models.*;
 import ch.FOW_Collection.presentation.profile.mycollection.MyCollectionActivity;
 import com.firebase.ui.firestore.FirestoreArray;
+import ch.FOW_Collection.domain.models.Rating;
+import ch.FOW_Collection.domain.models.Wish;
 import com.google.android.gms.tasks.Task;
 
 import androidx.lifecycle.LiveData;
@@ -53,10 +55,10 @@ public class MainViewModel extends ViewModel implements CurrentUser {
         MutableLiveData<String> currentUserId = new MutableLiveData<>();
         myWishlist = wishlistRepository.getMyWishlist(currentUserId);
         myRatings = ratingsRepository.getMyRatings(currentUserId);
-
         myCollection = myCollectionRepository.getCollectionByUser(currentUserId.getValue());
 //        myCollection = myCollectionRepository.getMyCollection();
         // myBeers = myBeersRepository.getMyBeers(allBeers, myWishlist, myRatings);
+
 
         /*
          * Set the current user id, which is used as input for the getMyWishlist and getMyRatings calls above.
