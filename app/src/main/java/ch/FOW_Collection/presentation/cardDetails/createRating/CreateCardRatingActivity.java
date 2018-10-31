@@ -12,7 +12,6 @@ import android.widget.*;
 import androidx.appcompat.app.AlertDialog;
 import ch.FOW_Collection.domain.models.Rating;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.yalantis.ucrop.UCrop;
@@ -83,6 +82,7 @@ public class CreateCardRatingActivity extends AppCompatActivity {
 
         Rating itemRating = getIntent().getExtras().getParcelable(ITEM_RATING);
         if (itemRating != null) {
+            model.setOldRating(itemRating);
             loadRating(itemRating);
         }
 
@@ -242,14 +242,16 @@ public class CreateCardRatingActivity extends AppCompatActivity {
 
         dialog.show();
 
-        model.saveRating(model.getItem(), rating, comment, model.getPhoto(), dialogLabel, progressBar)
-                .addOnSuccessListener(task -> {
-                    dialog.hide();
-                    Intent intent = new Intent();
-                    // todo When offline, nothing happens: we dont get the Rating back or something... WorkAround: ignore it..
-                    //intent.putExtra(ITEM_RATING, rating);
-                    setResult(RESULT_OK, intent);
-                    finish();
+        model.saveRating(model.getItem(), rating, comment, model.getPhoto(), model.getOldRating(), dialogLabel, progressBar)
+                .addOnCompleteListener(task -> {
+                    if (!task.isCanceled()) {
+                        dialog.hide();
+                        Intent intent = new Intent();
+                        // todo When offline, nothing happens: we dont get the Rating back or something... WorkAround: ignore it..
+                        //intent.putExtra(ITEM_RATING, rating);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
                 })
                 .addOnFailureListener(error -> {
                     dialog.hide();

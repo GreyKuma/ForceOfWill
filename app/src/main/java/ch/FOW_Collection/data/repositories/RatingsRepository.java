@@ -21,9 +21,12 @@ import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveDataArray;
 import ch.FOW_Collection.domain.models.Rating;
 import ch.FOW_Collection.domain.models.Wish;
 
+import javax.annotation.Nullable;
+
 import static androidx.lifecycle.Transformations.map;
 import static androidx.lifecycle.Transformations.switchMap;
 import static ch.FOW_Collection.domain.liveData.LiveDataExtensions.combineLatest;
+import static ch.FOW_Collection.domain.liveData.LiveDataExtensions.zip;
 
 public class RatingsRepository {
     //region private static
@@ -52,30 +55,30 @@ public class RatingsRepository {
         return new FirestoreQueryLiveDataArray<>(
                 allRatingsQuery().whereEqualTo(Rating.FIELD_USER_ID, userId), parser);
     }
-
+/*
     public static LiveData<List<Rating>> ratingsByCard(Card card) {
         return ratingsByCardId(card.getId());
-    }
+    }*/
 
     public static LiveData<List<Rating>> ratingsByCardId(String cardId) {
         return new FirestoreQueryLiveDataArray<>(
                 allRatingsQuery().whereEqualTo(Rating.FIELD_CARD_ID, cardId), parser);
     }
 
-    private static LiveData<Rating> ratingsByCardIdAndUserId(Pair<String, String> input) {
-        return ratingsByCardIdAndUserId(input.first, input.second);
+    private static LiveData<Rating> ratingsByUserIdAndCardId(Pair<String, String> input) {
+        return ratingsByUserIdAndCardId(input.first, input.second);
     }
+/*
 
+    private static LiveData<Rating> ratingsByCardAndUserId(Pair<String, Card> input) {
+        return ratingsByCardIdAndUserId(input.first, input.second.getId());
+    }*/
 
-    private static LiveData<Rating> ratingsByCardAndUserId(Pair<Card, String> input) {
-        return ratingsByCardIdAndUserId(input.first.getId(), input.second);
-    }
-
-    public static LiveData<Rating> ratingsByCardIdAndUserId(String cardId, String userId) {
+    public static LiveData<Rating> ratingsByUserIdAndCardId(String userId, String cardId) {
         return new FirestoreQueryLiveData<Rating>(
                 FirebaseFirestore.getInstance()
                         .collection(Rating.COLLECTION)
-                        .document(Rating.generateId(cardId, userId)), parser);
+                        .document(Rating.generateId(userId, cardId)), parser);
     }
 
     private static Task<Void> setRating(Rating rating) {
@@ -83,7 +86,7 @@ public class RatingsRepository {
                 .getInstance()
                 .collection(Rating.COLLECTION)
                 .document(rating.getId())
-                .set(parser.parseMap(rating), SetOptions.merge());
+                .set(parser.parseMap(rating));//, SetOptions.merge());
     }
 
     //endregion
@@ -144,10 +147,10 @@ public class RatingsRepository {
     public LiveData<List<Rating>> getRatingsByUserId(String userId) {
         return ratingsByUserId(userId);
     }
-
+/*
     public LiveData<List<Rating>> getRatingsByUserId(MutableLiveData<String> userId) {
         return switchMap(userId, RatingsRepository::ratingsByUserId);
-    }
+    }*/
 
     public LiveData<List<Rating>> getRatingsByCardId(MutableLiveData<String> cardId) {
         return switchMap(cardId, RatingsRepository::ratingsByCardId);
@@ -156,7 +159,7 @@ public class RatingsRepository {
     public LiveData<List<Rating>> getRatingsByCardId(String cardId) {
         return ratingsByCardId(cardId);
     }
-
+/*
     public LiveData<List<Rating>> getRatingsByCard(MutableLiveData<Card> card) {
         return switchMap(card, RatingsRepository::ratingsByCard);
     }
@@ -164,19 +167,19 @@ public class RatingsRepository {
     public LiveData<List<Rating>> getRatingsByCard(Card card) {
         return ratingsByCard(card);
     }
-
-    public LiveData<Rating> getRatingsByCardIdAndUserId(String cardId, String userId) {
-        return ratingsByCardIdAndUserId(cardId, userId);
+*/
+    public LiveData<Rating> getRatingsByUserIdAndCardId(String userId, String cardId) {
+        return ratingsByUserIdAndCardId(userId, cardId);
     }
 
-    public LiveData<Rating> getRatingsByCardIdAndUserId(MutableLiveData<String> cardId, MutableLiveData<String> userId) {
-        return switchMap(combineLatest(cardId, userId), RatingsRepository::ratingsByCardIdAndUserId); //ratingsByCardIdAndUserId(cardId, userId);
+    public LiveData<Rating> getRatingsByUserIdAndCardId(MutableLiveData<String> userId, MutableLiveData<String> cardId) {
+        return switchMap(zip(userId, cardId), RatingsRepository::ratingsByUserIdAndCardId); //ratingsByCardIdAndUserId(cardId, userId);
     }
-
-    public LiveData<Rating> getRatingsByCardAndUserId(MutableLiveData<Card> card, MutableLiveData<String> userId) {
-        return switchMap(combineLatest(card, userId), RatingsRepository::ratingsByCardAndUserId); //ratingsByCardIdAndUserId(cardId, userId);
+/*
+    public LiveData<Rating> getRatingsByCardAndUserId(LiveData<Card> card, MutableLiveData<String> userId) {
+        return switchMap(zip(userId, card), RatingsRepository::ratingsByCardAndUserId); //ratingsByCardIdAndUserId(cardId, userId);
     }
-
+*/
     public Task<Void> putRating(Rating rating) {
         if (rating.getId() == null || rating.getId().equals("")) {
             rating.setId(Rating.generateId(rating.getUserId(), rating.getCardId()));

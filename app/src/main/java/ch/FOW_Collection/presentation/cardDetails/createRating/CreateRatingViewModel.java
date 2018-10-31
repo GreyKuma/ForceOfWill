@@ -1,35 +1,26 @@
 package ch.FOW_Collection.presentation.cardDetails.createRating;
 
-import android.app.Activity;
 import android.net.Uri;
 import android.util.Log;
 
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import ch.FOW_Collection.data.repositories.RatingsRepository;
 import ch.FOW_Collection.domain.models.Card;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.Collections;
 import java.util.Date;
-import java.util.concurrent.Executor;
 
 import androidx.lifecycle.ViewModel;
 import ch.FOW_Collection.data.parser.EntityClassSnapshotParser;
-import ch.FOW_Collection.domain.models.Beer;
 import ch.FOW_Collection.domain.models.Rating;
-import com.google.firebase.storage.UploadTask;
 
 public class CreateRatingViewModel extends ViewModel {
 
@@ -37,16 +28,17 @@ public class CreateRatingViewModel extends ViewModel {
 
     private EntityClassSnapshotParser<Rating> parser = new EntityClassSnapshotParser<>(Rating.class);
     private Card item;
+    private Rating oldRating;
     private Uri photo;
 
     public Card getItem() {
         return item;
     }
-
+    public Rating getOldRating() { return oldRating; }
     public void setItem(Card item) {
         this.item = item;
     }
-
+    public void setOldRating(Rating rating) { oldRating = rating; }
     public Uri getPhoto() {
         return photo;
     }
@@ -55,14 +47,14 @@ public class CreateRatingViewModel extends ViewModel {
         this.photo = photo;
     }
 
-    public Task<Uri> saveRating(Card item, float rating, String comment, Uri localPhotoUri) {
-        return saveRating(item, rating, comment, localPhotoUri, null, null);
-    }
-
-    public Task<Uri> saveRating(Card item, float rating, String comment, Uri localPhotoUri, @Nullable TextView dialogLabel, @Nullable ProgressBar progressBar) {
+    public Task<Uri> saveRating(Card item, float rating, String comment, Uri localPhotoUri, @Nullable Rating oldRating, @Nullable TextView dialogLabel, @Nullable ProgressBar progressBar) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
         assert item != null;
+
+        if (oldRating.getPhoto().equals(localPhotoUri.toString())) {
+            localPhotoUri = null;
+        }
 
         if (dialogLabel != null) {
             dialogLabel.setText("Lade Bild hoch...");
@@ -82,6 +74,10 @@ public class CreateRatingViewModel extends ViewModel {
 
             if (dialogLabel != null) {
                 dialogLabel.setText("Speichere Beurteilung...");
+            }
+
+            if (oldRating != null) {
+                photoUrl = oldRating.getPhoto();
             }
 
             // When we are offline, the Task from Firestore does not fire until real write on Database.
@@ -107,7 +103,7 @@ public class CreateRatingViewModel extends ViewModel {
     }
 
     private Task<Uri> uploadFileToFirebaseStorage(Uri localPhotoUri, @Nullable ProgressBar progressBar) {
-        if (localPhotoUri == null) {
+        if (localPhotoUri == null || localPhotoUri.toString().startsWith("{}")) {
             return Tasks.forCanceled();
         }
 

@@ -154,6 +154,8 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
 
         model.getCard().observe(this, this::updateCard);
         model.getRatings().observe(this, this::updateRatings);
+        //new RatingsRepository().getRatingsByUserIdAndCardId(FirebaseAuth.getInstance().getCurrentUser().getUid(), cardId)
+        //        .observe(this, this::updateOwnRatings);
         model.getOwnRating().observe(this, this::updateOwnRatings);
         model.getWish().observe(this, this::toggleWishlistView);
 
@@ -162,26 +164,29 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
     }
 
     private void addNewRating(RatingBar ratingBar, float v, boolean b) {
-        Observer<Card> os = new Observer<Card>() {
+        /*Observer<Card> os = new Observer<Card>() {
             @Override
-            public void onChanged(Card card) {
-                if (card != null) {
-                    model.getCard().removeObserver(this);
+            public void onChanged(Card card) {*/
+                if (model.getCard().getValue() != null) {
+                    //model.getCard().removeObserver(this);
 
                     Intent intent = new Intent(CardDetailsActivity.this, CreateCardRatingActivity.class);
-                    intent.putExtra(CreateCardRatingActivity.ITEM_CARD, card);
+                    intent.putExtra(CreateCardRatingActivity.ITEM_CARD, model.getCard().getValue());
+                    if (model.getOwnRating().getValue() != null) {
+                        intent.putExtra(CreateCardRatingActivity.ITEM_RATING, model.getOwnRating().getValue());
+                    }
                     intent.putExtra(CreateCardRatingActivity.RATING_VALUE, v);
                     ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(CardDetailsActivity.this, addRatingBar, "ownRating");
                     // startActivity(intent, options.toBundle());
                     startActivityForResult(intent, RATING_REQUEST, options.toBundle());
                 }
-            }
+           /* }
         };
         if (model.getCard().getValue() != null) {
             os.onChanged(model.getCard().getValue());
         } else {
             model.getCard().observe(this, os);
-        }
+        }*/
     }
 
     @Override
@@ -471,8 +476,12 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
 
     private void updateOwnRatings(Rating rating) {
         if(rating != null) {
+            addRatingBar.setOnRatingBarChangeListener(null);
+
             addRatingBar.setRating(rating.getRating());
             addRatingExplanation.setText("Bewertung durch klicken und ziehen ändern.");
+
+            addRatingBar.setOnRatingBarChangeListener(this::addNewRating);
         }
     }
 

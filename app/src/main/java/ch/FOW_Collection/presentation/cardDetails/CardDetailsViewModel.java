@@ -40,7 +40,7 @@ public class CardDetailsViewModel extends ViewModel implements CurrentUser {
         card = cardsRepository.getCardById(cardId);
         wish = wishlistRepository.getMyWishForCard(currentUserId, getCard());
         ratings = ratingsRepository.getRatingsByCardId(cardId);
-        ownRating = ratingsRepository.getRatingsByCardIdAndUserId(cardId, currentUserId);
+        ownRating = ratingsRepository.getRatingsByUserIdAndCardId(currentUserId, cardId);
 
         currentUserId.setValue(getCurrentUser().getUid());
     }

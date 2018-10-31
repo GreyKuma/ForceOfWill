@@ -139,10 +139,6 @@ public class MainViewModel extends ViewModel implements CurrentUser {
         return ratingsRepository.getRatingsByCardId(cardId);
     }
 
-    public LiveData<Rating> getRatingsByCardIdAndUserId(String cardId, String userId) {
-        return ratingsRepository.getRatingsByCardIdAndUserId(cardId, userId);
-    }
-
     public Task<Void> putRating(Rating rating) {
         return ratingsRepository.putRating(rating);
     }
