@@ -89,9 +89,9 @@ public class MainActivity
         adapter.addFragment(new ProfileFragment());
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(0).setIcon(R.drawable.ic_search_black_24dp);
-        tabLayout.getTabAt(1).setIcon(R.drawable.ic_people_black_24dp);
-        tabLayout.getTabAt(2).setIcon(R.drawable.ic_person_black_24dp);
+        tabLayout.getTabAt(0).setIcon(R.drawable.ic_search_white_24dp);
+        tabLayout.getTabAt(1).setIcon(R.drawable.ic_people_white_24dp);
+        tabLayout.getTabAt(2).setIcon(R.drawable.ic_person_white_24dp);
 
         /*
          * We want to change the title of the activity depending on the selected fragment. We can do this by

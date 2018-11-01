@@ -7,6 +7,10 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import ch.FOW_Collection.domain.models.User;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -28,19 +32,19 @@ public class RatingsRecyclerViewAdapter extends ListAdapter<Rating, RatingsRecyc
     private static final EntityDiffItemCallback<Rating> DIFF_CALLBACK = new EntityDiffItemCallback<>();
 
     private final OnRatingLikedListener listener;
-    private FirebaseUser user;
+    private LiveData<String> userId;
 
-    public RatingsRecyclerViewAdapter(OnRatingLikedListener listener, FirebaseUser user) {
+    public RatingsRecyclerViewAdapter(OnRatingLikedListener listener, LiveData<String> userId) {
         super(DIFF_CALLBACK);
         this.listener = listener;
-        this.user = user;
+        this.userId = userId;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.activity_details_ratings_listentry, parent, false);
+        View view = layoutInflater.inflate(R.layout.activity_card_details_ratings_listentry, parent, false);
         return new ViewHolder(view);
     }
 
@@ -97,11 +101,20 @@ public class RatingsRecyclerViewAdapter extends ListAdapter<Rating, RatingsRecyc
                 photo.setVisibility(View.GONE);
             }
 
-            authorName.setText(item.getUserName());
-            GlideApp.with(itemView).load(item.getUserPhoto()).apply(new RequestOptions().circleCrop()).into(avatar);
+            item.getUser().observeForever(new Observer<User>() {
+                @Override
+                public void onChanged(User user) {
+                    if (user != null) {
+                        item.getUser().removeObserver(this);
+
+                        authorName.setText(user.getName());
+                        GlideApp.with(itemView).load(user.getPhoto()).apply(new RequestOptions().circleCrop()).into(avatar);
+                    }
+                }
+            });
 
             numLikes.setText(itemView.getResources().getString(R.string.fmt_num_ratings, item.getLikes().size()));
-            if (item.getLikes().containsKey(user.getUid())) {
+            if (item.getLikes().containsKey(userId.getValue())) {
                 like.setColorFilter(itemView.getResources().getColor(R.color.colorPrimary));
             } else {
                 like.setColorFilter(itemView.getResources().getColor(android.R.color.darker_gray));

@@ -16,7 +16,7 @@ public class MyBeerFromRating implements MyBeer {
 
     @Override
     public String getBeerId() {
-        return rating.getBeerId();
+        return rating.getCardId();
     }
 
     @Override

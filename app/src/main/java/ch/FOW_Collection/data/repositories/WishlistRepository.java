@@ -4,6 +4,7 @@ import android.util.Pair;
 
 import ch.FOW_Collection.data.parser.WishClassSnapshotParser;
 import ch.FOW_Collection.domain.models.Card;
+import ch.FOW_Collection.domain.models.User;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -25,20 +26,20 @@ import static androidx.lifecycle.Transformations.switchMap;
 import static ch.FOW_Collection.domain.liveData.LiveDataExtensions.combineLatest;
 
 public class WishlistRepository {
+    private static WishClassSnapshotParser parser = new WishClassSnapshotParser();
 
-
-    private static LiveData<List<Wish>> getWishesByUser(String userId) {
+    private static LiveData<List<Wish>> wishlistByUserId(String userId) {
         return new FirestoreQueryLiveDataArray<>(FirebaseFirestore.getInstance().collection(Wish.COLLECTION)
                 .orderBy(Wish.FIELD_ADDED_AT, Query.Direction.DESCENDING).whereEqualTo(Wish.FIELD_USER_ID, userId),
-                new WishClassSnapshotParser());
+                parser);
     }
 
-    private static LiveData<Wish> getUserWishListFor(Pair<String, Card> input) {
+    private static LiveData<Wish> wishlistByUserIdForCard(Pair<String, Card> input) {
         String userId = input.first;
         Card card = input.second;
         DocumentReference document = FirebaseFirestore.getInstance().collection(Wish.COLLECTION)
                 .document(Wish.generateId(userId, card.getId()));
-        return new FirestoreQueryLiveData<>(document, new WishClassSnapshotParser());
+        return new FirestoreQueryLiveData<>(document, parser);
     }
     public Task<Void> toggleUserWishlistItem(String userId, String itemId) {
 
@@ -74,12 +75,29 @@ public class WishlistRepository {
         });
     }
 
-    public LiveData<List<Wish>> getMyWishlist(LiveData<String> currentUserId) {
-        return switchMap(currentUserId, WishlistRepository::getWishesByUser);
+    public LiveData<List<Wish>> getWishlistByUserId(LiveData<String> userId) {
+        return switchMap(userId, WishlistRepository::wishlistByUserId);
     }
 
+    public LiveData<List<Wish>> getWishlistByUserId(String userId) {
+        return wishlistByUserId(userId);
+    }
 
+    public LiveData<Wish> getWishlistByUserIdForCard(LiveData<String> currentUserId, LiveData<Card> card) {
+        return switchMap(combineLatest(currentUserId, card), WishlistRepository::wishlistByUserIdForCard);
+    }
+
+    /*public LiveData<Wish> getWishlistByUserForCard(LiveData<User> currentUser, LiveData<Card> card) {
+        return switchMap(zip(currentUser, card), WishlistRepository::wishlistByUserIdForCard);
+    }*/
+
+    @Deprecated
+    public LiveData<List<Wish>> getMyWishlist(LiveData<String> currentUserId) {
+        return switchMap(currentUserId, WishlistRepository::wishlistByUserId);
+    }
+
+    @Deprecated
     public LiveData<Wish> getMyWishForCard(LiveData<String> currentUserId, LiveData<Card> card) {
-        return switchMap(combineLatest(currentUserId, card), WishlistRepository::getUserWishListFor);
+        return switchMap(combineLatest(currentUserId, card), WishlistRepository::wishlistByUserIdForCard);
     }
 }

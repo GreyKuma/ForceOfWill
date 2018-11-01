@@ -1,5 +1,6 @@
 package ch.FOW_Collection.data.repositories;
 
+import com.firebase.ui.firestore.ClassSnapshotParser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -19,6 +20,7 @@ public class CardsRepository {
     //region private static
     // For the pattern, we don't want to use static methods,
     // instead we define public / nonStatic after this region.
+    private static final ClassSnapshotParser<Card> parser = new CardClassSnapshotParser();
 
     /**
      * Get Query for all cards.
@@ -34,10 +36,9 @@ public class CardsRepository {
      * Get LiveData of all cards.
      * @return LiveDataArray of all cards.
      */
-    private static FirestoreQueryLiveDataArray<Card> allCards() {
-        return new FirestoreQueryLiveDataArray<>(
-                allCardsQuery(), new CardClassSnapshotParser());
-    }
+    private static FirestoreQueryLiveDataArray<Card> allCards =
+            new FirestoreQueryLiveDataArray<>(
+                allCardsQuery(), parser);
 
     /**
      * Get DocumentReference of a single card.
@@ -52,13 +53,13 @@ public class CardsRepository {
     }
 
     /**
-     * Get LiveData of all cards.
+     * Get LiveData of a single cards.
      * @param cardId Id of the card.
-     * @return LiveData of all cards.
+     * @return LiveData of a single cards.
      */
     private static FirestoreQueryLiveData<Card> cardById(String cardId) {
         return new FirestoreQueryLiveData<>(
-                cardByIdDocRef(cardId), new CardClassSnapshotParser());
+                cardByIdDocRef(cardId), parser);
     }
 
     /**
@@ -79,7 +80,7 @@ public class CardsRepository {
      */
     private static FirestoreQueryLiveDataArray<Card> cardsTopRated(int limit) {
         return new FirestoreQueryLiveDataArray<>(
-                cardsTopRatedQuery(limit), new CardClassSnapshotParser());
+                cardsTopRatedQuery(limit), parser);
     }
 
     //endregion
@@ -92,19 +93,24 @@ public class CardsRepository {
      */
     public FirestoreQueryLiveDataArray<Card> getAllCards() {
         return new FirestoreQueryLiveDataArray<>(
-                allCardsQuery(), new CardClassSnapshotParser());
+                allCardsQuery(), parser);
     }
 
     /**
-     * Get LiveData of all cards.
+     * Get LiveData of a single cards.
      * @param cardId Id of the card.
-     * @return LiveData of all cards.
+     * @return LiveData of a single cards.
      */
     public LiveData<Card> getCardById(String cardId) {
         return new FirestoreQueryLiveData<>(
-                cardByIdDocRef(cardId), new CardClassSnapshotParser());
+                cardByIdDocRef(cardId), parser);
     }
 
+    /**
+     * Get LiveData of a single cards.
+     * @param cardId Id of the card.
+     * @return LiveData of a single cards.
+     */
     public LiveData<Card> getCardById(LiveData<String> cardId) {
         return switchMap(cardId, CardsRepository::cardById);
     }
@@ -114,17 +120,9 @@ public class CardsRepository {
      * Should only be used by Firestore-ui-Components which has setLifecycleOwner!
      * @return FirestoreArray for top rated cards.
      */
-    //public Query getCardsTopRatedQuery(int limit) {
-    //    return cardsTopRatedQuery().limit(limit);
-    //}
-
     public FirestoreQueryLiveDataArray<Card> getCardsTopRated(int limit) {
         return cardsTopRated(limit);
     }
 
     //endregion
-
-    public LiveData<Card> getCard(LiveData<String> cardId) {
-        return switchMap(cardId, this::getCardById);
-    }
 }

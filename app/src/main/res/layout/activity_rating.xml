@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context=".presentation.cardDetails.createrating.CreateRatingActivity">
+    tools:context=".presentation.cardDetails.createRating.CreateRatingActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -187,14 +187,13 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:drawableTop="@drawable/ic_bookmark_brown_24dp"
+                                    android:drawableTop="@drawable/ic_bookmark_white_24dp"
                                     android:drawableTint="@android:color/darker_gray"
                                     android:text="Wunschliste"
                                     android:textColor="@android:color/darker_gray"
                                     android:textSize="10sp" />
                 -->
             </LinearLayout>
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
