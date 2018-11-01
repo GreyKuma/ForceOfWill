@@ -263,10 +263,12 @@ public class CreateCardRatingActivity extends AppCompatActivity {
     }
 
     private void loadRating(Rating rating) {
-        GlideApp.with(this).load(rating.getPhoto()).into(photo);
         ratingText.setText(rating.getComment());
-        photoExplanation.setText(null);
 
-        model.setPhoto(Uri.parse(rating.getPhoto()));
+        if (rating.getPhoto() != null) {
+            model.setPhoto(Uri.parse(rating.getPhoto()));
+            photoExplanation.setText(null);
+            GlideApp.with(this).load(rating.getPhoto()).into(photo);
+        }
     }
 }

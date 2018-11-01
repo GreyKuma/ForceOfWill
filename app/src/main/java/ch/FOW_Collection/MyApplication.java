@@ -28,6 +28,7 @@ public class MyApplication extends Application {
          */
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setPersistenceEnabled(true)
+                .setTimestampsInSnapshotsEnabled(true)
                 .build();
         FirebaseFirestore.getInstance().setFirestoreSettings(settings);
 

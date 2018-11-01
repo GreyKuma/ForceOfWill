@@ -53,7 +53,7 @@ public class CreateRatingViewModel extends ViewModel {
         assert item != null;
 
         // has image changed?
-        if (oldRating != null && oldRating.getPhoto().equals(localPhotoUri.toString())) {
+        if (oldRating != null && oldRating.getPhoto() != null && oldRating.getPhoto().equals(localPhotoUri.toString())) {
             localPhotoUri = null;
         }
 
