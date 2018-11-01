@@ -122,16 +122,14 @@ public class WishlistRecyclerViewAdapter extends ListAdapter<Wish, WishlistRecyc
                     if (item != null) {
 
                         name.setText(item.getName().getDe());
-//            manufacturer.setText(item.getManufacturer());
-//            category.setText(item.getCategory());
 
-            GlideApp.with(itemView)
-                    .load(FirebaseStorage.getInstance().getReference().child(item.getImageStorageUrl()))
-                    .apply(new RequestOptions().override(240, 240).centerInside()).into(photo);
+                        GlideApp.with(itemView)
+                                .load(FirebaseStorage.getInstance().getReference().child(item.getImageStorageUrl()))
+                                .apply(new RequestOptions().override(240, 240).centerInside()).into(photo);
 
-            ratingBar.setNumStars(5);
-            ratingBar.setRating(item.getAvgRating());
-            numRatings.setText(itemView.getResources().getString(R.string.fmt_num_ratings, item.getNumRatings()));
+                        ratingBar.setNumStars(5);
+                        ratingBar.setRating(item.getAvgRating());
+                        numRatings.setText(itemView.getResources().getString(R.string.fmt_num_ratings, item.getNumRatings()));
                         itemView.setOnClickListener(v -> listener.onMoreClickedListener(photo, item));
 
                         String formattedDate =

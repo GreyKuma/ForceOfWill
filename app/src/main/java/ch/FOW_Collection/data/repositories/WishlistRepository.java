@@ -40,7 +40,6 @@ public class WishlistRepository {
                 .document(Wish.generateId(userId, card.getId()));
         return new FirestoreQueryLiveData<>(document, new WishClassSnapshotParser());
     }
-
     public Task<Void> toggleUserWishlistItem(String userId, String itemId) {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();

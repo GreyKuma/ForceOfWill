@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import ch.FOW_Collection.data.repositories.*;
 import ch.FOW_Collection.domain.models.*;
+import com.google.android.gms.tasks.Task;
 import com.google.common.base.Strings;
 
 import java.util.ArrayList;
@@ -19,14 +20,51 @@ public class MyCollectionViewModel extends ViewModel implements CurrentUser {
 
     private static final String TAG = "MyCollectionViewModel";
 
+    private final MutableLiveData<String> searchTerm = new MutableLiveData<>();
     private final LiveData<List<MyCard>> myCollection;
+    private final LiveData<List<MyCard>> myFilteredCards;
+    private final MyCollectionRepository myCollectionRepository = new MyCollectionRepository();
+    private final MutableLiveData<String> currentUserId;
 
     public MyCollectionViewModel() {
-        MyCollectionRepository myCollectionRepository = new MyCollectionRepository();
-        MutableLiveData<String> currentUserId = new MutableLiveData<>();
-        myCollection = myCollectionRepository.getCollectionByUser(currentUserId.getValue());
+
+        currentUserId = new MutableLiveData<>();
+
+        myCollection = myCollectionRepository.getMyCollection(currentUserId);
+        myFilteredCards = map(zip(searchTerm, myCollection), MyCollectionViewModel::filter);
+
         currentUserId.setValue(getCurrentUser().getUid());
     }
 
     public LiveData<List<MyCard>> getMyCollection() {return myCollection;}
+
+    private static List<MyCard> filter(Pair<String, List<MyCard>> input) {
+        String searchTerm1 = input.first;
+        List<MyCard> myCards = input.second;
+        if (Strings.isNullOrEmpty(searchTerm1)) {
+            return myCards;
+        }
+        if (myCards == null) {
+            return Collections.emptyList();
+        }
+        ArrayList<MyCard> filtered = new ArrayList<>();
+        for (MyCard card : myCards) {
+            if (card.getId().toLowerCase().contains(searchTerm1.toLowerCase())) {
+                filtered.add(card);
+            }
+        }
+        return filtered;
+    }
+
+    public LiveData<List<MyCard>> getMyFilteredCards() {
+        return myFilteredCards;
+    }
+
+    public void setSearchTerm(String searchTerm) {
+        this.searchTerm.setValue(searchTerm);
+    }
+
+    public Task<Void> toggleCardInCollection(String itemId){
+        return myCollectionRepository.toggleCardInCollection(currentUserId.getValue(), itemId);
+    }
 }

@@ -44,23 +44,22 @@ public class MyCollectionFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-
         MyCollectionViewModel model = ViewModelProviders.of(getActivity()).get(MyCollectionViewModel.class);
-        model.getMyCollection().observe(getActivity(), this::handleCollectionChanged);
 
+        //TODO Was here (not working)
 
-        adapter = new MyCollectionRecyclerViewAdapter(interactionListener, model.getCurrentUser());
+        adapter = new MyCollectionRecyclerViewAdapter(getContext(), this, interactionListener);
 
         recyclerView.setAdapter(adapter);
 
-        //TODO works here
-        model.getMyFilteredCards().observe(getActivity(), this::handleCollectionChanged);
+        //TODO Is here now (working)
+        model.getMyCollection().observe(getActivity(), this::handleCollectionChanged);
 
         return view;
     }
 
     private void handleCollectionChanged(List<MyCard> cards) {
-        adapter.submitList(new ArrayList<MyCard>(cards));
+        adapter.submitList(new ArrayList<>(cards));
         if (cards.isEmpty()) {
             emptyView.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);

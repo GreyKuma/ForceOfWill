@@ -6,6 +6,8 @@ import ch.FOW_Collection.data.parser.WishClassSnapshotParser;
 import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveDataArray;
 import ch.FOW_Collection.domain.models.*;
 import ch.FOW_Collection.domain.models.Collection;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import org.apache.commons.lang3.tuple.Triple;
@@ -23,6 +25,7 @@ import ch.FOW_Collection.domain.models.Rating;
 import ch.FOW_Collection.domain.models.Wish;
 
 import static androidx.lifecycle.Transformations.map;
+import static androidx.lifecycle.Transformations.switchMap;
 import static ch.FOW_Collection.domain.liveData.LiveDataExtensions.combineLatest;
 
 import java.util.*;
@@ -31,9 +34,34 @@ import static androidx.lifecycle.Transformations.map;
 import static ch.FOW_Collection.domain.liveData.LiveDataExtensions.combineLatest;
 
 public class MyCollectionRepository {
-    public LiveData<List<MyCard>> getCollectionByUser(String userId) {
-        return new FirestoreQueryLiveDataArray<>(FirebaseFirestore.getInstance().collection(Collection.
-                FIRST_COLLECTION + "/" + userId).orderBy(Card.CARD_ID, Query.Direction.DESCENDING),
+    private static LiveData<List<MyCard>> getCollectionByUser(String userId) {
+        if(userId == null){
+            return null;
+        }
+        return new FirestoreQueryLiveDataArray<>(FirebaseFirestore.getInstance()
+                .collection(Collection.FIRST_COLLECTION + "/" + userId + "/" + Collection.SECOND_COLLECTION)
+                .orderBy(Card.CARD_ID, Query.Direction.DESCENDING),
                 new MyCardClassSnapshotParser());
+    }
+
+    public Task<Void> toggleCardInCollection(String userId, String cardId){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference cardRef = db
+                .collection(Collection.FIRST_COLLECTION + "/" + userId + "/" + Collection.SECOND_COLLECTION)
+                .document(cardId);
+
+        return cardRef.get().continueWithTask(task -> {
+            if(task.isSuccessful() && task.getResult().exists()){
+                return cardRef.delete();
+            } else if (task.isSuccessful()){
+                return cardRef.set(new MyCard(cardId));
+            } else {
+                throw task.getException();
+            }
+        });
+    }
+
+    public LiveData<List<MyCard>> getMyCollection(LiveData<String> currentUserId){
+        return switchMap(currentUserId, MyCollectionRepository::getCollectionByUser);
     }
 }

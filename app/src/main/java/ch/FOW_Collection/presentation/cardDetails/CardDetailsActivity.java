@@ -115,7 +115,6 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
     RecyclerView recyclerView;
 
     private RatingsRecyclerViewAdapter adapter;
-
     private CardDetailsViewModel model;
 
     @Override
@@ -504,6 +503,7 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
             @Override
             public void onClick(View v) {
                 Log.d("FRIDGE", "FRIDGE");
+                model.toggleItemInCollection(model.getCard().getValue().getId());
 
             }
         });
