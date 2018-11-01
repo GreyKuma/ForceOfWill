@@ -49,9 +49,9 @@ public class SearchViewModel extends ViewModel implements CurrentUser {
     }
 
     private static List<Card> filter(Pair<String, List<Card>> input) {
-        String searchTerm1 = input.first;
+        String searchTerm = input.first;
         List<Card> allCards = input.second;
-        if (Strings.isNullOrEmpty(searchTerm1)) {
+        if (Strings.isNullOrEmpty(searchTerm)) {
             return allCards;
         }
         if (allCards == null) {
@@ -60,7 +60,7 @@ public class SearchViewModel extends ViewModel implements CurrentUser {
         ArrayList<Card> filtered = new ArrayList<>();
         for (Card card : allCards) {
             //TODO getName().getDe() should work
-            if (card.getIdStr().toLowerCase().contains(searchTerm1.toLowerCase())) {
+            if (card.getName().getDe().toLowerCase().contains(searchTerm.toLowerCase())) {
                 filtered.add(card);
             }
         }
