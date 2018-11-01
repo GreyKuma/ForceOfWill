@@ -1,9 +1,6 @@
 package ch.FOW_Collection.presentation.profile.mywishlist;
 
-import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,14 +26,12 @@ import butterknife.ButterKnife;
 import ch.FOW_Collection.GlideApp;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Card;
-import ch.FOW_Collection.domain.models.Beer;
 import ch.FOW_Collection.domain.models.Wish;
-import ch.FOW_Collection.presentation.utils.EntityPairDiffItemCallback;
 import com.google.firebase.storage.FirebaseStorage;
 
 
 public class WishlistRecyclerViewAdapter extends ListAdapter<Wish, WishlistRecyclerViewAdapter.ViewHolder> {
-        //extends ListAdapter<Pair<Wish, Card>, WishlistRecyclerViewAdapter.ViewHolder> {
+    //extends ListAdapter<Pair<Wish, Card>, WishlistRecyclerViewAdapter.ViewHolder> {
 
     private static final String TAG = "WishlistRecyclerViewAda";
 
@@ -86,7 +81,7 @@ public class WishlistRecyclerViewAdapter extends ListAdapter<Wish, WishlistRecyc
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.name)
+        @BindView(R.id.cardName)
         TextView name;
 
 //        @BindView(R.id.manufacturer)
@@ -95,13 +90,13 @@ public class WishlistRecyclerViewAdapter extends ListAdapter<Wish, WishlistRecyc
         @BindView(R.id.category)
         TextView category;
 
-        @BindView(R.id.photo)
+        @BindView(R.id.cardImage)
         ImageView photo;
 
-        @BindView(R.id.ratingBar)
+        @BindView(R.id.cardRatingBar)
         RatingBar ratingBar;
 
-        @BindView(R.id.numRatings)
+        @BindView(R.id.cardNumRatings)
         TextView numRatings;
 
         @BindView(R.id.addedAt)
@@ -129,7 +124,7 @@ public class WishlistRecyclerViewAdapter extends ListAdapter<Wish, WishlistRecyc
 
                         ratingBar.setNumStars(5);
                         ratingBar.setRating(item.getAvgRating());
-                        numRatings.setText(itemView.getResources().getString(R.string.fmt_num_ratings, item.getNumRatings()));
+                        numRatings.setText(itemView.getResources().getQuantityString(R.plurals.fmt_num_ratings, item.getNumRatings(), item.getNumRatings()));
                         itemView.setOnClickListener(v -> listener.onMoreClickedListener(photo, item));
 
                         String formattedDate =

@@ -47,19 +47,19 @@ public class SearchResultRecyclerViewAdapter extends ListAdapter<Card, SearchRes
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.name)
+        @BindView(R.id.cardName)
         TextView name;
 
         @BindView(R.id.category)
         TextView category;
 
-        @BindView(R.id.photo)
+        @BindView(R.id.cardImage)
         ImageView photo;
 
-        @BindView(R.id.ratingBar)
+        @BindView(R.id.cardRatingBar)
         RatingBar ratingBar;
 
-        @BindView(R.id.numRatings)
+        @BindView(R.id.cardNumRatings)
         TextView numRatings;
 
         ViewHolder(View view) {
@@ -74,7 +74,7 @@ public class SearchResultRecyclerViewAdapter extends ListAdapter<Card, SearchRes
                     .into(photo);
             ratingBar.setNumStars(5);
             ratingBar.setRating(card.getAvgRating());
-            numRatings.setText(itemView.getResources().getString(R.string.fmt_num_ratings, card.getNumRatings()));
+            numRatings.setText(itemView.getResources().getQuantityString(R.plurals.fmt_num_ratings, card.getNumRatings(), card.getNumRatings()));
             itemView.setOnClickListener(v -> listener.onSearchResultListItemSelected(photo, card));
         }
     }
