@@ -2,6 +2,7 @@ package ch.FOW_Collection.presentation.explore.search;
 
 import android.util.Pair;
 
+import ch.FOW_Collection.presentation.MainViewModel;
 import com.google.common.base.Strings;
 
 import java.util.ArrayList;
@@ -22,30 +23,19 @@ import static androidx.lifecycle.Transformations.map;
 import static androidx.lifecycle.Transformations.switchMap;
 import static ch.FOW_Collection.domain.liveData.LiveDataExtensions.zip;
 
-public class SearchViewModel extends ViewModel implements CurrentUser {
+public class SearchViewModel extends MainViewModel {
 
     private static final String TAG = "SearchViewModel";
     private final MutableLiveData<String> searchTerm = new MutableLiveData<>();
-    private final MutableLiveData<String> currentUserId = new MutableLiveData<>();
 
     private final LiveData<List<Card>> filteredCards;
-    private final CardsRepository cardsRepository;
-    private final WishlistRepository wishlistRepository;
     private final SearchesRepository searchesRepository;
     private final LiveData<List<Search>> myLatestSearches;
 
     public SearchViewModel() {
-        cardsRepository = new CardsRepository();
-        wishlistRepository = new WishlistRepository();
         searchesRepository = new SearchesRepository();
         filteredCards = map(zip(searchTerm, getAllCards()), SearchViewModel::filter);
-        myLatestSearches = switchMap(currentUserId, SearchesRepository::getLatestSearchesByUser);
-
-        currentUserId.setValue(getCurrentUser().getUid());
-    }
-
-    public LiveData<List<Card>> getAllCards() {
-        return cardsRepository.getAllCards();
+        myLatestSearches = switchMap(getCurrentUserId(), SearchesRepository::getLatestSearchesByUser);
     }
 
     private static List<Card> filter(Pair<String, List<Card>> input) {
@@ -77,11 +67,6 @@ public class SearchViewModel extends ViewModel implements CurrentUser {
 
     public LiveData<List<Card>> getFilteredCards() {
         return filteredCards;
-    }
-
-
-    public void toggleItemInWishlist(String beerId) {
-        wishlistRepository.toggleUserWishlistItem(getCurrentUser().getUid(), beerId);
     }
 
     public void addToSearchHistory(String term) {

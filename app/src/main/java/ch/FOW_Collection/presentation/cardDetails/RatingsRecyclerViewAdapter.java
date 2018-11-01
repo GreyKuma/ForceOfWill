@@ -8,6 +8,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import ch.FOW_Collection.domain.models.User;
 import com.bumptech.glide.request.RequestOptions;
@@ -31,12 +32,12 @@ public class RatingsRecyclerViewAdapter extends ListAdapter<Rating, RatingsRecyc
     private static final EntityDiffItemCallback<Rating> DIFF_CALLBACK = new EntityDiffItemCallback<>();
 
     private final OnRatingLikedListener listener;
-    private FirebaseUser user;
+    private LiveData<String> userId;
 
-    public RatingsRecyclerViewAdapter(OnRatingLikedListener listener, FirebaseUser user) {
+    public RatingsRecyclerViewAdapter(OnRatingLikedListener listener, LiveData<String> userId) {
         super(DIFF_CALLBACK);
         this.listener = listener;
-        this.user = user;
+        this.userId = userId;
     }
 
     @NonNull
@@ -113,7 +114,7 @@ public class RatingsRecyclerViewAdapter extends ListAdapter<Rating, RatingsRecyc
             });
 
             numLikes.setText(itemView.getResources().getString(R.string.fmt_num_ratings, item.getLikes().size()));
-            if (item.getLikes().containsKey(user.getUid())) {
+            if (item.getLikes().containsKey(userId.getValue())) {
                 like.setColorFilter(itemView.getResources().getColor(R.color.colorPrimary));
             } else {
                 like.setColorFilter(itemView.getResources().getColor(android.R.color.darker_gray));

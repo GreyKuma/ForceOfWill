@@ -16,6 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Rating;
+import ch.FOW_Collection.domain.models.User;
 import ch.FOW_Collection.domain.models.Wish;
 import ch.FOW_Collection.presentation.cardDetails.CardDetailsActivity;
 
@@ -45,8 +46,7 @@ public class MyRatingsActivity extends AppCompatActivity implements OnMyRatingIt
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new MyRatingsRecyclerViewAdapter(this, model.getCurrentUser());
-
+        adapter = new MyRatingsRecyclerViewAdapter(this);
         recyclerView.setAdapter(adapter);
 
     }
@@ -65,7 +65,6 @@ public class MyRatingsActivity extends AppCompatActivity implements OnMyRatingIt
                 return super.onOptionsItemSelected(item);
         }
     }
-
 
     @Override
     public void onMoreClickedListener(Rating item) {

@@ -122,35 +122,13 @@ public class RatingsRepository {
         return ratingsByCardId(cardId);
     }
 
-    @Deprecated
-    public LiveData<List<Pair<Rating, Wish>>> getMyRatingsWithWishes(LiveData<String> currentUserId,
-                                                                     LiveData<List<Wish>> myWishlist) {
-        return map(combineLatest(getMyRatings(currentUserId), myWishlist), input -> {
-            List<Rating> ratings = input.first;
-
-            // Optimization: also do this in a transformation
-            List<Wish> wishes = input.second == null ? Collections.emptyList() : input.second;
-            HashMap<String, Wish> wishesByItem = new HashMap<>();
-            for (Wish wish : wishes) {
-                wishesByItem.put(wish.getCardId(), wish);
-            }
-
-            ArrayList<Pair<Rating, Wish>> result = new ArrayList<>();
-            for (Rating rating : ratings) {
-                Wish wish = wishesByItem.get(rating.getCardId());
-                result.add(Pair.create(rating, wish));
-            }
-            return result;
-        });
-    }
-
     public LiveData<List<Rating>> getRatingsByUserId(String userId) {
         return ratingsByUserId(userId);
     }
-/*
+
     public LiveData<List<Rating>> getRatingsByUserId(MutableLiveData<String> userId) {
         return switchMap(userId, RatingsRepository::ratingsByUserId);
-    }*/
+    }
 
     public LiveData<List<Rating>> getRatingsByCardId(MutableLiveData<String> cardId) {
         return switchMap(cardId, RatingsRepository::ratingsByCardId);

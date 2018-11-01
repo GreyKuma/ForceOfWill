@@ -41,9 +41,9 @@ public class RatingsRecyclerViewAdapter extends ListAdapter<Pair<Rating, Wish>, 
 
     private final OnRatingsItemInteractionListener listener;
     private Fragment fragment;
-    private final FirebaseUser user;
+    private final User user;
 
-    public RatingsRecyclerViewAdapter(OnRatingsItemInteractionListener listener, Fragment fragment, FirebaseUser user) {
+    public RatingsRecyclerViewAdapter(OnRatingsItemInteractionListener listener, Fragment fragment, User user) {
         super(DIFF_CALLBACK);
         this.listener = listener;
         this.fragment = fragment;
@@ -146,7 +146,7 @@ public class RatingsRecyclerViewAdapter extends ListAdapter<Pair<Rating, Wish>, 
 
             numLikes.setText(itemView.getResources().getString(R.string.fmt_num_ratings, item.getLikes().size()));
 
-            if (item.getLikes().containsKey(user.getUid())) {
+            if (item.getLikes().containsKey(user.getId())) {
                 int color = fragment.getResources().getColor(R.color.colorPrimary);
                 setDrawableTint(like, color);
             } else {
