@@ -118,7 +118,6 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
     RecyclerView recyclerView;
 
     private RatingsRecyclerViewAdapter adapter;
-
     private CardDetailsViewModel model;
 
     @Override
@@ -554,12 +553,9 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
         BottomSheetDialog dialog = new BottomSheetDialog(this);
         dialog.setContentView(view);
         Button addToCollection = view.findViewById(R.id.addToCollection);
-        addToCollection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("FRIDGE", "FRIDGE");
-
-            }
+        addToCollection.setOnClickListener(v -> {
+            Log.d("FRIDGE", "FRIDGE");
+            model.toggleItemInCollection(model.getCard().getValue().getId());
         });
         dialog.show();
     }

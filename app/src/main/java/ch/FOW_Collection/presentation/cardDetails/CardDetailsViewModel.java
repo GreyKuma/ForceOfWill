@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import ch.FOW_Collection.data.repositories.CardsRepository;
 import ch.FOW_Collection.data.repositories.CurrentUser;
+import ch.FOW_Collection.data.repositories.MyCollectionRepository;
 import ch.FOW_Collection.data.repositories.RatingsRepository;
 import ch.FOW_Collection.data.repositories.WishlistRepository;
 import ch.FOW_Collection.domain.models.Card;
@@ -29,12 +30,14 @@ public class CardDetailsViewModel extends MainViewModel {
 
     //private final LikesRepository likesRepository;
     private final WishlistRepository wishlistRepository;
+    private final MyCollectionRepository myCollectionRepository;
 
     public CardDetailsViewModel() {
         // TODO We should really be injecting these!
         CardsRepository cardsRepository = new CardsRepository();
         RatingsRepository ratingsRepository = new RatingsRepository();
         //likesRepository = new LikesRepository();
+        myCollectionRepository = new MyCollectionRepository();
         wishlistRepository = new WishlistRepository();
 
         //MutableLiveData<String> currentUserId = new MutableLiveData<>();
@@ -70,6 +73,10 @@ public class CardDetailsViewModel extends MainViewModel {
 //    }
 
     public Task<Void> toggleItemInWishlist(String itemId) {
-        return wishlistRepository.toggleUserWishlistItem(getCurrentUser().getValue().getId(), itemId);
+        return wishlistRepository.toggleUserWishlistItem(getCurrentUserId().getValue(), itemId);
+    }
+
+    public Task<Void> toggleItemInCollection(String itemId){
+        return myCollectionRepository.toggleCardInCollection(getCurrentUserId().getValue(), itemId);
     }
 }

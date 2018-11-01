@@ -15,7 +15,6 @@ import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.presentation.cardDetails.CardDetailsActivity;
-import ch.FOW_Collection.presentation.profile.mycollection.OnMyCardItemInteractionListener;
 
 
 public class MyCollectionActivity extends AppCompatActivity implements OnMyCardItemInteractionListener {
@@ -39,25 +38,25 @@ public class MyCollectionActivity extends AppCompatActivity implements OnMyCardI
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_my_beers, menu);
+        getMenuInflater().inflate(R.menu.menu_my_cards, menu);
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-//                model.setSearchTerm(query);
+                model.setSearchTerm(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-//                model.setSearchTerm(null);
+                model.setSearchTerm(null);
                 return false;
             }
         });
 
         searchView.setOnCloseListener(() -> {
-//            model.setSearchTerm(null);
+            model.setSearchTerm(null);
             return false;
         });
 
