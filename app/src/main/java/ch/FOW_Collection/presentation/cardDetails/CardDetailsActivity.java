@@ -149,7 +149,7 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new RatingsRecyclerViewAdapter(this, model.getCurrentUser());
+        adapter = new RatingsRecyclerViewAdapter(this, model.getCurrentUserId());
         recyclerView.addItemDecoration(new DividerItemDecoration(this, layoutManager.getOrientation()));
 
         model.getCard().observe(this, this::updateCard);

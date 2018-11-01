@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import ch.FOW_Collection.domain.models.MyCard;
+import ch.FOW_Collection.domain.models.User;
 import ch.FOW_Collection.presentation.profile.mycollection.MyCollectionActivity;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -70,21 +71,7 @@ public class ProfileFragment extends Fragment {
         ButterKnife.bind(this, rootView);
 
         model = ViewModelProviders.of(this).get(MainViewModel.class);
-
-        model.getMyWishlist().observe(this, this::updateWishlistCount);
-//        model.getMyRatings().observe(this, this::updateRatingsCount);
-        // todo make it work MyCollection
-//        model.getMyCollection().observe(this, this::updateMyCollectionCount);
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        if (user != null) {
-            // Name, email address, and profile photo Url
-            String name = user.getDisplayName();
-            userProfileNameText.setText(name);
-            Uri photoUrl = user.getPhotoUrl();
-            GlideApp.with(this).load(photoUrl).apply(new RequestOptions().circleCrop()).into(userProfileImageView);
-        }
+        model.getCurrentUser().observe(this, this::updateUser);
 
         return rootView;
     }
@@ -111,9 +98,25 @@ public class ProfileFragment extends Fragment {
         startActivity(intent);
     }
 
-//    private void updateRatingsCount(List<Rating> ratings) {
-//        myRatingsCount.setText(String.valueOf(ratings.size()));
-//    }
+    private void updateUser(User user) {
+        if (user != null) {
+            userProfileNameText.setText(user.getName());
+            GlideApp.with(this).load(Uri.parse(user.getPhoto())).apply(new RequestOptions().circleCrop()).into(userProfileImageView);
+
+            user.getWishlist().removeObservers(this);
+            user.getWishlist().observe(this, this::updateWishlistCount);
+
+            user.getRatings().removeObservers(this);
+            user.getRatings().observe(this, this::updateRatingsCount);
+
+            // todo make it work MyCollection
+            // user.getCollection().observe(this, this::updateMyCollectionCount);
+        }
+    }
+
+    private void updateRatingsCount(List<Rating> ratings) {
+        myRatingsCount.setText(String.valueOf(ratings.size()));
+    }
 
     private void updateWishlistCount(List<Wish> wishes) {
         myWishlistCount.setText(String.valueOf(wishes.size()));

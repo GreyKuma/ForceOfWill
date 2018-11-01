@@ -19,21 +19,21 @@ import java.util.List;
  * This is the viewmodel for the {@link MainActivity}, which is also used by the three pages/fragments contained in it.
  */
 public class MainViewModel extends ViewModel implements CurrentUser {
-
     private static final String TAG = "MainViewModel";
 
-    private final CardsRepository cardsRepository;
-    private final CardEditionsRepository cardEditionsRepository;
+    protected final CardsRepository cardsRepository;
+    protected final CardEditionsRepository cardEditionsRepository;
 
-//    private final BeersRepository beersRepository;
-//    private final LikesRepository likesRepository;
-    private final RatingsRepository ratingsRepository;
-    private final WishlistRepository wishlistRepository;
+    protected final RatingsRepository ratingsRepository;
+    protected final WishlistRepository wishlistRepository;
 
-    private final LiveData<List<Wish>> myWishlist;
-    private final LiveData<List<MyCard>> myCollection;
-    private final LiveData<List<Rating>> myRatings;
-//    private final LiveData<List<MyBeer>> myBeers;
+    protected final LiveData<List<Wish>> myWishlist;
+    protected final LiveData<List<MyCard>> myCollection;
+    protected final LiveData<List<Rating>> myRatings;
+
+    protected final UserRepository userRepository;
+    protected final MutableLiveData<String> currentUserId;
+    protected final LiveData<User> currentUser;
 
     public MainViewModel() {
         /*
@@ -46,9 +46,13 @@ public class MainViewModel extends ViewModel implements CurrentUser {
         ratingsRepository = new RatingsRepository();
         MyCollectionRepository myCollectionRepository = new MyCollectionRepository();
 
-        MutableLiveData<String> currentUserId = new MutableLiveData<>();
-        myWishlist = wishlistRepository.getMyWishlist(currentUserId);
-        myRatings = ratingsRepository.getMyRatings(currentUserId);
+        userRepository = new UserRepository();
+
+        currentUserId = new MutableLiveData<>();
+        currentUser = userRepository.getUserById(currentUserId);
+
+        myWishlist = wishlistRepository.getWishlistByUserId(currentUserId);
+        myRatings = ratingsRepository.getRatingsByUserId(currentUserId);
 
         // todo make it work MyCollection
         myCollection = null; // myCollectionRepository.getCollectionByUser(currentUserId.getValue());
@@ -61,7 +65,7 @@ public class MainViewModel extends ViewModel implements CurrentUser {
          * similar to Java 8 streams or Rx observables in that regard, but have a less rich API for combining such
          * streams of data.
          * */
-        currentUserId.setValue(getCurrentUser().getUid());
+        currentUserId.setValue(getCurrentFirebaseUser().getUid());
     }
 
 
@@ -69,6 +73,14 @@ public class MainViewModel extends ViewModel implements CurrentUser {
 //    public LiveData<List<MyBeer>> getMyBeers() {
 //        return myBeers;
 //    }
+
+    public MutableLiveData<String> getCurrentUserId() {
+        return currentUserId;
+    }
+
+    public LiveData<User> getCurrentUser() {
+        return currentUser;
+    }
 
     public LiveData<List<Rating>> getMyRatings() {
         return myRatings;
@@ -95,7 +107,7 @@ public class MainViewModel extends ViewModel implements CurrentUser {
 //    }
 
     public Task<Void> toggleItemInWishlist(String itemId) {
-        return wishlistRepository.toggleUserWishlistItem(getCurrentUser().getUid(), itemId);
+        return wishlistRepository.toggleUserWishlistItem(currentUserId.getValue(), itemId);
     }
 
 //    public LiveData<List<Pair<Rating, Wish>>> getAllRatingsWithWishes() {
@@ -125,21 +137,5 @@ public class MainViewModel extends ViewModel implements CurrentUser {
 
     public FirestoreQueryLiveDataArray<CardEdition> getCardEditions() {
         return cardEditionsRepository.getAllEditions();
-    }
-
-    /*
-     * RatingRepository
-     */
-
-    public LiveData<List<Rating>> getRatingsByUserId(String userId) {
-        return ratingsRepository.getRatingsByUserId(userId);
-    }
-
-    public LiveData<List<Rating>> getRatingsByCardId(String cardId) {
-        return ratingsRepository.getRatingsByCardId(cardId);
-    }
-
-    public Task<Void> putRating(Rating rating) {
-        return ratingsRepository.putRating(rating);
     }
 }

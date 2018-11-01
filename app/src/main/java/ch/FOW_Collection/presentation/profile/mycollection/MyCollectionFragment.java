@@ -51,7 +51,7 @@ public class MyCollectionFragment extends Fragment {
         // model.getMyCollection().observe(getActivity(), this::handleCollectionChanged);
 
 
-        adapter = new MyCollectionRecyclerViewAdapter(interactionListener, model.getCurrentUser());
+        // adapter = new MyCollectionRecyclerViewAdapter(interactionListener, model.getCurrentUser());
 
         recyclerView.setAdapter(adapter);
 

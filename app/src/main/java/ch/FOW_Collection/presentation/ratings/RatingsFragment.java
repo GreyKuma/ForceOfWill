@@ -20,6 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Rating;
+import ch.FOW_Collection.domain.models.User;
 import ch.FOW_Collection.domain.models.Wish;
 import ch.FOW_Collection.presentation.MainViewModel;
 import ch.FOW_Collection.presentation.cardDetails.CardDetailsActivity;
@@ -50,14 +51,15 @@ public class RatingsFragment extends Fragment
 
         model = ViewModelProviders.of(this).get(MainViewModel.class);
         /// model.getAllRatingsWithWishes().observe(this, this::updateRatings);
+        model.getCurrentUser().observe(this, this::updateUser);
 
         val layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new RatingsRecyclerViewAdapter(this, this, model.getCurrentUser());
+
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), layoutManager.getOrientation()));
 
-        recyclerView.setAdapter(adapter);
+
 
         swipeRefreshLayout.setOnRefreshListener(this);
 
@@ -67,6 +69,13 @@ public class RatingsFragment extends Fragment
     private void updateRatings(List<Pair<Rating, Wish>> ratings) {
         if (ratings != null) {
             adapter.submitList(new ArrayList<>(ratings));
+        }
+    }
+
+    private void updateUser(User user) {
+        if (user != null) {
+            adapter = new RatingsRecyclerViewAdapter(this, this, user);
+            recyclerView.setAdapter(adapter);
         }
     }
 

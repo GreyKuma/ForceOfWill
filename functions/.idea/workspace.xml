@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f5f2e71b-d583-4def-8ac0-d693ed5fc5f7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../cardExtractor" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/src/main/java/ch/FOW_Collection/presentation/shared/cardList/CardListFragmentViewAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/ch/FOW_Collection/presentation/shared/cardList/CardListFragmentViewAdapter.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -17,7 +17,7 @@
     <session id="1806805813">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="1" />
+          <entry key="project.closed" value="2" />
           <entry key="project.open.time.2" value="1" />
           <entry key="project.open.time.6" value="1" />
           <entry key="project.opened" value="2" />
@@ -101,7 +101,7 @@
       <path value="$PROJECT_DIR$/package.json" />
     </packageJsonPaths>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-55" />
     <option name="y" value="100" />
     <option name="width" value="980" />
@@ -169,8 +169,7 @@
     <option name="totallyTimeSpent" value="6335000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="33" width="1550" height="838" extended-state="7" />
-    <editor active="true" />
+    <frame x="-7" y="33" width="1550" height="838" extended-state="6" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24983476" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />

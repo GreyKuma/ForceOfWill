@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.User;
@@ -40,12 +41,10 @@ public class MyRatingsRecyclerViewAdapter
     private static final DiffUtil.ItemCallback<Pair<Rating, Wish>> DIFF_CALLBACK = new EntityPairDiffItemCallback<>();
 
     private final OnMyRatingItemInteractionListener listener;
-    private FirebaseUser user;
 
-    public MyRatingsRecyclerViewAdapter(OnMyRatingItemInteractionListener listener, FirebaseUser user) {
+    public MyRatingsRecyclerViewAdapter(OnMyRatingItemInteractionListener listener) {
         super(DIFF_CALLBACK);
         this.listener = listener;
-        this.user = user;
     }
 
     @NonNull
