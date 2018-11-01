@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import ch.FOW_Collection.GlideApp;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.data.repositories.MyCollectionRepository;
 import ch.FOW_Collection.domain.models.*;
@@ -26,6 +27,7 @@ import ch.FOW_Collection.presentation.utils.DrawableHelpers;
 import ch.FOW_Collection.presentation.utils.EntityDiffItemCallback;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.text.DateFormat;
 
@@ -91,10 +93,10 @@ public class MyCollectionRecyclerViewAdapter extends ListAdapter<MyCard, MyColle
         @BindView(R.id.cardImage)
         ImageView photo;
 
-        @BindView(R.id.ratingBar)
+        @BindView(R.id.cardRatingBar)
         RatingBar ratingBar;
 
-        @BindView(R.id.numRatings)
+        @BindView(R.id.cardNumRatings)
         TextView numRatings;
 
         @BindView(R.id.addedAt)
