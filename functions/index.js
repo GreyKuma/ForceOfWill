@@ -34,7 +34,7 @@ exports.updateRatings = functions.firestore
 
         // Compute new average rating
         var oldRatingTotal = card.avgRating * (oldNumRatings - (oldRating ? 1 : 0));
-        var newAvgRating = oldRatingTotal + ratingVal / newNumRatings;
+        var newAvgRating = (oldRatingTotal + ratingVal) / newNumRatings;
 
         console.log("oldNumRatings: ", oldNumRatings);
         console.log("newNumRatings: ", newNumRatings);
