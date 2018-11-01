@@ -495,7 +495,7 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
 
     private void toggleWishlistView(Wish wish) {
         if (wish != null) {
-            int color = getResources().getColor(R.color.colorPrimary);
+            int color = getResources().getColor(R.color.colorPrimaryLight);
             setDrawableTint(wishlist, color);
             wishlist.setChecked(true);
         } else {

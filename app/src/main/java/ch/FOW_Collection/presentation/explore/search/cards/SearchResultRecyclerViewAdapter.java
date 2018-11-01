@@ -50,8 +50,14 @@ public class SearchResultRecyclerViewAdapter extends ListAdapter<Card, SearchRes
         @BindView(R.id.name)
         TextView name;
 
+        @BindView(R.id.rarity)
+        TextView rarityLable;
+
         @BindView(R.id.category)
         TextView category;
+
+        @BindView(R.id.cardId)
+        TextView cardId;
 
         @BindView(R.id.photo)
         ImageView photo;
@@ -69,7 +75,13 @@ public class SearchResultRecyclerViewAdapter extends ListAdapter<Card, SearchRes
 
         void bind(Card card, OnItemSelectedListener listener) {
             name.setText(card.getName().getDe());
+            if(card.getRarity() != null){
+                rarityLable.setText("Seltenheit: ");
+            }else{
+                rarityLable.setText("");
+            }
             category.setText(card.getRarity());
+            cardId.setText(card.getIdStr());
             GlideApp.with(itemView).load(card.getImageSrcUrl()).apply(new RequestOptions().override(240, 240).centerInside())
                     .into(photo);
             ratingBar.setNumStars(5);
