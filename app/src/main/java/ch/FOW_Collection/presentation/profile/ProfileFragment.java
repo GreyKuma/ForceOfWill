@@ -93,7 +93,7 @@ public class ProfileFragment extends Fragment {
     }
 
     @OnClick(R.id.myCollection)
-    public void handleDecksClick(View view) {
+    public void handleCollectionClick(View view) {
         Intent intent = new Intent(getActivity(), MyCollectionActivity.class);
         startActivity(intent);
     }
@@ -109,8 +109,7 @@ public class ProfileFragment extends Fragment {
             user.getRatings().removeObservers(this);
             user.getRatings().observe(this, this::updateRatingsCount);
 
-            // todo make it work MyCollection
-            // user.getCollection().observe(this, this::updateMyCollectionCount);
+            user.getMyCards().observe(this, this::updateMyCollectionCount);
         }
     }
 

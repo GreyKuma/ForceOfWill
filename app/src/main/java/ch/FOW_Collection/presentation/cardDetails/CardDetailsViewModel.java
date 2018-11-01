@@ -73,10 +73,10 @@ public class CardDetailsViewModel extends MainViewModel {
 //    }
 
     public Task<Void> toggleItemInWishlist(String itemId) {
-        return wishlistRepository.toggleUserWishlistItem(getCurrentUser().getValue().getId(), itemId);
+        return wishlistRepository.toggleUserWishlistItem(getCurrentUserId().getValue(), itemId);
     }
 
     public Task<Void> toggleItemInCollection(String itemId){
-        return myCollectionRepository.toggleCardInCollection(getCurrentUser().getUid(), itemId);
+        return myCollectionRepository.toggleCardInCollection(getCurrentUserId().getValue(), itemId);
     }
 }

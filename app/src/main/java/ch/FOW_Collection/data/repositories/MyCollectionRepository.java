@@ -1,5 +1,6 @@
 package ch.FOW_Collection.data.repositories;
 
+import android.util.Log;
 import androidx.lifecycle.LiveData;
 import ch.FOW_Collection.data.parser.MyCardClassSnapshotParser;
 import ch.FOW_Collection.data.parser.WishClassSnapshotParser;
@@ -34,7 +35,8 @@ import static androidx.lifecycle.Transformations.map;
 import static ch.FOW_Collection.domain.liveData.LiveDataExtensions.combineLatest;
 
 public class MyCollectionRepository {
-    private static LiveData<List<MyCard>> getCollectionByUser(String userId) {
+    public static final String TAG = "MyCollectionRepository";
+    public static LiveData<List<MyCard>> getCollectionByUser(String userId) {
         if(userId == null){
             return null;
         }
@@ -45,6 +47,7 @@ public class MyCollectionRepository {
     }
 
     public Task<Void> toggleCardInCollection(String userId, String cardId){
+        Log.d(TAG,"UserId: " + userId + ", cardId: " + cardId);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference cardRef = db
                 .collection(Collection.FIRST_COLLECTION + "/" + userId + "/" + Collection.SECOND_COLLECTION)

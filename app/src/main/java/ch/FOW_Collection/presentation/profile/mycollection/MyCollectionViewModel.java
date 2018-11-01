@@ -34,7 +34,7 @@ public class MyCollectionViewModel extends MainViewModel {
         myCollection = myCollectionRepository.getMyCollection(currentUserId);
         myFilteredCards = map(zip(searchTerm, myCollection), MyCollectionViewModel::filter);
 
-        currentUserId.setValue(getCurrentUser().getUid());
+        currentUserId.setValue(getCurrentUserId().getValue());
     }
 
     public LiveData<List<MyCard>> getMyCollection() {return myCollection;}

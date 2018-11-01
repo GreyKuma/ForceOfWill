@@ -53,15 +53,7 @@ public class MainViewModel extends ViewModel implements CurrentUser {
 
         myWishlist = wishlistRepository.getWishlistByUserId(currentUserId);
         myRatings = ratingsRepository.getRatingsByUserId(currentUserId);
-
-        // todo make it work MyCollection
-        myCollection = null; // myCollectionRepository.getCollectionByUser(currentUserId.getValue());
-
-        MutableLiveData<String> currentUserId = new MutableLiveData<>();
-        myWishlist = wishlistRepository.getMyWishlist(currentUserId);
-        myRatings = ratingsRepository.getMyRatings(currentUserId);
         myCollection = myCollectionRepository.getMyCollection(currentUserId);
-        // myBeers = myBeersRepository.getMyBeers(allBeers, myWishlist, myRatings);
 
         /*
          * Set the current user id, which is used as input for the getMyWishlist and getMyRatings calls above.
