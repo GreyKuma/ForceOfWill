@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f5f2e71b-d583-4def-8ac0-d693ed5fc5f7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../.firebaserc" beforeDir="false" afterPath="$PROJECT_DIR$/../.firebaserc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/ch/FOW_Collection/presentation/cardDetails/createRating/CreateCardRatingActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/ch/FOW_Collection/presentation/cardDetails/createRating/CreateCardRatingActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../app/src/main/java/ch/FOW_Collection/presentation/cardDetails/createRating/CreateRatingViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../app/src/main/java/ch/FOW_Collection/presentation/cardDetails/createRating/CreateRatingViewModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../scripts/import-data.js" beforeDir="false" afterPath="$PROJECT_DIR$/../scripts/import-data.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../scripts/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../scripts/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../scripts/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../scripts/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../cardExtractor" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -167,12 +161,12 @@
       <option name="presentableId" value="Default" />
       <updated>1541070621083</updated>
       <workItem from="1541070622540" duration="2130000" />
-      <workItem from="1541076433274" duration="3692000" />
+      <workItem from="1541076433274" duration="4205000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5822000" />
+    <option name="totallyTimeSpent" value="6335000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="33" width="1550" height="838" extended-state="7" />
