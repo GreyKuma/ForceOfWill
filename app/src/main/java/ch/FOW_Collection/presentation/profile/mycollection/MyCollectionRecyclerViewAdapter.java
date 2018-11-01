@@ -12,14 +12,9 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import ch.FOW_Collection.GlideApp;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.*;
-import ch.FOW_Collection.presentation.profile.mycollection.OnMyCardItemInteractionListener;
-import ch.FOW_Collection.presentation.utils.DrawableHelpers;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.storage.FirebaseStorage;
 
 
 public class MyCollectionRecyclerViewAdapter extends ListAdapter<MyCard, MyCollectionRecyclerViewAdapter.ViewHolder> {
@@ -63,7 +58,7 @@ public class MyCollectionRecyclerViewAdapter extends ListAdapter<MyCard, MyColle
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.name)
+        @BindView(R.id.cardName)
         TextView name;
 
 //        @BindView(R.id.manufacturer)
@@ -72,7 +67,7 @@ public class MyCollectionRecyclerViewAdapter extends ListAdapter<MyCard, MyColle
 //        @BindView(R.id.category)
 //        TextView category;
 
-        @BindView(R.id.photo)
+        @BindView(R.id.cardImage)
         ImageView photo;
 
 //        @BindView(R.id.ratingBar)

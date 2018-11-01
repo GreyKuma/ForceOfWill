@@ -7,6 +7,8 @@ import android.view.MenuItem;
 
 import java.util.List;
 
+import android.view.View;
+import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
@@ -15,12 +17,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
+import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.Rating;
 import ch.FOW_Collection.domain.models.User;
 import ch.FOW_Collection.domain.models.Wish;
 import ch.FOW_Collection.presentation.cardDetails.CardDetailsActivity;
+import ch.FOW_Collection.presentation.shared.ICardSelectedListener;
+import ch.FOW_Collection.presentation.shared.IWishClickedListener;
 
-public class MyRatingsActivity extends AppCompatActivity implements OnMyRatingItemInteractionListener {
+public class MyRatingsActivity extends AppCompatActivity implements IWishClickedListener {
+
+    @BindView(R.id.emptyView)
+    View emptyView;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -53,6 +61,13 @@ public class MyRatingsActivity extends AppCompatActivity implements OnMyRatingIt
 
     private void updateMyRatings(List<Pair<Rating,Wish>> entries) {
         adapter.submitList(entries);
+        if (entries.isEmpty()) {
+            emptyView.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            emptyView.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -67,14 +82,12 @@ public class MyRatingsActivity extends AppCompatActivity implements OnMyRatingIt
     }
 
     @Override
-    public void onMoreClickedListener(Rating item) {
-        Intent intent = new Intent(this, CardDetailsActivity.class);
-        intent.putExtra(CardDetailsActivity.ITEM_ID, item.getCardId());
-        startActivity(intent);
+    public void onCardSelectedListener(ImageView imageView, Card card) {
+        ICardSelectedListener.DefaultBehavior(this, imageView, card);
     }
 
     @Override
-    public void onWishClickedListener(Rating item) {
-        model.toggleItemInWishlist(item.getCardId());
+    public void onWishClickedListener(Card card) {
+        model.toggleItemInWishlist(card.getId());
     }
 }
