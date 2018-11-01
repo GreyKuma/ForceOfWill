@@ -52,10 +52,12 @@ public class CreateRatingViewModel extends ViewModel {
         assert user != null;
         assert item != null;
 
-        if (oldRating.getPhoto().equals(localPhotoUri.toString())) {
+        // has image changed?
+        if (oldRating != null && oldRating.getPhoto().equals(localPhotoUri.toString())) {
             localPhotoUri = null;
         }
 
+        // set Label
         if (dialogLabel != null) {
             dialogLabel.setText("Lade Bild hoch...");
         }
@@ -115,7 +117,6 @@ public class CreateRatingViewModel extends ViewModel {
 
         return imageRef.putFile(localPhotoUri)
                 .addOnProgressListener(snapshot -> {
-                    progressBar.setProgress(50);
                     if (progressBar != null) {
                         int progress = Math.round((snapshot.getBytesTransferred() / snapshot.getTotalByteCount()) * 100);
                         progressBar.setProgress(progress);

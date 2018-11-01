@@ -244,7 +244,7 @@ public class CreateCardRatingActivity extends AppCompatActivity {
 
         model.saveRating(model.getItem(), rating, comment, model.getPhoto(), model.getOldRating(), dialogLabel, progressBar)
                 .addOnCompleteListener(task -> {
-                    if (!task.isCanceled()) {
+                    if (task.isSuccessful() || task.isCanceled()) {
                         dialog.hide();
                         Intent intent = new Intent();
                         // todo When offline, nothing happens: we dont get the Rating back or something... WorkAround: ignore it..
@@ -267,6 +267,6 @@ public class CreateCardRatingActivity extends AppCompatActivity {
         ratingText.setText(rating.getComment());
         photoExplanation.setText(null);
 
-        model.setPhoto(Uri.parse(rating.toString()));
+        model.setPhoto(Uri.parse(rating.getPhoto()));
     }
 }

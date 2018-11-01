@@ -86,7 +86,7 @@ public class RatingsRepository {
                 .getInstance()
                 .collection(Rating.COLLECTION)
                 .document(rating.getId())
-                .set(parser.parseMap(rating));//, SetOptions.merge());
+                .set(parser.parseMap(rating), SetOptions.merge());//, SetOptions.merge());
     }
 
     //endregion
