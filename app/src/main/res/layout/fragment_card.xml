@@ -10,7 +10,7 @@
 
 
     <ImageView
-        android:id="@+id/imageCard"
+        android:id="@+id/cardImage"
         android:layout_width="@dimen/fragment_card_width"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -37,7 +37,7 @@
         android:padding="4dp">
 
         <RatingBar
-            android:id="@+id/ratingBar"
+            android:id="@+id/cardRatingBar"
             style="@style/RatingBar.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

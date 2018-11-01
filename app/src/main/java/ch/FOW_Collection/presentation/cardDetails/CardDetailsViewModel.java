@@ -48,7 +48,6 @@ public class CardDetailsViewModel extends MainViewModel {
         return card;
     }
 
-
     public LiveData<Wish> getWish() {
         return wish;
     }
@@ -63,13 +62,5 @@ public class CardDetailsViewModel extends MainViewModel {
 
     public void setCardId(String cardId) {
         this.cardId.setValue(cardId);
-    }
-
-//    public void toggleLike(Rating rating) {
-//        likesRepository.toggleLike(rating);
-//    }
-
-    public Task<Void> toggleItemInWishlist(String itemId) {
-        return wishlistRepository.toggleUserWishlistItem(getCurrentUser().getValue().getId(), itemId);
     }
 }
