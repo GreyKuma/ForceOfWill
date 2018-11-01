@@ -1,5 +1,6 @@
 package ch.FOW_Collection.presentation.profile.mycollection;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,9 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.core.app.ComponentActivity;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,9 +19,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.GlideApp;
 import ch.FOW_Collection.R;
+import ch.FOW_Collection.data.repositories.MyCollectionRepository;
 import ch.FOW_Collection.domain.models.*;
 import ch.FOW_Collection.presentation.profile.mycollection.OnMyCardItemInteractionListener;
+
 import ch.FOW_Collection.presentation.utils.DrawableHelpers;
+import ch.FOW_Collection.presentation.utils.EntityDiffItemCallback;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
@@ -27,41 +34,49 @@ import java.text.DateFormat;
 
 public class MyCollectionRecyclerViewAdapter extends ListAdapter<MyCard, MyCollectionRecyclerViewAdapter.ViewHolder> {
 
-    private static final String TAG = "MyCollectionRecyclerViewAdap";
+    private static final String TAG = "CollectionRecyclerViewAdapter";
 
-    private static final DiffUtil.ItemCallback<MyCard> DIFF_CALLBACK = new DiffUtil.ItemCallback<MyCard>() {
-        @Override
-        public boolean areItemsTheSame(@NonNull MyCard oldItem, @NonNull MyCard newItem) {
-            return oldItem.getCardId().equals(newItem.getCardId());
-        }
+    private static final DiffUtil.ItemCallback<MyCard> DIFF_CALLBACK = new EntityDiffItemCallback<>();
 
-        @Override
-        public boolean areContentsTheSame(@NonNull MyCard oldItem, @NonNull MyCard newItem) {
-            return oldItem.equals(newItem);
-        }
-    };
-
+    private final Context context;
+    private final LifecycleOwner lifecycleOwner;
     private final OnMyCardItemInteractionListener listener;
-    private FirebaseUser user;
 
-    public MyCollectionRecyclerViewAdapter(OnMyCardItemInteractionListener listener, FirebaseUser user) {
+    public MyCollectionRecyclerViewAdapter(MyCollectionActivity listener) {
+        this(listener, listener, listener);
+    }
+
+    public MyCollectionRecyclerViewAdapter(ComponentActivity activity, OnMyCardItemInteractionListener listener) {
+        this(activity, activity, listener);
+    }
+
+    public MyCollectionRecyclerViewAdapter(Context context, LifecycleOwner lifecycleOwner, OnMyCardItemInteractionListener listener) {
         super(DIFF_CALLBACK);
+        this.context = context;
+        this.lifecycleOwner = lifecycleOwner;
         this.listener = listener;
-        this.user = user;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyCollectionRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.activity_my_beers_listentry, parent, false);
-        return new ViewHolder(view);
+        View view = layoutInflater.inflate(R.layout.activity_my_wishlist_listentry, parent, false);
+        return new MyCollectionRecyclerViewAdapter.ViewHolder(view);
+    }
+
+
+    @Override
+    public int getItemCount() {
+        return super.getItemCount();
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-        MyCard entry = getItem(position);
-        holder.bind(entry, listener);
+    public void onBindViewHolder(@NonNull final MyCollectionRecyclerViewAdapter.ViewHolder holder, int position) {
+        //Pair<Wish, Card> item = getItem(position);
+        MyCard myCard = getItem(position);
+        //Log.d(TAG, "item.wish = " + item.first.toString() + " item.card = " + item.second.toString());
+        holder.bind(myCard, listener);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -72,65 +87,44 @@ public class MyCollectionRecyclerViewAdapter extends ListAdapter<MyCard, MyColle
 //        @BindView(R.id.manufacturer)
 //        TextView manufacturer;
 
-//        @BindView(R.id.category)
-//        TextView category;
+        @BindView(R.id.category)
+        TextView category;
 
         @BindView(R.id.photo)
         ImageView photo;
 
-//        @BindView(R.id.ratingBar)
-//        RatingBar ratingBar;
-//
-//        @BindView(R.id.numRatings)
-//        TextView numRatings;
+        @BindView(R.id.ratingBar)
+        RatingBar ratingBar;
+
+        @BindView(R.id.numRatings)
+        TextView numRatings;
 
         @BindView(R.id.addedAt)
         TextView addedAt;
 
-        @BindView(R.id.onTheListSince)
-        TextView onTheListSince;
-
         @BindView(R.id.removeFromWishlist)
-        Button removeFromWishlist;
+        Button remove;
 
         ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, itemView);
         }
 
-        public void bind(MyCard entry, OnMyCardItemInteractionListener listener) {
+        void bind(MyCard myCard, /*Card item,*/ OnMyCardItemInteractionListener listener) {
+            myCard.getCard().observe(lifecycleOwner, new Observer<Card>() {
+                @Override
+                public void onChanged(Card item) {
+                    if (item != null) {
+                        name.setText(item.getName().getDe());
+                        GlideApp.with(itemView)
+                                .load(FirebaseStorage.getInstance().getReference().child(item.getImageStorageUrl()))
+                                .apply(new RequestOptions().override(240, 240).centerInside()).into(photo);
 
-            Card item = entry.getCard();
-
-            name.setText(item.getName().getDe());
-//            manufacturer.setText(item.getManufacturer());
-//            category.setText(item.getCategory());
-//            name.setText(item.getName());
-//            GlideApp.with(itemView).load(item.getPhoto()).apply(new RequestOptions().override(240, 240).centerInside())
-//                    .into(photo);
-            GlideApp.with(itemView)
-                    .load(FirebaseStorage.getInstance().getReference().child(item.getImageStorageUrl()))
-                    .apply(new RequestOptions().override(240, 240).centerInside()).into(photo);
-//            ratingBar.setNumStars(5);
-//            ratingBar.setRating(item.getAvgRating());
-//            numRatings.setText(itemView.getResources().getString(R.string.fmt_num_ratings, item.getNumRatings()));
-            itemView.setOnClickListener(v -> listener.onMoreClickedListener(photo, item));
-            removeFromWishlist.setOnClickListener(v -> listener.onWishClickedListener(item));
-
-            String formattedDate =
-                    DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.SHORT).format(entry.getDate());
-            addedAt.setText(formattedDate);
-
-            if (entry instanceof MyBeerFromWishlist) {
-                DrawableHelpers
-                        .setDrawableTint(removeFromWishlist, itemView.getResources().getColor(R.color.colorPrimary));
-                onTheListSince.setText("auf der Wunschliste seit");
-            } else if (entry instanceof MyBeerFromRating) {
-                DrawableHelpers.setDrawableTint(removeFromWishlist,
-                        itemView.getResources().getColor(android.R.color.darker_gray));
-                removeFromWishlist.setText("Wunschliste");
-                onTheListSince.setText("beurteilt am");
-            }
+                        itemView.setOnClickListener(v -> listener.onMoreClickedListener(photo, item));
+                    }
+                }
+            });
         }
+
     }
 }

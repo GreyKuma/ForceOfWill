@@ -9,6 +9,9 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import androidx.lifecycle.Observer;
+import ch.FOW_Collection.domain.models.Card;
+import ch.FOW_Collection.domain.models.User;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -38,9 +41,9 @@ public class RatingsRecyclerViewAdapter extends ListAdapter<Pair<Rating, Wish>, 
 
     private final OnRatingsItemInteractionListener listener;
     private Fragment fragment;
-    private final FirebaseUser user;
+    private final User user;
 
-    public RatingsRecyclerViewAdapter(OnRatingsItemInteractionListener listener, Fragment fragment, FirebaseUser user) {
+    public RatingsRecyclerViewAdapter(OnRatingsItemInteractionListener listener, Fragment fragment, User user) {
         super(DIFF_CALLBACK);
         this.listener = listener;
         this.fragment = fragment;
@@ -104,7 +107,15 @@ public class RatingsRecyclerViewAdapter extends ListAdapter<Pair<Rating, Wish>, 
         void bind(Rating item, Wish wish, OnRatingsItemInteractionListener listener) {
             // TODO This code is almost the same in MyBeersRecyclerViewAdapter.. could be simplified
             // with databinding!
-            beerName.setText(item.getBeerName());
+            item.getCard().observeForever(new Observer<Card>() {
+                @Override
+                public void onChanged(Card card) {
+                    if (card != null) {
+                        item.getCard().removeObserver(this);
+                        beerName.setText(card.getName().getDe());
+                    }
+                }
+            });
             comment.setText(item.getComment());
 
             ratingBar.setNumStars(5);
@@ -122,12 +133,20 @@ public class RatingsRecyclerViewAdapter extends ListAdapter<Pair<Rating, Wish>, 
                 photo.setVisibility(View.GONE);
             }
 
-            authorName.setText(item.getUserName());
-            GlideApp.with(fragment).load(item.getUserPhoto()).apply(new RequestOptions().circleCrop()).into(avatar);
+            item.getUser().observeForever(new Observer<User>() {
+                @Override
+                public void onChanged(User user) {
+                    if (user != null) {
+                        item.getUser().removeObserver(this);
+                        authorName.setText(user.getName());
+                        GlideApp.with(itemView).load(user.getPhoto()).apply(new RequestOptions().circleCrop()).into(avatar);
+                    }
+                }
+            });
 
             numLikes.setText(itemView.getResources().getString(R.string.fmt_num_ratings, item.getLikes().size()));
 
-            if (item.getLikes().containsKey(user.getUid())) {
+            if (item.getLikes().containsKey(user.getId())) {
                 int color = fragment.getResources().getColor(R.color.colorPrimary);
                 setDrawableTint(like, color);
             } else {

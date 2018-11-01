@@ -16,27 +16,17 @@ import ch.FOW_Collection.data.repositories.WishlistRepository;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.Wish;
 
-public class WishlistViewModel extends MainViewModel implements CurrentUser {
+public class WishlistViewModel extends MainViewModel {
 
     private static final String TAG = "WishlistViewModel";
 
-    private final MutableLiveData<String> currentUserId = new MutableLiveData<>();
-    private final WishlistRepository wishlistRepository;
-    private final CardsRepository cardsRepository;
-
-    public WishlistViewModel() {
-        wishlistRepository = new WishlistRepository();
-        cardsRepository = new CardsRepository();
-
-        currentUserId.setValue(getCurrentUser().getUid());
-    }
 
     public LiveData<List<Pair<Wish, Card>>> getMyWishlistWithCards() {
         return wishlistRepository.getMyWishlistWithCards(currentUserId, cardsRepository.getAllCards());
     }
 
     public Task<Void> toggleItemInWishlist(String itemId) {
-        return wishlistRepository.toggleUserWishlistItem(getCurrentUser().getUid(), itemId);
+        return wishlistRepository.toggleUserWishlistItem(getCurrentUser().getValue().getId(), itemId);
     }
 
 }

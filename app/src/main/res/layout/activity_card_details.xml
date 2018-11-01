@@ -256,7 +256,6 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/addRatingBar" />
 
-
                         <View
                             android:id="@+id/separator2"
                             android:layout_width="match_parent"
@@ -357,7 +356,7 @@
                         android:id="@+id/recyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        tools:listitem="@layout/activity_details_ratings_listentry" />
+                        tools:listitem="@layout/activity_card_details_ratings_listentry" />
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>

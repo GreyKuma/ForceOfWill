@@ -19,7 +19,7 @@
             android:layout_weight="1"
             android:drawableTop="@drawable/ic_place_black_24dp"
             android:drawableTint="@android:color/darker_gray"
-            android:text="Ort Hinzufügen"
+            android:text="Ort Hinzufügen (not working)"
             android:textColor="@android:color/darker_gray"
             android:textSize="10sp" />
 
@@ -36,7 +36,7 @@
             android:layout_weight="1"
             android:drawableTop="@drawable/ic_attach_money_black_24dp"
             android:drawableTint="@android:color/darker_gray"
-            android:text="Meinen Preis Hinzufügen"
+            android:text="Meinen Preis Hinzufügen (not working)"
             android:textColor="@android:color/darker_gray"
             android:textSize="10sp" />
 
@@ -53,14 +53,14 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/addToFridge"
+            android:id="@+id/addToCollection"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableTop="@drawable/ic_refrigerator"
             android:drawableTint="@android:color/darker_gray"
-            android:text="In den Kühlschrank"
+            android:text="In die Kollektion"
             android:textColor="@android:color/darker_gray"
             android:textSize="10sp" />
 
@@ -77,7 +77,7 @@
             android:layout_weight="1"
             android:drawableTop="@drawable/ic_create_black_24dp"
             android:drawableTint="@android:color/darker_gray"
-            android:text="Private Notiz hinzufügen"
+            android:text="Private Notiz hinzufügen (not working)"
             android:textColor="@android:color/darker_gray"
             android:textSize="10sp" />
 

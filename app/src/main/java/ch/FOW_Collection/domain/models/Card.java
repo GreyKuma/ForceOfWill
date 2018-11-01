@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Card implements Entity, Parcelable { // Serializable
     public static final String COLLECTION = "Cards";
+    public static final String CARD_ID = "id";
 
     @Exclude
     private String id;
@@ -54,6 +55,12 @@ public class Card implements Entity, Parcelable { // Serializable
     public static final String FIELD_RATING = "avgRating";
     private float avgRating;
     private int numRatings;
+
+    @Exclude
+    private LiveData<List<Rating>> ratings;
+
+    @Exclude
+    private LiveData<List<Wish>> wishes;
 
     /*****************************************************/
 

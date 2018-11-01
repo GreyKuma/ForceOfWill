@@ -6,6 +6,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import ch.FOW_Collection.data.repositories.*;
 import ch.FOW_Collection.domain.models.*;
+import com.google.android.gms.tasks.Task;
+import ch.FOW_Collection.presentation.MainViewModel;
 import com.google.common.base.Strings;
 
 import java.util.ArrayList;
@@ -15,32 +17,27 @@ import java.util.List;
 import static androidx.lifecycle.Transformations.map;
 import static ch.FOW_Collection.domain.liveData.LiveDataExtensions.zip;
 
-public class MyCollectionViewModel extends ViewModel implements CurrentUser {
+public class MyCollectionViewModel extends MainViewModel {
 
     private static final String TAG = "MyCollectionViewModel";
-    private final MutableLiveData<String> searchTerm = new MutableLiveData<>();
 
-    private final WishlistRepository wishlistRepository;
+    private final MutableLiveData<String> searchTerm = new MutableLiveData<>();
+    private final LiveData<List<MyCard>> myCollection;
     private final LiveData<List<MyCard>> myFilteredCards;
+    private final MyCollectionRepository myCollectionRepository = new MyCollectionRepository();
+    private final MutableLiveData<String> currentUserId;
 
     public MyCollectionViewModel() {
 
-        wishlistRepository = new WishlistRepository();
-        CardsRepository cardsRepository = new CardsRepository();
-        MyCollectionRepository myCollectionRepository = new MyCollectionRepository();
-        RatingsRepository ratingsRepository = new RatingsRepository();
+        currentUserId = new MutableLiveData<>();
 
-        LiveData<List<Card>> allCards = cardsRepository.getAllCards();
-        MutableLiveData<String> currentUserId = new MutableLiveData<>();
-        LiveData<List<Wish>> myWishlist = wishlistRepository.getMyWishlist(currentUserId);
-        LiveData<List<Rating>> myRatings = ratingsRepository.getMyRatings(currentUserId);
+        myCollection = myCollectionRepository.getMyCollection(currentUserId);
+        myFilteredCards = map(zip(searchTerm, myCollection), MyCollectionViewModel::filter);
 
-        LiveData<List<MyCard>> myCards = myCollectionRepository.getMyCards(allCards, myWishlist, myRatings);
-
-        myFilteredCards = map(zip(searchTerm, myCards), MyCollectionViewModel::filter);
-
-        currentUserId.setValue(getCurrentUser().getUid());
+        currentUserId.setValue(getCurrentUserId().getValue());
     }
+
+    public LiveData<List<MyCard>> getMyCollection() {return myCollection;}
 
     private static List<MyCard> filter(Pair<String, List<MyCard>> input) {
         String searchTerm1 = input.first;
@@ -53,7 +50,7 @@ public class MyCollectionViewModel extends ViewModel implements CurrentUser {
         }
         ArrayList<MyCard> filtered = new ArrayList<>();
         for (MyCard card : myCards) {
-            if (card.getCard().getName().getDe().toLowerCase().contains(searchTerm1.toLowerCase())) {
+            if (card.getId().toLowerCase().contains(searchTerm1.toLowerCase())) {
                 filtered.add(card);
             }
         }
@@ -64,11 +61,11 @@ public class MyCollectionViewModel extends ViewModel implements CurrentUser {
         return myFilteredCards;
     }
 
-    public void toggleItemInWishlist(String cardId) {
-        wishlistRepository.toggleUserWishlistItem(getCurrentUser().getUid(), cardId);
-    }
-
     public void setSearchTerm(String searchTerm) {
         this.searchTerm.setValue(searchTerm);
+    }
+
+    public Task<Void> toggleCardInCollection(String itemId){
+        return myCollectionRepository.toggleCardInCollection(currentUserId.getValue(), itemId);
     }
 }
