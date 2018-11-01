@@ -39,7 +39,7 @@
                 android:value="ch.FOW_Collection.presentation.explore.search.SearchActivity" />
         </activity>
         <activity
-            android:name="ch.FOW_Collection.presentation.cardDetails.createrating.CreateRatingActivity"
+            android:name="ch.FOW_Collection.presentation.cardDetails.createRating.CreateCardRatingActivity"
             android:parentActivityName="ch.FOW_Collection.presentation.cardDetails.CardDetailsActivity"
             android:windowSoftInputMode="adjustResize">
             <meta-data

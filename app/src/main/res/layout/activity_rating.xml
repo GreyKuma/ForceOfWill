@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context=".presentation.cardDetails.createrating.CreateRatingActivity">
+    tools:context=".presentation.cardDetails.createRating.CreateRatingActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -194,7 +194,6 @@
                                     android:textSize="10sp" />
                 -->
             </LinearLayout>
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

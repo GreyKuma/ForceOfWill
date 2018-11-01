@@ -3,7 +3,6 @@ package ch.FOW_Collection.presentation.profile.mywishlist;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;

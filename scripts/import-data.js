@@ -5,7 +5,7 @@ const data = require("./data.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https:// mge-beer-pro.firebaseio.com"
+  databaseURL: "https://fowtest-f30af.firebaseio.com"
 });
 
 data &&

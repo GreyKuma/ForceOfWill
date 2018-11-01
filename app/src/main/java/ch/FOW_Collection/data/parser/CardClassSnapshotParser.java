@@ -2,17 +2,12 @@ package ch.FOW_Collection.data.parser;
 
 import android.util.Log;
 
-import com.firebase.ui.firestore.ClassSnapshotParser;
+import ch.FOW_Collection.data.repositories.*;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.Iterator;
 
 import androidx.annotation.NonNull;
-import ch.FOW_Collection.data.repositories.CardAbilityTypeRepository;
-import ch.FOW_Collection.data.repositories.CardAttributeRepository;
-import ch.FOW_Collection.data.repositories.CardEditionsRepository;
-import ch.FOW_Collection.data.repositories.CardRaceRepository;
-import ch.FOW_Collection.data.repositories.CardTypeRepository;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.CardAbility;
 import ch.FOW_Collection.domain.models.CardCost;
@@ -27,14 +22,10 @@ public class CardClassSnapshotParser extends EntityClassSnapshotParser<Card> {
     @NonNull
     @Override
     public Card parseSnapshot(@NonNull DocumentSnapshot snapshot) {
-        Card card = super.parseSnapshot(snapshot);
-        //card.setId(snapshot.getId());
-
-        return parseCard(card);
+        return parseCard(super.parseSnapshot(snapshot));
     }
 
     public Card parseCard(Card card) {
-
         Log.d(TAG, "Parsing started for \"" + card.getId() + "\"");
 
         // we just create new Repositories because we knew, its static behind and we
@@ -86,6 +77,9 @@ public class CardClassSnapshotParser extends EntityClassSnapshotParser<Card> {
                 }
             }
         }
+
+        RatingsRepository ratingsRepository = new RatingsRepository();
+        card.setRatings(ratingsRepository.getRatingsByCardId(card.getId()));
 
         return card;
     }

@@ -49,8 +49,8 @@ public class Like implements Entity {
     }
 
     @Override
-    public void setId(String id) {
-        this.id = id;
+    public void setId(String cardId) {
+        this.id = cardId;
     }
 
     public String getUserId() {
