@@ -37,7 +37,7 @@ public class MyBeersRepository {
         }
 
         for (Rating rating : ratings) {
-            String beerId = rating.getBeerId();
+            String beerId = rating.getCardId();
             if (beersAlreadyOnTheList.contains(beerId)) {
                 // if the beer is already on the wish list, don't add it again
             } else {

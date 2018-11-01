@@ -151,7 +151,7 @@ public class AbilityTextView extends TextView {
 
                                 spannable.setSpan(new CircleSpan(
                                                 value.getDe(),
-                                                Color.rgb(255, 255, 255),
+                                                getContext().getResources().getColor(R.color.background_material_light),
                                                 //Color.rgb(0, 0, 0), 4,
                                                 AbilityTextView.this.getTextColors().getDefaultColor(), 4,
                                                 //Color.rgb(0, 0, 0), 16),

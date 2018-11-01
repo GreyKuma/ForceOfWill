@@ -46,15 +46,18 @@ public class MyCollectionFragment extends Fragment {
 
 
         MyCollectionViewModel model = ViewModelProviders.of(getActivity()).get(MyCollectionViewModel.class);
-        model.getMyCollection().observe(getActivity(), this::handleCollectionChanged);
+
+        // todo make it work MyCollection
+        // model.getMyCollection().observe(getActivity(), this::handleCollectionChanged);
 
 
-        adapter = new MyCollectionRecyclerViewAdapter(interactionListener, model.getCurrentUser());
+        // adapter = new MyCollectionRecyclerViewAdapter(interactionListener, model.getCurrentUser());
 
         recyclerView.setAdapter(adapter);
 
         //TODO works here
-        model.getMyFilteredCards().observe(getActivity(), this::handleCollectionChanged);
+        // todo make it work MyCollection
+        // model.getMyFilteredCards().observe(getActivity(), this::handleCollectionChanged);
 
         return view;
     }

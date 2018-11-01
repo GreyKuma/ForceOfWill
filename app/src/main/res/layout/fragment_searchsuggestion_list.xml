@@ -8,9 +8,8 @@
     android:layout_height="match_parent"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
-    app:layoutManager="LinearLayoutManager"
-    tools:context=".presentation.explore.search.beers.SearchResultFragment"
-    tools:listitem="@layout/fragment_searchresult_listentry">
+    tools:context=".presentation.explore.search.suggestions.SearchSuggestionsFragment"
+    tools:listitem="@layout/fragment_searchsuggestion_listentry">
 
 
 </androidx.recyclerview.widget.RecyclerView>

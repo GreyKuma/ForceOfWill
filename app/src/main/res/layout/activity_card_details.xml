@@ -256,7 +256,6 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/addRatingBar" />
 
-
                         <View
                             android:id="@+id/separator2"
                             android:layout_width="match_parent"
@@ -298,7 +297,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:drawableTop="@drawable/ic_bookmark_brown_24dp"
+                                android:drawableTop="@drawable/ic_bookmark_white_24dp"
                                 android:drawableTint="@android:color/darker_gray"
                                 android:textColor="@android:color/darker_gray"
                                 android:textOff="Wunschliste"
@@ -316,7 +315,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:drawableTop="@drawable/ic_share_black_24dp"
+                                android:drawableTop="@drawable/ic_share_white_24dp"
                                 android:drawableTint="@android:color/darker_gray"
                                 android:text="Bier Teilen"
                                 android:textColor="@android:color/darker_gray"
@@ -357,7 +356,7 @@
                         android:id="@+id/recyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        tools:listitem="@layout/activity_details_ratings_listentry" />
+                        tools:listitem="@layout/activity_card_details_ratings_listentry" />
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>

@@ -38,7 +38,16 @@ public class MultiLanguageString implements Parcelable {
             return false;
         if (obj == this)
             return true;
-        return this.de.equals(((MultiLanguageString)obj).de) && this.en.equals(((MultiLanguageString)obj).en);
+        //TODO catch if names are null
+        if(this.de != null && ((MultiLanguageString) obj).de != null &&
+                this.en != null && ((MultiLanguageString) obj).en != null){
+            return this.de.equals(((MultiLanguageString) obj).de) && this.en.equals(((MultiLanguageString) obj).en);
+        }else if(this.de != null && ((MultiLanguageString) obj).de != null){
+            return this.de.equals(((MultiLanguageString) obj).de);
+        }else if(this.en != null && ((MultiLanguageString) obj).en != null){
+            return this.en.equals(((MultiLanguageString) obj).en);
+        }
+        return false;
     }
 
     @Override
