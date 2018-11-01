@@ -7,9 +7,9 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     android:animateLayoutChanges="true"
-    tools:context=".presentation.explore.search.beers.SearchResultFragment">
+    tools:context=".presentation.explore.search.cards.SearchResultFragment">
 
-    <include layout="@layout/content_empty_beer_list" />
+    <include layout="@layout/content_empty_card_list" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
