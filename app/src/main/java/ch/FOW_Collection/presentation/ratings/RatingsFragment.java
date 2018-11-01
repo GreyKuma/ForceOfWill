@@ -78,7 +78,7 @@ public class RatingsFragment extends Fragment
     @Override
     public void onMoreClickedListener(Rating rating) {
         Intent intent = new Intent(getActivity(), CardDetailsActivity.class);
-        intent.putExtra(CardDetailsActivity.ITEM_ID, rating.getBeerId());
+        intent.putExtra(CardDetailsActivity.ITEM_ID, rating.getCardId());
         startActivity(intent);
     }
 

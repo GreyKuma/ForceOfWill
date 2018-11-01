@@ -56,6 +56,12 @@ public class Card implements Entity, Parcelable { // Serializable
     private float avgRating;
     private int numRatings;
 
+    @Exclude
+    private LiveData<List<Rating>> ratings;
+
+    @Exclude
+    private LiveData<List<Wish>> wishes;
+
     /*****************************************************/
 
     protected Card(Parcel in) {

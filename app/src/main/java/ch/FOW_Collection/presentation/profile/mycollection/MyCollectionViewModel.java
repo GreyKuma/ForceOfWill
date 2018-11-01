@@ -24,9 +24,20 @@ public class MyCollectionViewModel extends ViewModel implements CurrentUser {
     public MyCollectionViewModel() {
         MyCollectionRepository myCollectionRepository = new MyCollectionRepository();
         MutableLiveData<String> currentUserId = new MutableLiveData<>();
-        myCollection = myCollectionRepository.getCollectionByUser(currentUserId.getValue());
+        // todo make it work MyCollection
+        myCollection = null; //myCollectionRepository.getCollectionByUser(currentUserId.getValue());
         currentUserId.setValue(getCurrentUser().getUid());
     }
 
     public LiveData<List<MyCard>> getMyCollection() {return myCollection;}
+
+    public void setSearchTerm(String searchTerm) {
+        // todo make it work MyCollection
+        throw new UnsupportedOperationException();
+    }
+
+    public LiveData<List<MyCard>> getMyFilteredCards() {
+        // todo make it work MyCollection
+        throw new UnsupportedOperationException();
+    }
 }

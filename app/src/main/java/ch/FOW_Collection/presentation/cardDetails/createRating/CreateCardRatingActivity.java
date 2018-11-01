@@ -1,19 +1,16 @@
-package ch.FOW_Collection.presentation.cardDetails.createrating;
+package ch.FOW_Collection.presentation.cardDetails.createRating;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RatingBar;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.*;
+import android.widget.*;
 
+import androidx.appcompat.app.AlertDialog;
+import ch.FOW_Collection.domain.models.Rating;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -33,17 +30,18 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.GlideApp;
 import ch.FOW_Collection.R;
-import ch.FOW_Collection.domain.models.Beer;
+import ch.FOW_Collection.domain.models.Card;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
 import pl.tajchert.nammu.Nammu;
 import pl.tajchert.nammu.PermissionCallback;
 
-public class CreateRatingActivity extends AppCompatActivity {
+public class CreateCardRatingActivity extends AppCompatActivity {
 
-    public static final String ITEM = "item";
-    public static final String RATING = "rating";
-    private static final String TAG = "CreateRatingActivity";
+    public static final String ITEM_CARD = "item_card";
+    public static final String ITEM_RATING = "item_rating";
+    public static final String RATING_VALUE = "rating";
+    private static final String TAG = "CreateCardRatingActivit";
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
@@ -67,7 +65,7 @@ public class CreateRatingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rating);
+        setContentView(R.layout.activity_card_rating);
         ButterKnife.bind(this);
         Nammu.init(this);
 
@@ -75,13 +73,18 @@ public class CreateRatingActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(getString(R.string.title_activity_rating));
 
-        Beer item = (Beer) getIntent().getExtras().getSerializable(ITEM);
-        float rating = getIntent().getExtras().getFloat(RATING);
+        Card itemCard = getIntent().getExtras().getParcelable(ITEM_CARD);
+        float rating = getIntent().getExtras().getFloat(RATING_VALUE);
 
         model = ViewModelProviders.of(this).get(CreateRatingViewModel.class);
-        model.setItem(item);
-
+        model.setItem(itemCard);
         addRatingBar.setRating(rating);
+
+        Rating itemRating = getIntent().getExtras().getParcelable(ITEM_RATING);
+        if (itemRating != null) {
+            model.setOldRating(itemRating);
+            loadRating(itemRating);
+        }
 
         int permissionCheck =
                 ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -100,7 +103,7 @@ public class CreateRatingActivity extends AppCompatActivity {
         EasyImage.configuration(this).setImagesFolderName("FOW_Collection");
 
         photo.setOnClickListener(view -> {
-            EasyImage.openChooserWithDocuments(CreateRatingActivity.this, "", 0);
+            EasyImage.openChooserWithDocuments(CreateCardRatingActivity.this, "", 0);
         });
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -109,6 +112,7 @@ public class CreateRatingActivity extends AppCompatActivity {
             Uri photoUrl = user.getPhotoUrl();
             GlideApp.with(this).load(photoUrl).apply(new RequestOptions().circleCrop()).into(avatar);
         }
+
         if (model.getPhoto() != null) {
             photo.setImageURI(model.getPhoto());
             photoExplanation.setText(null);
@@ -135,7 +139,7 @@ public class CreateRatingActivity extends AppCompatActivity {
 
             @Override
             public void onImagesPicked(List<File> imageFiles, EasyImage.ImageSource source, int type) {
-                Log.i("CreateRatingActivity", imageFiles.toString());
+                Log.i("CreateCardRatingActivit", imageFiles.toString());
 
                 UCrop.Options options = new UCrop.Options() {
                     {
@@ -149,18 +153,18 @@ public class CreateRatingActivity extends AppCompatActivity {
                         setHideBottomControls(true);
                     }
                 };
-                // TODO store the image name in the viewmodel or instance state!
+
                 UCrop.of(Uri.fromFile(imageFiles.get(0)),
                         Uri.fromFile(new File(getCacheDir(), "image_" + UUID.randomUUID().toString())))
                         .withAspectRatio(1, 1).withMaxResultSize(1024, 1024).withOptions(options)
-                        .start(CreateRatingActivity.this);
+                        .start(CreateCardRatingActivity.this);
             }
 
             @Override
             public void onCanceled(EasyImage.ImageSource source, int type) {
                 //Cancel handling, you might wanna remove taken photo if it was canceled
                 if (source == EasyImage.ImageSource.CAMERA_IMAGE) {
-                    File photoFile = EasyImage.lastlyTakenButCanceledPhoto(CreateRatingActivity.this);
+                    File photoFile = EasyImage.lastlyTakenButCanceledPhoto(CreateCardRatingActivity.this);
                     if (photoFile != null)
                         photoFile.delete();
                 }
@@ -223,8 +227,46 @@ public class CreateRatingActivity extends AppCompatActivity {
         String comment = ratingText.getText().toString();
         // TODO show a spinner!
         // TODO return the new rating to update the new average immediately
-        model.saveRating(model.getItem(), rating, comment, model.getPhoto())
-                .addOnSuccessListener(task -> onBackPressed())
-                .addOnFailureListener(error -> Log.e(TAG, "Could not save rating", error));
+
+        View view = getLayoutInflater().inflate(R.layout.dialog_loading, null);
+        final Dialog dialog=new Dialog(this, android.R.style.Theme_DeviceDefault_Dialog_NoActionBar);
+        dialog.setContentView(view);
+        dialog.setCancelable(false);
+        TextView dialogLabel = view.findViewById(R.id.dialogLabel);
+        ProgressBar progressBar = view.findViewById(R.id.dialogProgressBar);
+        dialogLabel.setText("Speichere Beurteilung...");
+
+        Window window = dialog.getWindow();
+        window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        window.setGravity(Gravity.CENTER);
+
+        dialog.show();
+
+        model.saveRating(model.getItem(), rating, comment, model.getPhoto(), model.getOldRating(), dialogLabel, progressBar)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() || task.isCanceled()) {
+                        dialog.hide();
+                        Intent intent = new Intent();
+                        // todo When offline, nothing happens: we dont get the Rating back or something... WorkAround: ignore it..
+                        //intent.putExtra(ITEM_RATING, rating);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
+                })
+                .addOnFailureListener(error -> {
+                    dialog.hide();
+                    AlertDialog.Builder errorDialog = new AlertDialog.Builder(this);
+                    errorDialog.setTitle("Fehler beim speichern");
+                    errorDialog.setMessage("Beim speichern ist ein Fehler aufgetretten:\n\n" + error.getMessage());
+                    errorDialog.show();
+                });
+    }
+
+    private void loadRating(Rating rating) {
+        GlideApp.with(this).load(rating.getPhoto()).into(photo);
+        ratingText.setText(rating.getComment());
+        photoExplanation.setText(null);
+
+        model.setPhoto(Uri.parse(rating.getPhoto()));
     }
 }
