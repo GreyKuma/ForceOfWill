@@ -7,12 +7,10 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import ch.FOW_Collection.domain.models.User;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.text.DateFormat;
 
@@ -55,29 +53,29 @@ public class RatingsRecyclerViewAdapter extends ListAdapter<Rating, RatingsRecyc
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.comment)
-        TextView comment;
+        @BindView(R.id.ratingComment)
+        TextView ratingComment;
 
-        @BindView(R.id.avatar)
-        ImageView avatar;
+        @BindView(R.id.ratingAvatar)
+        ImageView ratingAvatar;
 
-        @BindView(R.id.ratingBar)
-        RatingBar ratingBar;
+        @BindView(R.id.ratingRatingBar)
+        RatingBar ratingRatingBar;
 
-        @BindView(R.id.authorName)
-        TextView authorName;
+        @BindView(R.id.ratingAuthorName)
+        TextView ratingAuthorName;
 
-        @BindView(R.id.date)
-        TextView date;
+        @BindView(R.id.ratingDate)
+        TextView ratingDate;
 
-        @BindView(R.id.numLikes)
-        TextView numLikes;
+        @BindView(R.id.ratingNumLikes)
+        TextView ratingNumLikes;
 
-        @BindView(R.id.like)
-        ImageView like;
+        @BindView(R.id.ratingLike)
+        ImageView ratingLike;
 
-        @BindView(R.id.photo)
-        ImageView photo;
+        @BindView(R.id.ratingImage)
+        ImageView ratingImage;
 
         ViewHolder(View view) {
             super(view);
@@ -85,20 +83,20 @@ public class RatingsRecyclerViewAdapter extends ListAdapter<Rating, RatingsRecyc
         }
 
         void bind(Rating item, OnRatingLikedListener listener) {
-            comment.setText(item.getComment());
+            ratingComment.setText(item.getComment());
 
-            ratingBar.setNumStars(5);
-            ratingBar.setRating(item.getRating());
+            ratingRatingBar.setNumStars(5);
+            ratingRatingBar.setRating(item.getRating());
             String formattedDate =
                     DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.SHORT).format(item.getCreationDate());
-            date.setText(formattedDate);
+            ratingDate.setText(formattedDate);
 
             if (item.getPhoto() != null) {
-                GlideApp.with(itemView).load(item.getPhoto()).into(photo);
-                photo.setVisibility(View.VISIBLE);
+                GlideApp.with(itemView).load(item.getPhoto()).into(ratingImage);
+                ratingImage.setVisibility(View.VISIBLE);
             } else {
-                GlideApp.with(itemView).clear(photo);
-                photo.setVisibility(View.GONE);
+                GlideApp.with(itemView).clear(ratingImage);
+                ratingImage.setVisibility(View.GONE);
             }
 
             item.getUser().observeForever(new Observer<User>() {
@@ -107,20 +105,20 @@ public class RatingsRecyclerViewAdapter extends ListAdapter<Rating, RatingsRecyc
                     if (user != null) {
                         item.getUser().removeObserver(this);
 
-                        authorName.setText(user.getName());
-                        GlideApp.with(itemView).load(user.getPhoto()).apply(new RequestOptions().circleCrop()).into(avatar);
+                        ratingAuthorName.setText(user.getName());
+                        GlideApp.with(itemView).load(user.getPhoto()).apply(new RequestOptions().circleCrop()).into(ratingAvatar);
                     }
                 }
             });
 
-            numLikes.setText(itemView.getResources().getString(R.string.fmt_num_ratings, item.getLikes().size()));
+            ratingNumLikes.setText(itemView.getResources().getQuantityString(R.plurals.fmt_num_likes, item.getLikes().size(), item.getLikes().size()));
             if (item.getLikes().containsKey(userId.getValue())) {
-                like.setColorFilter(itemView.getResources().getColor(R.color.colorPrimary));
+                ratingLike.setColorFilter(itemView.getResources().getColor(R.color.colorPrimary));
             } else {
-                like.setColorFilter(itemView.getResources().getColor(android.R.color.darker_gray));
+                ratingLike.setColorFilter(itemView.getResources().getColor(android.R.color.darker_gray));
             }
             if (listener != null) {
-                like.setOnClickListener(v -> listener.onRatingLikedListener(item));
+                ratingLike.setOnClickListener(v -> listener.onRatingLikedListener(item));
             }
         }
     }

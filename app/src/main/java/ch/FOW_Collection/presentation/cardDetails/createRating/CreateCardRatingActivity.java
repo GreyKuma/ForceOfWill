@@ -48,7 +48,7 @@ public class CreateCardRatingActivity extends AppCompatActivity {
     @BindView(R.id.addRatingBar)
     RatingBar addRatingBar;
 
-    @BindView(R.id.photo)
+    @BindView(R.id.cardImage)
     ImageView photo;
 
     @BindView(R.id.avatar)

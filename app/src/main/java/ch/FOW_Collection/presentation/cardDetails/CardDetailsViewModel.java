@@ -51,7 +51,6 @@ public class CardDetailsViewModel extends MainViewModel {
         return card;
     }
 
-
     public LiveData<Wish> getWish() {
         return wish;
     }

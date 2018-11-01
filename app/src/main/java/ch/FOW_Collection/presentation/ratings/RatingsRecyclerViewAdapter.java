@@ -13,7 +13,6 @@ import androidx.lifecycle.Observer;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.User;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.text.DateFormat;
 
@@ -75,7 +74,7 @@ public class RatingsRecyclerViewAdapter extends ListAdapter<Pair<Rating, Wish>, 
         @BindView(R.id.avatar)
         ImageView avatar;
 
-        @BindView(R.id.ratingBar)
+        @BindView(R.id.cardRatingBar)
         RatingBar ratingBar;
 
         @BindView(R.id.authorName)
@@ -96,7 +95,7 @@ public class RatingsRecyclerViewAdapter extends ListAdapter<Pair<Rating, Wish>, 
         @BindView(R.id.like)
         Button like;
 
-        @BindView(R.id.photo)
+        @BindView(R.id.cardImage)
         ImageView photo;
 
         ViewHolder(View view) {
@@ -144,7 +143,7 @@ public class RatingsRecyclerViewAdapter extends ListAdapter<Pair<Rating, Wish>, 
                 }
             });
 
-            numLikes.setText(itemView.getResources().getString(R.string.fmt_num_ratings, item.getLikes().size()));
+            numLikes.setText(itemView.getResources().getQuantityString(R.plurals.fmt_num_likes, item.getLikes().size(), item.getLikes().size()));
 
             if (item.getLikes().containsKey(user.getId())) {
                 int color = fragment.getResources().getColor(R.color.colorPrimary);
