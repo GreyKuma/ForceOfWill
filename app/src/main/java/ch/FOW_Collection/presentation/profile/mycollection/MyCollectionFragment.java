@@ -12,9 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
-import ch.FOW_Collection.domain.models.MyBeer;
 import ch.FOW_Collection.domain.models.MyCard;
-import ch.FOW_Collection.presentation.profile.mycollection.OnMyCardItemInteractionListener;
 
 import java.util.ArrayList;
 import java.util.Iterator;
