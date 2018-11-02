@@ -1,6 +1,7 @@
 package ch.FOW_Collection.presentation.profile.mycollection;
 
 import android.content.Context;
+import android.database.Observable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ComponentActivity;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
@@ -22,33 +24,38 @@ import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.*;
 
 import ch.FOW_Collection.presentation.utils.EntityDiffItemCallback;
+import ch.FOW_Collection.presentation.utils.StringDiffItemCallback;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.storage.FirebaseStorage;
 
+import java.util.List;
 
-public class MyCollectionRecyclerViewAdapter extends ListAdapter<MyCard, MyCollectionRecyclerViewAdapter.ViewHolder> {
+
+public class MyCollectionRecyclerViewAdapter extends ListAdapter<String, MyCollectionRecyclerViewAdapter.ViewHolder> {
 
     private static final String TAG = "CollectionRecyclerViewAdapter";
 
-    private static final DiffUtil.ItemCallback<MyCard> DIFF_CALLBACK = new EntityDiffItemCallback<>();
+    private static final DiffUtil.ItemCallback<String> DIFF_CALLBACK = new StringDiffItemCallback();
 
     private final Context context;
     private final LifecycleOwner lifecycleOwner;
     private final OnMyCardItemInteractionListener listener;
+    private final MyCollectionViewModel viewModel;
 
-    public MyCollectionRecyclerViewAdapter(MyCollectionActivity listener) {
-        this(listener, listener, listener);
+    public MyCollectionRecyclerViewAdapter(MyCollectionActivity listener, MyCollectionViewModel viewModel) {
+        this(listener, listener, listener, viewModel);
     }
 
-    public MyCollectionRecyclerViewAdapter(ComponentActivity activity, OnMyCardItemInteractionListener listener) {
-        this(activity, activity, listener);
+    public MyCollectionRecyclerViewAdapter(ComponentActivity activity, OnMyCardItemInteractionListener listener, MyCollectionViewModel viewModel) {
+        this(activity, activity, listener, viewModel);
     }
 
-    public MyCollectionRecyclerViewAdapter(Context context, LifecycleOwner lifecycleOwner, OnMyCardItemInteractionListener listener) {
+    public MyCollectionRecyclerViewAdapter(Context context, LifecycleOwner lifecycleOwner, OnMyCardItemInteractionListener listener, MyCollectionViewModel viewModel) {
         super(DIFF_CALLBACK);
         this.context = context;
         this.lifecycleOwner = lifecycleOwner;
         this.listener = listener;
+        this.viewModel = viewModel;
     }
 
     @NonNull
@@ -67,9 +74,9 @@ public class MyCollectionRecyclerViewAdapter extends ListAdapter<MyCard, MyColle
 
     @Override
     public void onBindViewHolder(@NonNull final MyCollectionRecyclerViewAdapter.ViewHolder holder, int position) {
-        MyCard myCard = getItem(position);
+        String myCardId = getItem(position);
         //Log.d(TAG, "item.wish = " + item.first.toString() + " item.card = " + item.second.toString());
-        holder.bind(myCard, listener);
+        holder.bind(myCardId, listener, lifecycleOwner, viewModel);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -89,29 +96,46 @@ public class MyCollectionRecyclerViewAdapter extends ListAdapter<MyCard, MyColle
         @BindView(R.id.normalAmount) TextView normalAmount;
         @BindView(R.id.foilAmount) TextView foilAmount;
 
+        String myCardId;
 
         ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, itemView);
         }
 
-        void bind(MyCard myCard, OnMyCardItemInteractionListener listener) {
-            myCard.getCard().observe(lifecycleOwner, item -> {
-                if (item != null) {
-                    name.setText(item.getName().getDe());
-                    GlideApp.with(itemView)
-                            .load(FirebaseStorage.getInstance().getReference().child(item.getImageStorageUrl()))
-                            .apply(new RequestOptions().override(240, 240).centerInside()).into(photo);
+        void bind(String myCardId, OnMyCardItemInteractionListener listener, LifecycleOwner lifecycleOwner, MyCollectionViewModel viewModel) {
+            // clear observer, when already observed
+            if (this.myCardId != null && !this.myCardId.equals("")) {
+                viewModel.getMyCardById(this.myCardId).removeObservers(lifecycleOwner);
+            }
+            // observe
+            viewModel.getMyCardById(this.myCardId = myCardId).observe(lifecycleOwner, myCard -> {
+                normalAmount.setText(Integer.toString(myCard.getAmountNormal()));
+                normal1Up.setOnClickListener(v -> listener.onNormalUpClickedListener(myCard));
+                normal1Down.setOnClickListener(v -> listener.onNormalDownClickedListener(myCard));
 
-                    itemView.setOnClickListener(v -> listener.onMoreClickedListener(photo, item));
-                    remove.setOnClickListener(v -> listener.onWishClickedListener(item));
-                }
+                foilAmount.setText(Integer.toString(myCard.getAmountFoil()));
+                foil1Up.setOnClickListener(v -> listener.onFoilUpClickedListener(myCard));
+                foil1Down.setOnClickListener(v -> listener.onFoilDownClickedListener(myCard));
+
+                Observer<Card> cardObserver = new Observer<Card>() {
+                    @Override
+                    public void onChanged(Card card) {
+                        if (card != null) {
+                            myCard.getCard().removeObserver(this);
+
+                            name.setText(card.getName().getDe());
+                            GlideApp.with(itemView)
+                                    .load(FirebaseStorage.getInstance().getReference().child(card.getImageStorageUrl()))
+                                    .apply(new RequestOptions().override(240, 240).centerInside()).into(photo);
+
+                            itemView.setOnClickListener(v -> listener.onMoreClickedListener(photo, card));
+                            remove.setOnClickListener(v -> listener.onWishClickedListener(card));
+                        }
+                    }
+                };
+                myCard.getCard().observe(lifecycleOwner, cardObserver);
             });
-
-            normal1Up.setOnClickListener(v -> listener.onNormalUpClickedListener(myCard));
-            normal1Down.setOnClickListener(v -> listener.onNormalDownClickedListener(myCard));
-            foil1Up.setOnClickListener(v -> listener.onFoilUpClickedListener(myCard));
-            foil1Down.setOnClickListener(v -> listener.onFoilDownClickedListener(myCard));
 
         }
 

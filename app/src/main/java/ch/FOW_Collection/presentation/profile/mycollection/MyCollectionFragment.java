@@ -17,6 +17,7 @@ import ch.FOW_Collection.domain.models.MyCard;
 import ch.FOW_Collection.presentation.profile.mycollection.OnMyCardItemInteractionListener;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class MyCollectionFragment extends Fragment {
@@ -48,7 +49,7 @@ public class MyCollectionFragment extends Fragment {
 
         //TODO Was here (not working)
 
-        adapter = new MyCollectionRecyclerViewAdapter(getContext(), this, interactionListener);
+        adapter = new MyCollectionRecyclerViewAdapter(getContext(), this, interactionListener, model);
 
         recyclerView.setAdapter(adapter);
 
@@ -59,7 +60,13 @@ public class MyCollectionFragment extends Fragment {
     }
 
     private void handleCollectionChanged(List<MyCard> cards) {
-        adapter.submitList(new ArrayList<>(cards));
+        List<String> myCardsIds = new ArrayList<>();
+        Iterator<MyCard> it = cards.iterator();
+        while(it.hasNext()) {
+            myCardsIds.add(it.next().getId());
+        }
+
+        adapter.submitList(myCardsIds);
         if (cards.isEmpty()) {
             emptyView.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
