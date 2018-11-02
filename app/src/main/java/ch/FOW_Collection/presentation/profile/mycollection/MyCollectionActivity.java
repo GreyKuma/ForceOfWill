@@ -14,6 +14,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Card;
+import ch.FOW_Collection.domain.models.MyCard;
 import ch.FOW_Collection.presentation.cardDetails.CardDetailsActivity;
 
 
@@ -34,6 +35,7 @@ public class MyCollectionActivity extends AppCompatActivity implements OnMyCardI
         getSupportActionBar().setTitle(getString(R.string.title_activity_mybeers));
 
         model = ViewModelProviders.of(this).get(MyCollectionViewModel.class);
+
     }
 
     @Override
@@ -84,6 +86,26 @@ public class MyCollectionActivity extends AppCompatActivity implements OnMyCardI
 
     @Override
     public void onWishClickedListener(Card item) {
-//        model.toggleItemInWishlist(item.getId());
+        model.toggleCardInCollection(item.getId());
+    }
+
+    @Override
+    public void onNormalUpClickedListener(MyCard myCard) {
+        model.addOneToCardAmount(myCard, MyCard.FIELD_AMOUNT_NORMAL);
+    }
+
+    @Override
+    public void onNormalDownClickedListener(MyCard myCard) {
+        model.subOneFromCardAmount(myCard, MyCard.FIELD_AMOUNT_NORMAL);
+    }
+
+    @Override
+    public void onFoilUpClickedListener(MyCard myCard) {
+        model.addOneToCardAmount(myCard, MyCard.FIELD_AMOUNT_FOIL);
+    }
+
+    @Override
+    public void onFoilDownClickedListener(MyCard myCard) {
+        model.subOneFromCardAmount(myCard, MyCard.FIELD_AMOUNT_FOIL);
     }
 }

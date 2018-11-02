@@ -58,11 +58,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:drawableTop="@drawable/ic_refrigerator"
+            android:drawableTop="@drawable/ic_bookmark_white_24dp"
             android:drawableTint="@android:color/darker_gray"
-            android:textOff="In die Kollektion"
-            android:textOn="Aus Kollektion entfernen"
             android:textColor="@android:color/darker_gray"
+            android:textOff="Zu Kollektion hinzufügen"
+            android:textOn="Aus Kollektion entfernen"
             android:textSize="10sp" />
 
         <View

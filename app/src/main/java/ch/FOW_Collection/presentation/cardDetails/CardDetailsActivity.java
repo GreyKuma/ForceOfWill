@@ -563,7 +563,6 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
             Log.d("FRIDGE", "FRIDGE");
             model.toggleItemInCollection(cardId);
             coloriseCollectionButton();
-
         });
         if(myCards != null){
             for (MyCard myCard : myCards) {
@@ -588,6 +587,13 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
             setDrawableTint(addToCollection, color);
         }
     }
+
+//    private void toggleCollectionView(boolean deleted){
+//        if(deleted){
+//            int color = getResources().getColor(android.R.color.darker_gray);
+//            setDrawableTint(addToCollection);
+//        }
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

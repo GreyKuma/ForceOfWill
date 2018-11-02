@@ -10,6 +10,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import ch.FOW_Collection.domain.models.MyCard;
 import com.google.android.material.tabs.TabLayout;
 import com.google.common.base.Strings;
 
@@ -109,5 +110,25 @@ public class SearchActivity extends AppCompatActivity
     @Override
     public void onWishClickedListener(Card card) {
         searchViewModel.toggleItemInWishlist(card.getId());
+    }
+
+    @Override
+    public void onNormalUpClickedListener(MyCard myCard) {
+        //TODO onClickListener for CardAmount
+    }
+
+    @Override
+    public void onNormalDownClickedListener(MyCard myCard) {
+        //TODO onClickListener for CardAmount
+    }
+
+    @Override
+    public void onFoilUpClickedListener(MyCard myCard) {
+        //TODO onClickListener for CardAmount
+    }
+
+    @Override
+    public void onFoilDownClickedListener(MyCard myCard) {
+        //TODO onClickListener for CardAmount
     }
 }
