@@ -74,16 +74,23 @@ public class MyCollectionRecyclerViewAdapter extends ListAdapter<MyCard, MyColle
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.name) TextView name;
+        @BindView(R.id.cardName)
+        TextView name;
+
 
         @BindView(R.id.category) TextView category;
 
-        @BindView(R.id.photo) ImageView photo;
-
-        @BindView(R.id.ratingBar) RatingBar ratingBar;
-        @BindView(R.id.numRatings) TextView numRatings;
 
         @BindView(R.id.removeFromCollection) Button remove;
+        @BindView(R.id.cardImage)
+        ImageView photo;
+
+        @BindView(R.id.cardRatingBar)
+        RatingBar ratingBar;
+
+        @BindView(R.id.cardNumRatings)
+        TextView numRatings;
+
 
         @BindView(R.id.normal1Down) Button normal1Down;
         @BindView(R.id.normal1Up) Button normal1Up;

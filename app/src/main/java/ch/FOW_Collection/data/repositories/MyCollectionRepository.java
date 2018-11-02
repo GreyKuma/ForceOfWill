@@ -97,9 +97,9 @@ public class MyCollectionRepository {
 
         return cardRef.get().continueWithTask(task -> {
             if (task.isSuccessful() && task.getResult().exists()) {
-                if (type == MyCard.FIELD_AMOUNT_NORMAL){
+                if (type == MyCard.FIELD_AMOUNT_NORMAL && myCard.getAmountNormal() != 0){
                     return cardRef.update(MyCard.FIELD_AMOUNT_NORMAL, myCard.getAmountNormal()-1);
-                }else if(type == MyCard.FIELD_AMOUNT_FOIL){
+                }else if(type == MyCard.FIELD_AMOUNT_FOIL && myCard. getAmountFoil() != 0){
                     return cardRef.update(MyCard.FIELD_AMOUNT_FOIL, myCard.getAmountFoil()-1);
                 }else{
                     return null;

@@ -47,7 +47,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
-                        android:id="@+id/imageCard"
+                        android:id="@+id/cardImage"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:transitionName="image"
@@ -70,7 +70,7 @@
 
 
                         <TextView
-                            android:id="@+id/avgRating"
+                            android:id="@+id/cardAvgRating"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="192dp"
@@ -81,19 +81,19 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
-                            android:id="@+id/numRatings"
+                            android:id="@+id/cardNumRatings"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
                             android:color="@android:color/darker_gray"
                             android:text="3 Bewertungen"
                             android:textSize="12sp"
-                            app:layout_constraintBaseline_toBaselineOf="@+id/avgRating"
-                            app:layout_constraintStart_toEndOf="@+id/avgRating" />
+                            app:layout_constraintBaseline_toBaselineOf="@+id/cardAvgRating"
+                            app:layout_constraintStart_toEndOf="@+id/cardAvgRating" />
 
 
                         <RatingBar
-                            android:id="@+id/ratingBar"
+                            android:id="@+id/cardRatingBar"
                             style="?android:attr/ratingBarStyleSmall"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -102,18 +102,19 @@
                             android:rating="3.3"
                             android:stepSize="0.5"
                             android:theme="@style/RatingBar"
-                            app:layout_constraintStart_toStartOf="@+id/avgRating"
-                            app:layout_constraintTop_toBottomOf="@+id/avgRating" />
+                            app:layout_constraintStart_toStartOf="@+id/cardAvgRating"
+                            app:layout_constraintTop_toBottomOf="@+id/cardAvgRating" />
 
                         <View
                             android:id="@+id/separator"
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
                             android:layout_marginTop="32dp"
                             android:background="#ffeeeeee"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
+                            app:layout_constraintTop_toBottomOf="@+id/cardRatingBar" />
 
 
                         <TextView
@@ -152,6 +153,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
                             android:layout_marginTop="16dp"
                             android:background="#ffeeeeee"
                             app:layout_constraintStart_toStartOf="parent"
@@ -221,6 +223,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
                             android:layout_marginTop="16dp"
                             android:background="#ffeeeeee"
                             app:layout_constraintStart_toStartOf="parent"
@@ -317,7 +320,7 @@
                                 android:layout_weight="1"
                                 android:drawableTop="@drawable/ic_share_white_24dp"
                                 android:drawableTint="@android:color/darker_gray"
-                                android:text="Bier Teilen"
+                                android:text="Karte teilen"
                                 android:textColor="@android:color/darker_gray"
                                 android:textSize="10sp" />
                         </LinearLayout>

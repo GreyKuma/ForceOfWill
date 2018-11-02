@@ -6,11 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".presentation.profile.myratings.MyRatingsActivity">
 
+	<include layout="@layout/content_empty_card_list"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:listitem="@layout/activity_my_ratings_listentry"/>
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
