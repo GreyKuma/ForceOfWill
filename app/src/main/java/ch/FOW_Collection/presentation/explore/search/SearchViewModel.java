@@ -11,11 +11,7 @@ import java.util.List;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-import ch.FOW_Collection.data.repositories.CardsRepository;
-import ch.FOW_Collection.data.repositories.CurrentUser;
 import ch.FOW_Collection.data.repositories.SearchesRepository;
-import ch.FOW_Collection.data.repositories.WishlistRepository;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.Search;
 
@@ -64,6 +60,7 @@ public class SearchViewModel extends MainViewModel {
     public void setSearchTerm(String searchTerm) {
         this.searchTerm.setValue(searchTerm);
     }
+    public MutableLiveData<String> getSearchTerm() {return this.searchTerm;}
 
     public LiveData<List<Card>> getFilteredCards() {
         return filteredCards;
