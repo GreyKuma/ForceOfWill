@@ -52,7 +52,7 @@ public class MyCollectionFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         //TODO Is here now (working)
-        model.getMyCollection().observe(getActivity(), this::handleCollectionChanged);
+        model.getMyFilteredCards().observe(getActivity(), this::handleCollectionChanged);
 
         return view;
     }

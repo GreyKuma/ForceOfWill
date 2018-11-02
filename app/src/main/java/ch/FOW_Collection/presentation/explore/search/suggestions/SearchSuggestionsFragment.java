@@ -68,9 +68,12 @@ public class SearchSuggestionsFragment extends Fragment {
 
         List<String> popularCards = new ArrayList<>();
 
-        new CardsRepository().getCardsTopRated(3).observe(this, (List<Card> list) -> {
+        int topCount = 3;
+        new CardsRepository().getCardsTopRated(topCount).observe(this, (List<Card> list) -> {
             for(Card card : list){
-                popularCards.add(card.getName().getDe());
+                if(popularCards.size() < topCount){
+                    popularCards.add(card.getName().getDe());
+                }
             }
         });
 

@@ -79,8 +79,14 @@ public class SearchResultRecyclerViewAdapter extends RecyclerView.Adapter<Search
         @BindView(R.id.cardName)
         TextView name;
 
+        @BindView(R.id.rarity)
+        TextView rarityLable;
+
         @BindView(R.id.category)
         TextView category;
+
+        @BindView(R.id.cardId)
+        TextView cardId;
 
         @BindView(R.id.cardImage)
         ImageView photo;
@@ -106,9 +112,12 @@ public class SearchResultRecyclerViewAdapter extends RecyclerView.Adapter<Search
             }
 
             name.setText(cardName);
-
-
-            category.setText(card.getRarity());
+            if(card.getRarity() != null){
+                category.setText(itemView.getResources().getString(R.string.fmt_rarity, card.getRarity()));
+            }else{
+                category.setText(card.getRarity());
+            }
+            cardId.setText(card.getIdStr());
             GlideApp.with(itemView).load(card.getImageSrcUrl()).apply(new RequestOptions().override(240, 240).centerInside())
                     .into(photo);
             ratingBar.setNumStars(5);

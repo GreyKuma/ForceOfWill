@@ -28,5 +28,4 @@ public class WishlistViewModel extends MainViewModel {
     public Task<Void> toggleItemInWishlist(String itemId) {
         return wishlistRepository.toggleUserWishlistItem(getCurrentUserId().getValue(), itemId);
     }
-
 }
