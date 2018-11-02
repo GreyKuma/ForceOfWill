@@ -136,7 +136,6 @@ public class MyCollectionRecyclerViewAdapter extends ListAdapter<String, MyColle
                 };
                 myCard.getCard().observe(lifecycleOwner, cardObserver);
             });
-
         }
 
     }
