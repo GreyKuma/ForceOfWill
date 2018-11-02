@@ -35,6 +35,7 @@ public class MyCollectionActivity extends AppCompatActivity implements OnMyCardI
         getSupportActionBar().setTitle(getString(R.string.title_activity_mybeers));
 
         model = ViewModelProviders.of(this).get(MyCollectionViewModel.class);
+
     }
 
     @Override

@@ -74,22 +74,12 @@ public class MyCollectionRecyclerViewAdapter extends ListAdapter<MyCard, MyColle
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.cardName)
-        TextView name;
-
-
+        @BindView(R.id.cardName) TextView name;
         @BindView(R.id.category) TextView category;
-
-
         @BindView(R.id.removeFromCollection) Button remove;
-        @BindView(R.id.cardImage)
-        ImageView photo;
-
-        @BindView(R.id.cardRatingBar)
-        RatingBar ratingBar;
-
-        @BindView(R.id.cardNumRatings)
-        TextView numRatings;
+        @BindView(R.id.cardImage) ImageView photo;
+        @BindView(R.id.cardRatingBar) RatingBar ratingBar;
+        @BindView(R.id.cardNumRatings) TextView numRatings;
 
 
         @BindView(R.id.normal1Down) Button normal1Down;
@@ -115,12 +105,14 @@ public class MyCollectionRecyclerViewAdapter extends ListAdapter<MyCard, MyColle
 
                     itemView.setOnClickListener(v -> listener.onMoreClickedListener(photo, item));
                     remove.setOnClickListener(v -> listener.onWishClickedListener(item));
-                    normal1Up.setOnClickListener(v -> listener.onNormalUpClickedListener(myCard));
-                    normal1Down.setOnClickListener(v -> listener.onNormalDownClickedListener(myCard));
-                    foil1Up.setOnClickListener(v -> listener.onFoilUpClickedListener(myCard));
-                    foil1Down.setOnClickListener(v -> listener.onFoilDownClickedListener(myCard));
                 }
             });
+
+            normal1Up.setOnClickListener(v -> listener.onNormalUpClickedListener(myCard));
+            normal1Down.setOnClickListener(v -> listener.onNormalDownClickedListener(myCard));
+            foil1Up.setOnClickListener(v -> listener.onFoilUpClickedListener(myCard));
+            foil1Down.setOnClickListener(v -> listener.onFoilDownClickedListener(myCard));
+
         }
 
     }

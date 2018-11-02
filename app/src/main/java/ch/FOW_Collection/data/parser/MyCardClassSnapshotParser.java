@@ -2,7 +2,9 @@ package ch.FOW_Collection.data.parser;
 
 import android.util.Log;
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import ch.FOW_Collection.data.repositories.CardsRepository;
+import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveData;
 import ch.FOW_Collection.domain.models.MyCard;
 import com.google.firebase.firestore.DocumentSnapshot;
 
@@ -29,4 +31,6 @@ public class MyCardClassSnapshotParser extends EntityClassSnapshotParser<MyCard>
         }
         return myCard;
     }
+
+
 }

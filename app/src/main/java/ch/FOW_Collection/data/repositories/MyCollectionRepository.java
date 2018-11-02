@@ -4,6 +4,7 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import ch.FOW_Collection.data.parser.MyCardClassSnapshotParser;
 import ch.FOW_Collection.data.parser.WishClassSnapshotParser;
+import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveData;
 import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveDataArray;
 import ch.FOW_Collection.domain.models.*;
 import ch.FOW_Collection.domain.models.Collection;
@@ -109,4 +110,13 @@ public class MyCollectionRepository {
             }
         });
     }
+
+    public LiveData<MyCard> getCardById(String userId, String cardId) {
+        return new FirestoreQueryLiveData<>(
+                FirebaseFirestore
+                .getInstance()
+                .collection(Collection.FIRST_COLLECTION + "/" + userId + "/" + Collection.SECOND_COLLECTION)
+                .document(cardId), new MyCardClassSnapshotParser());
+    }
+    
 }

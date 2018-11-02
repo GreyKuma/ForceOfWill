@@ -1,5 +1,6 @@
 package ch.FOW_Collection.domain.models;
 
+import android.util.Pair;
 import androidx.lifecycle.LiveData;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.firestore.IgnoreExtraProperties;
@@ -32,5 +33,6 @@ public class MyCard implements Entity {
     private int amountFoil;
 
     public int totalAmount(){return amountNormal+amountFoil;}
+
 }
 

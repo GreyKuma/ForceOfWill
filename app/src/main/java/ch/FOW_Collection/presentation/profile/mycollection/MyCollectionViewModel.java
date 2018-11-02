@@ -60,6 +60,10 @@ public class MyCollectionViewModel extends MainViewModel {
         return myFilteredCards;
     }
 
+    public LiveData<MyCard> getMyCardById(String cardId){
+        return myCollectionRepository.getCardById(currentUserId.getValue(), cardId);
+    }
+
     public void setSearchTerm(String searchTerm) {
         this.searchTerm.setValue(searchTerm);
     }
