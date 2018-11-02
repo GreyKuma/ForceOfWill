@@ -57,7 +57,10 @@ public class MyCollectionRecyclerViewAdapter extends ListAdapter<String, MyColle
     @Override
     public MyCollectionRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+
+        //View view = layoutInflater.inflate(R.layout.activity_my_wishlist_listentry, parent, false);
         View view = layoutInflater.inflate(R.layout.activity_my_collection_item, parent, false);
+
         return new MyCollectionRecyclerViewAdapter.ViewHolder(view);
     }
 
@@ -76,20 +79,33 @@ public class MyCollectionRecyclerViewAdapter extends ListAdapter<String, MyColle
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.cardName) TextView name;
-        @BindView(R.id.category) TextView category;
-        @BindView(R.id.removeFromCollection) Button remove;
-        @BindView(R.id.cardImage) ImageView photo;
-        @BindView(R.id.cardRatingBar) RatingBar ratingBar;
-        @BindView(R.id.cardNumRatings) TextView numRatings;
-
-
-        @BindView(R.id.normal1Down) Button normal1Down;
-        @BindView(R.id.normal1Up) Button normal1Up;
-        @BindView(R.id.foil1Down) Button foil1Down;
-        @BindView(R.id.foil1Up) Button foil1Up;
-        @BindView(R.id.normalAmount) TextView normalAmount;
-        @BindView(R.id.foilAmount) TextView foilAmount;
+        @BindView(R.id.cardName)
+        TextView name;
+        @BindView(R.id.category)
+        TextView category;
+        @BindView(R.id.removeFromCollection)
+        Button remove;
+        @BindView(R.id.cardImage)
+        ImageView photo;
+        @BindView(R.id.cardRatingBar)
+        RatingBar ratingBar;
+        @BindView(R.id.cardNumRatings)
+        TextView numRatings;
+        @BindView(R.id.cardId)
+        TextView cardId;
+        //TODO check xml
+        @BindView(R.id.normal1Down)
+        Button normal1Down;
+        @BindView(R.id.normal1Up)
+        Button normal1Up;
+        @BindView(R.id.foil1Down)
+        Button foil1Down;
+        @BindView(R.id.foil1Up)
+        Button foil1Up;
+        @BindView(R.id.normalAmount)
+        TextView normalAmount;
+        @BindView(R.id.foilAmount)
+        TextView foilAmount;
 
         String myCardId;
 
@@ -120,10 +136,18 @@ public class MyCollectionRecyclerViewAdapter extends ListAdapter<String, MyColle
                             myCard.getCard().removeObserver(this);
 
                             name.setText(card.getName().getDe());
+                            cardId.setText(card.getIdStr());
+                            if (card.getRarity() != null) {
+                                category.setText(itemView.getResources().getString(R.string.fmt_rarity, card.getRarity()));
+                            } else {
+                                category.setText(card.getRarity());
+                            }
                             GlideApp.with(itemView)
                                     .load(FirebaseStorage.getInstance().getReference().child(card.getImageStorageUrl()))
                                     .apply(new RequestOptions().override(240, 240).centerInside()).into(photo);
-
+                            ratingBar.setNumStars(5);
+                            ratingBar.setRating(card.getAvgRating());
+                            numRatings.setText(itemView.getResources().getQuantityString(R.plurals.fmt_num_ratings, card.getNumRatings()));
                             itemView.setOnClickListener(v -> listener.onMoreClickedListener(photo, card));
                             remove.setOnClickListener(v -> listener.onRemoveClickedListener(card));
                         }

@@ -4,6 +4,7 @@
     <string name="action_settings">Einstellungen</string>
     <string name="action_logout">Abmelden</string>
     <string name="todo">TODO</string>
+    <string name="fmt_rarity">Seltenheit %s</string>
     <plurals name="fmt_num_ratings">
         <item quantity="zero">Keine Beurteilungen</item>
         <item quantity="one">Eine Beurteilung</item>
