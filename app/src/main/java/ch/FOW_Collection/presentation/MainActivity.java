@@ -85,13 +85,13 @@ public class MainActivity
     private void setupViewPager(ViewPager viewPager, TabLayout tabLayout) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new ExploreFragment());
-        adapter.addFragment(new RatingsFragment());
+//        adapter.addFragment(new RatingsFragment());
         adapter.addFragment(new ProfileFragment());
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_search_white_24dp);
-        tabLayout.getTabAt(1).setIcon(R.drawable.ic_people_white_24dp);
-        tabLayout.getTabAt(2).setIcon(R.drawable.ic_person_white_24dp);
+//        tabLayout.getTabAt(1).setIcon(R.drawable.ic_people_white_24dp);
+        tabLayout.getTabAt(1).setIcon(R.drawable.ic_person_white_24dp);
 
         /*
          * We want to change the title of the activity depending on the selected fragment. We can do this by
@@ -106,10 +106,10 @@ public class MainActivity
                     case 0:
                         getSupportActionBar().setTitle("Entdecken");
                         break;
+//                    case 1:
+//                        getSupportActionBar().setTitle("Bewertungen");
+//                        break;
                     case 1:
-                        getSupportActionBar().setTitle("Bewertungen");
-                        break;
-                    case 2:
                         getSupportActionBar().setTitle("Mein Profil");
                         break;
                 }
