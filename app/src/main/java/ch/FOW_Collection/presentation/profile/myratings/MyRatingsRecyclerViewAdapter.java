@@ -179,7 +179,7 @@ public class MyRatingsRecyclerViewAdapter
 
             if (listener != null) {
                 details.setOnClickListener(v -> listener.onMoreClickedListener(item));
-                wishlist.setOnClickListener(v -> listener.onWishClickedListener(item));
+                wishlist.setOnClickListener(v -> listener.onRemoveClickedListener(item));
             }*/
         }
     }

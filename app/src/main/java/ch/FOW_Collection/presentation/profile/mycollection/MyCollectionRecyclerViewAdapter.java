@@ -1,7 +1,6 @@
 package ch.FOW_Collection.presentation.profile.mycollection;
 
 import android.content.Context;
-import android.database.Observable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.app.ComponentActivity;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
@@ -23,12 +21,9 @@ import ch.FOW_Collection.GlideApp;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.*;
 
-import ch.FOW_Collection.presentation.utils.EntityDiffItemCallback;
 import ch.FOW_Collection.presentation.utils.StringDiffItemCallback;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.storage.FirebaseStorage;
-
-import java.util.List;
 
 
 public class MyCollectionRecyclerViewAdapter extends ListAdapter<String, MyCollectionRecyclerViewAdapter.ViewHolder> {
@@ -130,7 +125,7 @@ public class MyCollectionRecyclerViewAdapter extends ListAdapter<String, MyColle
                                     .apply(new RequestOptions().override(240, 240).centerInside()).into(photo);
 
                             itemView.setOnClickListener(v -> listener.onMoreClickedListener(photo, card));
-                            remove.setOnClickListener(v -> listener.onWishClickedListener(card));
+                            remove.setOnClickListener(v -> listener.onRemoveClickedListener(card));
                         }
                     }
                 };

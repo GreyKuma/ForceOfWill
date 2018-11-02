@@ -108,7 +108,7 @@ public class SearchActivity extends AppCompatActivity
     }
 
     @Override
-    public void onWishClickedListener(Card card) {
+    public void onRemoveClickedListener(Card card) {
         searchViewModel.toggleItemInWishlist(card.getId());
     }
 
