@@ -521,7 +521,7 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
 
     @Override
     public void onRatingLikedListener(Rating rating) {
-        // model.toggleLike(ownRating);
+        model.toggleLike(rating);
     }
 
     @OnClick(R.id.wishlist)

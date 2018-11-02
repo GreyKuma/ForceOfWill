@@ -13,8 +13,14 @@ import ch.FOW_Collection.domain.models.Rating;
 import ch.FOW_Collection.domain.models.Wish;
 import ch.FOW_Collection.presentation.MainViewModel;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Transaction;
 
 import java.util.List;
+import java.util.Map;
 
 //import ch.FOW_Collection.domain.models.Beer;
 //import ch.FOW_Collection.domain.models.Rating;
@@ -67,9 +73,16 @@ public class CardDetailsViewModel extends MainViewModel {
         this.cardId.setValue(cardId);
     }
 
-//    public void toggleLike(Rating rating) {
-//        likesRepository.toggleLike(rating);
-//    }
+    public void toggleLike(Rating rating) {
+        if (!rating.getUserId().equals(currentUserId.getValue())) {
+            if (rating.getLikes().containsKey(currentUserId.getValue())) {
+                rating.getLikes().remove(currentUserId.getValue());
+            } else {
+                rating.getLikes().put(currentUserId.getValue(), true);
+            }
+            ratingsRepository.putRating(rating);
+        }
+    }
 
     public Task<Void> toggleItemInWishlist(String itemId) {
         return wishlistRepository.toggleUserWishlistItem(getCurrentUserId().getValue(), itemId);
