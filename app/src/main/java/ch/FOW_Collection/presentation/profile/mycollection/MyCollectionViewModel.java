@@ -3,7 +3,6 @@ package ch.FOW_Collection.presentation.profile.mycollection;
 import android.util.Pair;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 import ch.FOW_Collection.data.repositories.*;
 import ch.FOW_Collection.domain.models.*;
 import com.google.android.gms.tasks.Task;
@@ -61,11 +60,23 @@ public class MyCollectionViewModel extends MainViewModel {
         return myFilteredCards;
     }
 
+    public LiveData<MyCard> getMyCardById(String cardId){
+        return myCollectionRepository.getCardById(currentUserId.getValue(), cardId);
+    }
+
     public void setSearchTerm(String searchTerm) {
         this.searchTerm.setValue(searchTerm);
     }
 
     public Task<Void> toggleCardInCollection(String itemId){
         return myCollectionRepository.toggleCardInCollection(currentUserId.getValue(), itemId);
+    }
+
+    public Task<Void> addOneToCardAmount(MyCard myCard, String type){
+        return myCollectionRepository.addOneToCardAmount(currentUserId.getValue(), myCard, type);
+    }
+
+    public Task<Void> subOneFromCardAmount(MyCard myCard, String type){
+        return myCollectionRepository.subOneFromCardAmount(currentUserId.getValue(), myCard, type);
     }
 }

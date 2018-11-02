@@ -102,7 +102,7 @@ public class WishlistRecyclerViewAdapter extends ListAdapter<Wish, WishlistRecyc
         @BindView(R.id.addedAt)
         TextView addedAt;
 
-        @BindView(R.id.removeFromWishlist)
+        @BindView(R.id.removeFromCollection)
         Button remove;
 
         ViewHolder(View view) {

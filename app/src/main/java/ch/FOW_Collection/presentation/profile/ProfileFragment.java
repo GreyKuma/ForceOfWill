@@ -48,9 +48,6 @@ public class ProfileFragment extends Fragment {
     @BindView(R.id.myCollectionCount)
     TextView myCollectionCount;
 
-    @BindView(R.id.myFridgeCount)
-    TextView myFridgeCount;
-
     @BindView(R.id.myRatingsCount)
     TextView myRatingsCount;
 
