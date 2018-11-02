@@ -1,9 +1,6 @@
 package ch.FOW_Collection.presentation.profile.mywishlist;
 
-import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,9 +26,7 @@ import butterknife.ButterKnife;
 import ch.FOW_Collection.GlideApp;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Card;
-import ch.FOW_Collection.domain.models.Beer;
 import ch.FOW_Collection.domain.models.Wish;
-import ch.FOW_Collection.presentation.utils.EntityPairDiffItemCallback;
 import com.google.firebase.storage.FirebaseStorage;
 
 
@@ -107,7 +102,7 @@ public class WishlistRecyclerViewAdapter extends ListAdapter<Wish, WishlistRecyc
         @BindView(R.id.addedAt)
         TextView addedAt;
 
-        @BindView(R.id.removeFromWishlist)
+        @BindView(R.id.removeFromCollection)
         Button remove;
 
         ViewHolder(View view) {

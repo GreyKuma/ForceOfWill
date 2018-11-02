@@ -67,4 +67,46 @@ public class MyCollectionRepository {
     public LiveData<List<MyCard>> getMyCollection(LiveData<String> currentUserId){
         return switchMap(currentUserId, MyCollectionRepository::getCollectionByUser);
     }
+
+    public Task<Void> addOneToCardAmount(String userId, MyCard myCard, final String type){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference cardRef = db
+                .collection(Collection.FIRST_COLLECTION + "/" + userId + "/" + Collection.SECOND_COLLECTION)
+                .document(myCard.getCardId());
+
+        return cardRef.get().continueWithTask(task -> {
+            if (task.isSuccessful() && task.getResult().exists()) {
+                if (type == MyCard.FIELD_AMOUNT_NORMAL){
+                    return cardRef.update(MyCard.FIELD_AMOUNT_NORMAL, myCard.getAmountNormal()+1);
+                }else if(type == MyCard.FIELD_AMOUNT_FOIL){
+                    return cardRef.update(MyCard.FIELD_AMOUNT_FOIL, myCard.getAmountFoil()+1);
+                }else{
+                    return null;
+                }
+            } else {
+                throw task.getException();
+            }
+        });
+    }
+
+    public Task<Void> subOneFromCardAmount(String userId, MyCard myCard, final String type){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference cardRef = db
+                .collection(Collection.FIRST_COLLECTION + "/" + userId + "/" + Collection.SECOND_COLLECTION)
+                .document(myCard.getCardId());
+
+        return cardRef.get().continueWithTask(task -> {
+            if (task.isSuccessful() && task.getResult().exists()) {
+                if (type == MyCard.FIELD_AMOUNT_NORMAL){
+                    return cardRef.update(MyCard.FIELD_AMOUNT_NORMAL, myCard.getAmountNormal()-1);
+                }else if(type == MyCard.FIELD_AMOUNT_FOIL){
+                    return cardRef.update(MyCard.FIELD_AMOUNT_FOIL, myCard.getAmountFoil()-1);
+                }else{
+                    return null;
+                }
+            } else {
+                throw task.getException();
+            }
+        });
+    }
 }
