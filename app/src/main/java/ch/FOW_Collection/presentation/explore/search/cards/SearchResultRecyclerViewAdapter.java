@@ -26,21 +26,25 @@ import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.presentation.explore.search.cards.SearchResultFragment.OnItemSelectedListener;
 import ch.FOW_Collection.presentation.utils.EntityDiffItemCallback;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class SearchResultRecyclerViewAdapter extends ListAdapter<Card, SearchResultRecyclerViewAdapter.ViewHolder> {
+public class SearchResultRecyclerViewAdapter extends RecyclerView.Adapter<SearchResultRecyclerViewAdapter.ViewHolder> {
 
     private static final EntityDiffItemCallback<Card> DIFF_CALLBACK = new EntityDiffItemCallback<>();
 
     private final OnItemSelectedListener listener;
     private final MutableLiveData<String> searchText;
+    private List<Card> cards;
 
     public SearchResultRecyclerViewAdapter(OnItemSelectedListener listener, @Nullable MutableLiveData<String> searchText) {
-        super(DIFF_CALLBACK);
+        super();
         this.listener = listener;
         this.searchText = searchText;
+        this.cards = new ArrayList<>();
     }
 
     @NonNull
@@ -54,6 +58,20 @@ public class SearchResultRecyclerViewAdapter extends ListAdapter<Card, SearchRes
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         holder.bind(getItem(position), listener, searchText.getValue());
+    }
+
+    @Override
+    public int getItemCount() {
+        return this.cards.size();
+    }
+
+    public Card getItem(int position) {
+        return this.cards.get(position);
+    }
+
+    public void submitList(List<Card> cards) {
+        this.cards = cards;
+        notifyDataSetChanged();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
