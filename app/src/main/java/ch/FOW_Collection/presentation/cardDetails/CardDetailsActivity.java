@@ -547,18 +547,30 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
         }
     }
 
+    private ToggleButton addToCollection;
+
     @OnClick(R.id.actionsButton)
     public void showBottomSheetDialog() {
         View view = getLayoutInflater().inflate(R.layout.single_bottom_sheet_dialog, null);
         BottomSheetDialog dialog = new BottomSheetDialog(this);
         dialog.setContentView(view);
-        Button addToCollection = view.findViewById(R.id.addToCollection);
+        addToCollection = view.findViewById(R.id.addToCollection);
         addToCollection.setOnClickListener(v -> {
             Log.d("FRIDGE", "FRIDGE");
             model.toggleItemInCollection(model.getCard().getValue().getId());
+//            if(!addToCollection.isChecked()){
+//
+//            }
         });
         dialog.show();
     }
+
+//    private void toggleCollectionView(boolean deleted){
+//        if(deleted){
+//            int color = getResources().getColor(android.R.color.darker_gray);
+//            setDrawableTint(addToCollection);
+//        }
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

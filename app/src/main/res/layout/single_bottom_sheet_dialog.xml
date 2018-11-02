@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <Button
+        <ToggleButton
             android:id="@+id/addToCollection"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="0dp"
@@ -62,6 +62,8 @@
             android:drawableTint="@android:color/darker_gray"
             android:text="In die Kollektion"
             android:textColor="@android:color/darker_gray"
+            android:textOff="Zu Kollektion hinzufügen"
+            android:textOn="Aus Kollektion entfernen"
             android:textSize="10sp" />
 
         <View
