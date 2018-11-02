@@ -61,10 +61,10 @@ public class MyCollectionRecyclerViewAdapter extends ListAdapter<MyCard, MyColle
     @Override
     public MyCollectionRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-<<<<<<< HEAD
-        View view = layoutInflater.inflate(R.layout.activity_my_collection_listentryl, parent, false);
-        return new ViewHolder(view);
-=======
+
+        //View view = layoutInflater.inflate(R.layout.activity_my_collection_listentryl, parent, false);
+        //return new ViewHolder(view);
+
         View view = layoutInflater.inflate(R.layout.activity_my_wishlist_listentry, parent, false);
         return new MyCollectionRecyclerViewAdapter.ViewHolder(view);
     }
@@ -73,7 +73,6 @@ public class MyCollectionRecyclerViewAdapter extends ListAdapter<MyCard, MyColle
     @Override
     public int getItemCount() {
         return super.getItemCount();
->>>>>>> 4de5999e8a7950e131e968cd4b4acc64421be2e7
     }
 
     @Override
@@ -89,8 +88,8 @@ public class MyCollectionRecyclerViewAdapter extends ListAdapter<MyCard, MyColle
         @BindView(R.id.name)
         TextView name;
 
-//        @BindView(R.id.manufacturer)
-//        TextView manufacturer;
+        @BindView(R.id.cardId)
+        TextView cardId;
 
         @BindView(R.id.category)
         TextView category;
@@ -121,10 +120,20 @@ public class MyCollectionRecyclerViewAdapter extends ListAdapter<MyCard, MyColle
                 public void onChanged(Card item) {
                     if (item != null) {
                         name.setText(item.getName().getDe());
+                        cardId.setText(item.getIdStr());
+                        if(item.getRarity() != null){
+                            category.setText(itemView.getResources().getString(R.string.fmt_rarity, item.getRarity()));
+                        }else{
+                            category.setText(item.getRarity());
+                        }
+                        //TODO get date when the card was added to the collection
+                        addedAt.setText("added at");
                         GlideApp.with(itemView)
                                 .load(FirebaseStorage.getInstance().getReference().child(item.getImageStorageUrl()))
                                 .apply(new RequestOptions().override(240, 240).centerInside()).into(photo);
-
+                        ratingBar.setNumStars(5);
+                        ratingBar.setRating(item.getAvgRating());
+                        numRatings.setText(itemView.getResources().getString(R.string.fmt_num_ratings, item.getNumRatings()));
                         itemView.setOnClickListener(v -> listener.onMoreClickedListener(photo, item));
                     }
                 }

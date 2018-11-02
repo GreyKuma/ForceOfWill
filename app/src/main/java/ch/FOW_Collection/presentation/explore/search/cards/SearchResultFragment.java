@@ -67,7 +67,7 @@ public class SearchResultFragment extends Fragment {
         adapter = new SearchResultRecyclerViewAdapter(mListener);
 
         SearchViewModel model = ViewModelProviders.of(getActivity()).get(SearchViewModel.class);
-        //TODO try with .observeForever()
+
         model.getFilteredCards().observe(getActivity() , this::handleCardsChanged);
 
         recyclerView.setAdapter(adapter);

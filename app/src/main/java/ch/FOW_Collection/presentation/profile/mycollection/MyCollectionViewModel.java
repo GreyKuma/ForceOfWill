@@ -40,9 +40,9 @@ public class MyCollectionViewModel extends MainViewModel {
     public LiveData<List<MyCard>> getMyCollection() {return myCollection;}
 
     private static List<MyCard> filter(Pair<String, List<MyCard>> input) {
-        String searchTerm1 = input.first;
+        String searchTerm = input.first;
         List<MyCard> myCards = input.second;
-        if (Strings.isNullOrEmpty(searchTerm1)) {
+        if (Strings.isNullOrEmpty(searchTerm)) {
             return myCards;
         }
         if (myCards == null) {
@@ -50,8 +50,10 @@ public class MyCollectionViewModel extends MainViewModel {
         }
         ArrayList<MyCard> filtered = new ArrayList<>();
         for (MyCard card : myCards) {
-            if (card.getId().toLowerCase().contains(searchTerm1.toLowerCase())) {
-                filtered.add(card);
+            if(card.getCard().getValue() != null){
+                if (card.getCard().getValue().getName().getDe().toLowerCase().contains(searchTerm.toLowerCase())) {
+                    filtered.add(card);
+                }
             }
         }
         return filtered;

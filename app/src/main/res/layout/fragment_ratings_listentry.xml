@@ -131,7 +131,7 @@
                 android:layout_weight="1"
                 android:drawableTop="@drawable/ic_more_horiz_black_24dp"
                 android:drawableTint="@android:color/darker_gray"
-                android:text="Mehr Zum Bier"
+                android:text="Mehr Zur Karte"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="10sp" />
 

@@ -76,11 +76,10 @@ public class SearchResultRecyclerViewAdapter extends ListAdapter<Card, SearchRes
         void bind(Card card, OnItemSelectedListener listener) {
             name.setText(card.getName().getDe());
             if(card.getRarity() != null){
-                rarityLable.setText("Seltenheit: ");
+                category.setText(itemView.getResources().getString(R.string.fmt_rarity, card.getRarity()));
             }else{
-                rarityLable.setText("");
+                category.setText(card.getRarity());
             }
-            category.setText(card.getRarity());
             cardId.setText(card.getIdStr());
             GlideApp.with(itemView).load(card.getImageSrcUrl()).apply(new RequestOptions().override(240, 240).centerInside())
                     .into(photo);
