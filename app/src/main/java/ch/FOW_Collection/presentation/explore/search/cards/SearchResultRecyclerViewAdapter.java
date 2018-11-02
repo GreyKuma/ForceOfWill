@@ -1,5 +1,9 @@
 package ch.FOW_Collection.presentation.explore.search.cards;
 
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.lifecycle.MutableLiveData;
 import com.bumptech.glide.request.RequestOptions;
 
 import androidx.annotation.NonNull;
@@ -20,16 +26,21 @@ import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.presentation.explore.search.cards.SearchResultFragment.OnItemSelectedListener;
 import ch.FOW_Collection.presentation.utils.EntityDiffItemCallback;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 public class SearchResultRecyclerViewAdapter extends ListAdapter<Card, SearchResultRecyclerViewAdapter.ViewHolder> {
 
     private static final EntityDiffItemCallback<Card> DIFF_CALLBACK = new EntityDiffItemCallback<>();
 
     private final OnItemSelectedListener listener;
+    private final MutableLiveData<String> searchText;
 
-    public SearchResultRecyclerViewAdapter(OnItemSelectedListener listener) {
+    public SearchResultRecyclerViewAdapter(OnItemSelectedListener listener, @Nullable MutableLiveData<String> searchText) {
         super(DIFF_CALLBACK);
         this.listener = listener;
+        this.searchText = searchText;
     }
 
     @NonNull
@@ -42,7 +53,7 @@ public class SearchResultRecyclerViewAdapter extends ListAdapter<Card, SearchRes
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-        holder.bind(getItem(position), listener);
+        holder.bind(getItem(position), listener, searchText.getValue());
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -67,8 +78,18 @@ public class SearchResultRecyclerViewAdapter extends ListAdapter<Card, SearchRes
             ButterKnife.bind(this, itemView);
         }
 
-        void bind(Card card, OnItemSelectedListener listener) {
-            name.setText(card.getName().getDe());
+        void bind(Card card, OnItemSelectedListener listener, String searchText) {
+            // highlight text
+            SpannableString cardName = new SpannableString(card.getName().getDe());
+            Pattern pattern = Pattern.compile(searchText);
+            Matcher matcher = pattern.matcher(card.getName().getDe().toLowerCase());
+            while (matcher.find()) {
+                cardName.setSpan(new ForegroundColorSpan(itemView.getResources().getColor(R.color.colorPrimaryLight)), matcher.start(), matcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+
+            name.setText(cardName);
+
+
             category.setText(card.getRarity());
             GlideApp.with(itemView).load(card.getImageSrcUrl()).apply(new RequestOptions().override(240, 240).centerInside())
                     .into(photo);
