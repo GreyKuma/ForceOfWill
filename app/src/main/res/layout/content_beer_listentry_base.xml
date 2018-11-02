@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/photo"
+        android:id="@+id/cardImage"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -19,14 +19,14 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/cardName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Title"
         android:textAppearance="?attr/textAppearanceListItem"
-        app:layout_constraintStart_toEndOf="@+id/photo"
+        app:layout_constraintStart_toEndOf="@+id/cardImage"
  />
 
     <TextView
@@ -36,7 +36,7 @@
         android:layout_marginStart="64dp"
         android:layout_marginTop="24dp"
         android:text="Subtitle"
-        app:layout_constraintStart_toEndOf="@+id/photo"
+        app:layout_constraintStart_toEndOf="@+id/cardImage"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -50,7 +50,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <RatingBar
-        android:id="@+id/ratingBar"
+        android:id="@+id/cardRatingBar"
         style="?android:attr/ratingBarStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -62,18 +62,18 @@
         android:stepSize="0.5"
         android:theme="@style/RatingBar"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/photo" />
+        app:layout_constraintStart_toEndOf="@+id/cardImage" />
 
     <TextView
-        android:id="@+id/numRatings"
+        android:id="@+id/cardNumRatings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:color="@android:color/darker_gray"
         android:gravity="center_vertical"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/ratingBar"
-        app:layout_constraintStart_toEndOf="@+id/ratingBar"
+        app:layout_constraintBottom_toBottomOf="@+id/cardRatingBar"
+        app:layout_constraintStart_toEndOf="@+id/cardRatingBar"
         tools:text="(10)" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,10 +28,10 @@ public class CardListViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.cardName)
     TextView cardName;
 
-    @BindView(R.id.ratingBar)
+    @BindView(R.id.cardRatingBar)
     RatingBar ratingBar;
 
-    @BindView(R.id.imageCard)
+    @BindView(R.id.cardImage)
     ImageView imageView;
 
     CardListViewHolder(View view) {
@@ -55,7 +55,7 @@ public class CardListViewHolder extends RecyclerView.ViewHolder {
         ratingBar.setRating(item.getAvgRating());
 
         if (listener != null) {
-            itemView.setOnClickListener(v -> listener.onCardSelectedListener(imageView, content, item));
+            itemView.setOnClickListener(v -> listener.onCardSelectedListener(imageView, item));
         }
 
         CardImageLoader.loadImageIntoImageView(glide, item.getImageStorageUrl(), imageView);

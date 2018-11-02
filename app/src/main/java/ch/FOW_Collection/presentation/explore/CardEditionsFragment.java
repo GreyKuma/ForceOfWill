@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -52,6 +53,7 @@ public class CardEditionsFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         //recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);
+
 
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.grid_layout_margin);
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, spacingInPixels, false, 0));

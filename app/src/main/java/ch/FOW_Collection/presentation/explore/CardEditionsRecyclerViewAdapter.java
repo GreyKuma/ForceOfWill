@@ -1,6 +1,7 @@
 package ch.FOW_Collection.presentation.explore;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,26 +9,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.CardEdition;
 import ch.FOW_Collection.presentation.utils.BackgroundImageProvider;
-import ch.FOW_Collection.presentation.utils.EntityDiffItemCallback;
 
+import java.util.List;
 
-/**
- * This class is really similar to {@link CardPopularRecyclerViewAdapter} see the documentation there.
- */
 public class CardEditionsRecyclerViewAdapter
-        extends ListAdapter<CardEdition, CardEditionsRecyclerViewAdapter.ViewHolder> {
-
+        extends RecyclerView.Adapter<CardEditionsRecyclerViewAdapter.ViewHolder> {
+    private final static String TAG = "CardEditionsRecyclerVie";
     private final CardEditionsFragment.OnItemSelectedListener listener;
+    private List<CardEdition> cardEditions;
 
     public CardEditionsRecyclerViewAdapter(CardEditionsFragment.OnItemSelectedListener listener) {
-        super(new EntityDiffItemCallback<>());
+        super();
         this.listener = listener;
     }
 
@@ -40,8 +38,26 @@ public class CardEditionsRecyclerViewAdapter
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-        holder.bind(getItem(position), position, listener);
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        onBindViewHolder(holder, position, cardEditions.get(position));
+    }
+
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position, CardEdition cardEdition) {
+        Log.d(TAG, "Bind \"" + cardEdition.getId() + "\"");
+        holder.bind(cardEdition, position, listener);
+    }
+
+    @Override
+    public int getItemCount() {
+        if (cardEditions != null) {
+            return cardEditions.size();
+        }
+        return 0;
+    }
+
+    public void submitList(List<CardEdition> cardEditions) {
+        this.cardEditions = cardEditions;
+        notifyDataSetChanged();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -49,8 +65,8 @@ public class CardEditionsRecyclerViewAdapter
         @BindView(R.id.content)
         TextView content;
 
-        @BindView(R.id.imageCard)
-        ImageView imageView;
+        @BindView(R.id.cardImage)
+        ImageView cardImage;
 
         ViewHolder(View view) {
             super(view);
@@ -60,7 +76,7 @@ public class CardEditionsRecyclerViewAdapter
         void bind(CardEdition item, int position, CardEditionsFragment.OnItemSelectedListener listener) {
             content.setText(item.getDe());
             Context resources = itemView.getContext();
-            imageView.setImageDrawable(BackgroundImageProvider.getBackgroundImage(resources, position + 10));
+            cardImage.setImageDrawable(BackgroundImageProvider.getBackgroundImage(resources, position + 10));
             if (listener != null) {
                 itemView.setOnClickListener(v -> listener.onCardEditionSelected(item));
             }
