@@ -173,7 +173,7 @@ public class MainActivity
     }
 
     @Override
-    public void onCardSelectedListener(ImageView imageView, View content, Card card) {
+    public void onCardSelectedListener(ImageView imageView, Card card) {
         // TODO implement
         /*
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -190,6 +190,6 @@ public class MainActivity
                         Pair.create(imageView,"image")
                 );
         startActivity(intent, options.toBundle());*/
-        ICardSelectedListener.DefaultBehavior(this, imageView, content, card);
+        ICardSelectedListener.DefaultBehavior(this, imageView, card);
     }
 }

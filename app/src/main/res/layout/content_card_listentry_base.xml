@@ -6,7 +6,7 @@
 	tools:showIn="@layout/fragment_searchresult_listentry">
 
 	<ImageView
-		android:id="@+id/photo"
+		android:id="@+id/cardImage"
 		android:layout_width="80dp"
 		android:layout_height="107dp"
 		android:layout_marginStart="4dp"
@@ -20,7 +20,7 @@
 		tools:srcCompat="@tools:sample/avatars" />
 
 	<TextView
-		android:id="@+id/name"
+		android:id="@+id/cardName"
 		android:layout_width="180dp"
 		android:layout_height="wrap_content"
 		android:layout_marginTop="8dp"
@@ -28,7 +28,7 @@
 		android:textSize="16sp"
 		android:text="Title"
 		android:textAppearance="?attr/textAppearanceListItem"
-		app:layout_constraintLeft_toRightOf="@id/photo"
+		app:layout_constraintLeft_toRightOf="@id/cardImage"
 		app:layout_constraintTop_toTopOf="parent" />
 
 	<TextView
@@ -37,8 +37,8 @@
 		android:layout_height="wrap_content"
 		android:layout_marginStart="8dp"
 		android:text="Subtitle"
-		app:layout_constraintTop_toBottomOf="@id/name"
-		app:layout_constraintLeft_toRightOf="@id/photo"
+		app:layout_constraintTop_toBottomOf="@id/cardName"
+		app:layout_constraintLeft_toRightOf="@id/cardImage"
 		tools:layout_editor_absoluteY="3dp" />
 
 	<TextView
@@ -53,7 +53,7 @@
 		tools:layout_editor_absoluteY="2dp" />
 
 	<RatingBar
-		android:id="@+id/ratingBar"
+		android:id="@+id/cardRatingBar"
 		style="?android:attr/ratingBarStyleSmall"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
@@ -69,19 +69,19 @@
 		app:layout_constraintTop_toBottomOf="@id/cardId"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintHorizontal_bias="0.25"
-		app:layout_constraintLeft_toRightOf="@id/photo"
+		app:layout_constraintLeft_toRightOf="@id/cardImage"
 		app:layout_constraintVertical_bias="0.887" />
 
 	<TextView
-		android:id="@+id/numRatings"
+		android:id="@+id/cardNumRatings"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginStart="8dp"
 		android:color="@android:color/darker_gray"
 		android:gravity="center_vertical"
 		android:textSize="12sp"
-		app:layout_constraintStart_toEndOf="@+id/ratingBar"
-		app:layout_constraintBottom_toBottomOf="@id/ratingBar"
+		app:layout_constraintStart_toEndOf="@+id/cardRatingBar"
+		app:layout_constraintBottom_toBottomOf="@id/cardRatingBar"
 		tools:layout_editor_absoluteY="90dp"
 		tools:text="(10)" />
 

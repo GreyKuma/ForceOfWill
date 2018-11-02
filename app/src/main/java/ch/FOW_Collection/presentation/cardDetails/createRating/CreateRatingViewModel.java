@@ -78,7 +78,7 @@ public class CreateRatingViewModel extends ViewModel {
                 dialogLabel.setText("Speichere Beurteilung...");
             }
 
-            if (oldRating != null) {
+            if (oldRating != null && oldRating.getPhoto() != null && oldRating.getPhoto().equals(photoUrl)) {
                 photoUrl = oldRating.getPhoto();
             }
 
