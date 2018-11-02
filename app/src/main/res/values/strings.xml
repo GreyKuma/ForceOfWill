@@ -4,10 +4,7 @@
     <string name="action_settings">Einstellungen</string>
     <string name="action_logout">Abmelden</string>
     <string name="todo">TODO</string>
-<<<<<<< HEAD
-    <string name="fmt_num_ratings">Gefällt %d</string>
     <string name="fmt_rarity">Seltenheit %s</string>
-=======
     <plurals name="fmt_num_ratings">
         <item quantity="zero">Keine Beurteilungen</item>
         <item quantity="one">Eine Beurteilung</item>
@@ -18,7 +15,6 @@
 		<item quantity="one">Ein Like</item>
 		<item quantity="other">%d Likes</item>
 	</plurals>
->>>>>>> 77d1d62d4300eb11f5558e92b47958c7ead51e43
     <string name="fmt_avg_rating">%.1f</string>
     <string name="title_activity_single_beer">SingleBeerActivity</string>
     <string name="title_activity_rating">Beurteilung hinzufügen</string>

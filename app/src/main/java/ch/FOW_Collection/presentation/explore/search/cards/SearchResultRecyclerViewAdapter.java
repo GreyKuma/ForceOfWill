@@ -56,14 +56,10 @@ public class SearchResultRecyclerViewAdapter extends ListAdapter<Card, SearchRes
         @BindView(R.id.category)
         TextView category;
 
-<<<<<<< HEAD
         @BindView(R.id.cardId)
         TextView cardId;
 
-        @BindView(R.id.photo)
-=======
         @BindView(R.id.cardImage)
->>>>>>> 77d1d62d4300eb11f5558e92b47958c7ead51e43
         ImageView photo;
 
         @BindView(R.id.cardRatingBar)

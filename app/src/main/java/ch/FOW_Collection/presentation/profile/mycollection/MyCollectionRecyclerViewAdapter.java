@@ -133,7 +133,7 @@ public class MyCollectionRecyclerViewAdapter extends ListAdapter<MyCard, MyColle
                                 .apply(new RequestOptions().override(240, 240).centerInside()).into(photo);
                         ratingBar.setNumStars(5);
                         ratingBar.setRating(item.getAvgRating());
-                        numRatings.setText(itemView.getResources().getString(R.string.fmt_num_ratings, item.getNumRatings()));
+                        numRatings.setText(itemView.getResources().getQuantityString(R.plurals.fmt_num_ratings, item.getNumRatings()));
                         itemView.setOnClickListener(v -> listener.onMoreClickedListener(photo, item));
                     }
                 }
