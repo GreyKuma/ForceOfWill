@@ -7,12 +7,10 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.*;
 
+import ch.FOW_Collection.domain.models.*;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
@@ -40,15 +38,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ch.FOW_Collection.GlideApp;
 import ch.FOW_Collection.R;
-import ch.FOW_Collection.domain.models.Card;
-import ch.FOW_Collection.domain.models.CardAbility;
-import ch.FOW_Collection.domain.models.CardAttribute;
-import ch.FOW_Collection.domain.models.CardCost;
-import ch.FOW_Collection.domain.models.CardEdition;
-import ch.FOW_Collection.domain.models.CardRace;
-import ch.FOW_Collection.domain.models.CardType;
-import ch.FOW_Collection.domain.models.Rating;
-import ch.FOW_Collection.domain.models.Wish;
 import ch.FOW_Collection.presentation.cardDetails.createRating.CreateCardRatingActivity;
 import ch.FOW_Collection.presentation.shared.CardImageLoader;
 
@@ -120,6 +109,10 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
     private RatingsRecyclerViewAdapter adapter;
     private CardDetailsViewModel model;
 
+    private BottomSheetDialog dialog;
+    private View bottomSheetView;
+    private ToggleButton addToCollection;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -158,6 +151,12 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
         model.getOwnRating().observe(this, this::updateOwnRatings);
         model.getWish().observe(this, this::toggleWishlistView);
 
+        model.getMyCollection().observe(this, this::toggleCollectionButton);
+        dialog = new BottomSheetDialog(this);
+        bottomSheetView = getLayoutInflater().inflate(R.layout.single_bottom_sheet_dialog, null);
+        dialog.setContentView(bottomSheetView);
+        addToCollection = bottomSheetView.findViewById(R.id.addToCollection);
+
         recyclerView.setAdapter(adapter);
         addRatingBar.setOnRatingBarChangeListener(this::addNewRating);
     }
@@ -166,19 +165,19 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
         /*Observer<Card> os = new Observer<Card>() {
             @Override
             public void onChanged(Card card) {*/
-                if (model.getCard().getValue() != null) {
-                    //model.getCard().removeObserver(this);
+        if (model.getCard().getValue() != null) {
+            //model.getCard().removeObserver(this);
 
-                    Intent intent = new Intent(CardDetailsActivity.this, CreateCardRatingActivity.class);
-                    intent.putExtra(CreateCardRatingActivity.ITEM_CARD, model.getCard().getValue());
-                    if (model.getOwnRating().getValue() != null) {
-                        intent.putExtra(CreateCardRatingActivity.ITEM_RATING, model.getOwnRating().getValue());
-                    }
-                    intent.putExtra(CreateCardRatingActivity.RATING_VALUE, v);
-                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(CardDetailsActivity.this, addRatingBar, "ownRating");
-                    // startActivity(intent, options.toBundle());
-                    startActivityForResult(intent, RATING_REQUEST, options.toBundle());
-                }
+            Intent intent = new Intent(CardDetailsActivity.this, CreateCardRatingActivity.class);
+            intent.putExtra(CreateCardRatingActivity.ITEM_CARD, model.getCard().getValue());
+            if (model.getOwnRating().getValue() != null) {
+                intent.putExtra(CreateCardRatingActivity.ITEM_RATING, model.getOwnRating().getValue());
+            }
+            intent.putExtra(CreateCardRatingActivity.RATING_VALUE, v);
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(CardDetailsActivity.this, addRatingBar, "ownRating");
+            // startActivity(intent, options.toBundle());
+            startActivityForResult(intent, RATING_REQUEST, options.toBundle());
+        }
            /* }
         };
         if (model.getCard().getValue() != null) {
@@ -474,7 +473,7 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
     }
 
     private void updateOwnRatings(Rating rating) {
-        if(rating != null) {
+        if (rating != null) {
             addRatingBar.setOnRatingBarChangeListener(null);
 
             addRatingBar.setRating(rating.getRating());
@@ -493,14 +492,14 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
     private static View getViewCardAttributeCircle(CardDetailsActivity context, String text) {
         GradientDrawable shape = new GradientDrawable();
         shape.setShape(GradientDrawable.OVAL);
-        shape.setColor(Color.rgb(0,0,0));
+        shape.setColor(Color.rgb(0, 0, 0));
 
         LinearLayout view = new LinearLayout(context);
         view.setBackground(shape);
 
         TextView textView = new TextView(context);
         textView.setText(text);
-        textView.setTextColor(Color.rgb(255,255,255));
+        textView.setTextColor(Color.rgb(255, 255, 255));
         textView.setGravity(Gravity.CENTER);
         textView.setTextAlignment(View.TEXT_ALIGNMENT_GRAVITY);
 
@@ -537,7 +536,7 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
 
     private void toggleWishlistView(Wish wish) {
         if (wish != null) {
-            int color = getResources().getColor(R.color.colorPrimary);
+            int color = getResources().getColor(R.color.colorPrimaryLight);
             setDrawableTint(wishlist, color);
             wishlist.setChecked(true);
         } else {
@@ -547,22 +546,46 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
         }
     }
 
-    private ToggleButton addToCollection;
-
     @OnClick(R.id.actionsButton)
     public void showBottomSheetDialog() {
-        View view = getLayoutInflater().inflate(R.layout.single_bottom_sheet_dialog, null);
-        BottomSheetDialog dialog = new BottomSheetDialog(this);
-        dialog.setContentView(view);
-        addToCollection = view.findViewById(R.id.addToCollection);
+        toggleCollectionButton(model.getMyCollection().getValue());
+        dialog.show();
+    }
+
+    private void toggleCollectionButton(List<MyCard> myCards) {
+        String cardId;
+        if(model.getCard().getValue() != null){
+            cardId = model.getCard().getValue().getIdStr();
+        }else{
+            cardId = "";
+        }
         addToCollection.setOnClickListener(v -> {
             Log.d("FRIDGE", "FRIDGE");
-            model.toggleItemInCollection(model.getCard().getValue().getId());
-//            if(!addToCollection.isChecked()){
-//
-//            }
+            model.toggleItemInCollection(cardId);
+            coloriseCollectionButton();
         });
-        dialog.show();
+        if(myCards != null){
+            for (MyCard myCard : myCards) {
+                if (cardId.equals(myCard.getCardId())) {
+                    addToCollection.setChecked(true);
+                    coloriseCollectionButton();
+                    break;
+                } else {
+                    addToCollection.setChecked(false);
+                    coloriseCollectionButton();
+                }
+            }
+        }
+    }
+
+    private void coloriseCollectionButton(){
+        if(addToCollection.isChecked()){
+            int color = getResources().getColor(R.color.colorPrimaryLight);
+            setDrawableTint(addToCollection, color);
+        }else{
+            int color = getResources().getColor(android.R.color.darker_gray);
+            setDrawableTint(addToCollection, color);
+        }
     }
 
 //    private void toggleCollectionView(boolean deleted){

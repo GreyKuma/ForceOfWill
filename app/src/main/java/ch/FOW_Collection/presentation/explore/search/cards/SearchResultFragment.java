@@ -64,10 +64,10 @@ public class SearchResultFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new SearchResultRecyclerViewAdapter(mListener);
-
         SearchViewModel model = ViewModelProviders.of(getActivity()).get(SearchViewModel.class);
-        //TODO try with .observeForever()
+
+        adapter = new SearchResultRecyclerViewAdapter(mListener, model.getSearchTerm());
+
         model.getFilteredCards().observe(getActivity() , this::handleCardsChanged);
 
         recyclerView.setAdapter(adapter);

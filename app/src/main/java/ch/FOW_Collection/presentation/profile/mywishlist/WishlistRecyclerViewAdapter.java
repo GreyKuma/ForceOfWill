@@ -84,8 +84,8 @@ public class WishlistRecyclerViewAdapter extends ListAdapter<Wish, WishlistRecyc
         @BindView(R.id.cardName)
         TextView name;
 
-//        @BindView(R.id.manufacturer)
-//        TextView manufacturer;
+        @BindView(R.id.cardId)
+        TextView cardId;
 
         @BindView(R.id.category)
         TextView category;
@@ -117,7 +117,12 @@ public class WishlistRecyclerViewAdapter extends ListAdapter<Wish, WishlistRecyc
                     if (item != null) {
 
                         name.setText(item.getName().getDe());
-
+                        cardId.setText(item.getIdStr());
+                        if(item.getRarity() != null){
+                            category.setText(itemView.getResources().getString(R.string.fmt_rarity, item.getRarity()));
+                        }else{
+                            category.setText(item.getRarity());
+                        }
                         GlideApp.with(itemView)
                                 .load(FirebaseStorage.getInstance().getReference().child(item.getImageStorageUrl()))
                                 .apply(new RequestOptions().override(240, 240).centerInside()).into(photo);
