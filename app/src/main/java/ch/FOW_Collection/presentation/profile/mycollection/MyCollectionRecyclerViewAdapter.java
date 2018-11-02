@@ -85,7 +85,7 @@ public class MyCollectionRecyclerViewAdapter extends ListAdapter<MyCard, MyColle
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.name)
+        @BindView(R.id.cardName)
         TextView name;
 
         @BindView(R.id.cardId)
@@ -94,13 +94,13 @@ public class MyCollectionRecyclerViewAdapter extends ListAdapter<MyCard, MyColle
         @BindView(R.id.category)
         TextView category;
 
-        @BindView(R.id.photo)
+        @BindView(R.id.cardImage)
         ImageView photo;
 
-        @BindView(R.id.ratingBar)
+        @BindView(R.id.cardRatingBar)
         RatingBar ratingBar;
 
-        @BindView(R.id.numRatings)
+        @BindView(R.id.cardNumRatings)
         TextView numRatings;
 
         @BindView(R.id.addedAt)

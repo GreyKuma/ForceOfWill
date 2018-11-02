@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:layout_marginTop="8dp"
+	android:background="@color/colorPrimary">
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical">
+
+		<include
+			android:id="@+id/includeCard"
+			layout="@layout/content_card_listentry_base" />
+
+		<View
+			android:id="@+id/separator"
+			android:layout_width="match_parent"
+			android:layout_height="1dp"
+			android:background="#ffeeeeee" />
+
+		<include
+			android:id="@+id/includeRating"
+			layout="@layout/activity_card_details_ratings_listentry" />
+	</LinearLayout>
+</androidx.cardview.widget.CardView>

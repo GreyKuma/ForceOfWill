@@ -7,18 +7,18 @@
     android:layout_marginBottom="8dp">
 
     <ImageView
-        android:id="@+id/avatar"
+        android:id="@+id/ratingAvatar"
         android:layout_width="34dp"
         android:layout_height="34dp"
         android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/date"
+        app:layout_constraintBottom_toBottomOf="@+id/ratingDate"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/authorName"
+        app:layout_constraintTop_toTopOf="@+id/ratingAuthorName"
         tools:srcCompat="@tools:sample/avatars"
         android:contentDescription="Avatar"/>
 
         <RatingBar
-            android:id="@+id/ratingBar"
+            android:id="@+id/ratingRatingBar"
             style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,74 +33,73 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/authorName"
+            android:id="@+id/ratingAuthorName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="Author"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/avatar"
-            app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
+            app:layout_constraintStart_toEndOf="@+id/ratingAvatar"
+            app:layout_constraintTop_toBottomOf="@+id/ratingRatingBar" />
 
         <TextView
-            android:id="@+id/date"
+            android:id="@+id/ratingDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="When"
             android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@+id/avatar"
-            app:layout_constraintTop_toBottomOf="@+id/authorName" />
+            app:layout_constraintStart_toEndOf="@+id/ratingAvatar"
+            app:layout_constraintTop_toBottomOf="@+id/ratingAuthorName" />
 
         <TextView
-            android:id="@+id/numLikes"
+            android:id="@+id/ratingNumLikes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:text="20"
             android:textStyle="bold"
             android:contentDescription="Number of likes"
-            app:layout_constraintBottom_toBottomOf="@+id/like"
+            app:layout_constraintBottom_toBottomOf="@+id/ratingLike"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/like" />
+            app:layout_constraintTop_toTopOf="@+id/ratingLike" />
 
     <ImageView
-        android:id="@+id/like"
+        android:id="@+id/ratingLike"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="4dp"
-        android:background="@drawable/selectable_item_background"
         android:clickable="true"
         android:padding="8dp"
         android:tint="@android:color/darker_gray"
         android:contentDescription="Like this rating"
-        app:layout_constraintBottom_toBottomOf="@+id/date"
-        app:layout_constraintEnd_toStartOf="@+id/numLikes"
-        app:layout_constraintTop_toTopOf="@+id/authorName"
+        app:layout_constraintBottom_toBottomOf="@+id/ratingDate"
+        app:layout_constraintEnd_toStartOf="@+id/ratingNumLikes"
+        app:layout_constraintTop_toTopOf="@+id/ratingAuthorName"
         app:srcCompat="@drawable/ic_thumb_up_black_24dp" />
 
     <TextView
-        android:id="@+id/comment"
+        android:id="@+id/ratingComment"
         android:layout_width="242dp"
-        android:layout_height="42dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="Comment\nasasasas\nasasas"
-        app:layout_constraintEnd_toStartOf="@+id/like"
-        app:layout_constraintStart_toStartOf="@+id/date"
-        app:layout_constraintTop_toBottomOf="@id/date" />
+        android:text="Comment"
+        app:layout_constraintEnd_toStartOf="@+id/ratingLike"
+        app:layout_constraintStart_toStartOf="@+id/ratingDate"
+        app:layout_constraintTop_toBottomOf="@+id/ratingDate" />
 
     <ImageView
-        android:id="@+id/photo"
+        android:id="@+id/ratingImage"
         android:layout_width="242dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         app:layout_constraintDimensionRatio="w,1:1"
-        app:layout_constraintEnd_toEndOf="@+id/comment"
-        app:layout_constraintStart_toStartOf="@+id/comment"
-        app:layout_constraintTop_toBottomOf="@+id/comment"
+        app:layout_constraintEnd_toEndOf="@+id/ratingComment"
+        app:layout_constraintStart_toStartOf="@+id/ratingComment"
+        app:layout_constraintTop_toBottomOf="@+id/ratingComment"
         tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,16 +11,15 @@ import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.presentation.cardDetails.CardDetailsActivity;
 
 public interface ICardSelectedListener {
-    public static void DefaultBehavior(Activity activity, ImageView imageView, View content, Card card) {
+    public static void DefaultBehavior(Activity activity, ImageView imageView, Card card) {
         Intent intent = new Intent(activity, CardDetailsActivity.class);
         intent.putExtra(CardDetailsActivity.ITEM_ID, card.getId());
         ActivityOptions options = ActivityOptions
                 .makeSceneTransitionAnimation(
                         activity,
-                        Pair.create(imageView,"image"),
-                        Pair.create(content,"content")
+                        Pair.create(imageView,"image")
                 );
         activity.startActivity(intent, options.toBundle());
     }
-    void onCardSelectedListener(ImageView imageView, View content, Card card);
+    void onCardSelectedListener(ImageView imageView, Card card);
 }

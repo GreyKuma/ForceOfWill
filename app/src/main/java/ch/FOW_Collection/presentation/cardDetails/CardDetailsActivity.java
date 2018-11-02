@@ -55,16 +55,16 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
     @BindView(R.id.nested_scroll_view)
     NestedScrollView nestedScrollView;
 
-    @BindView(R.id.imageCard)
+    @BindView(R.id.cardImage)
     ImageView imageView;
 
-    @BindView(R.id.avgRating)
+    @BindView(R.id.cardAvgRating)
     TextView avgRating;
 
-    @BindView(R.id.numRatings)
+    @BindView(R.id.cardNumRatings)
     TextView numRatings;
 
-    @BindView(R.id.ratingBar)
+    @BindView(R.id.cardRatingBar)
     RatingBar ratingBar;
 
     @BindView(R.id.cardName)
@@ -211,7 +211,7 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
         ratingBar.setNumStars(5);
         ratingBar.setRating(item.getAvgRating());
         avgRating.setText(getResources().getString(R.string.fmt_avg_rating, item.getAvgRating()));
-        numRatings.setText(getResources().getString(R.string.fmt_ratings, item.getNumRatings()));
+        numRatings.setText(getResources().getQuantityString(R.plurals.fmt_num_ratings, item.getNumRatings(), item.getNumRatings()));
 
         // prepare LayoutParams for the labels
         LinearLayout.LayoutParams labelLayoutParams = new LinearLayout.LayoutParams(
@@ -520,7 +520,7 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
 
     @Override
     public void onRatingLikedListener(Rating rating) {
-        // model.toggleLike(ownRating);
+        model.toggleLike(rating);
     }
 
     @OnClick(R.id.wishlist)
