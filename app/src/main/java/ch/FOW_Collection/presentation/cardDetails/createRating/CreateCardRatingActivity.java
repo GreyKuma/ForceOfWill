@@ -225,8 +225,6 @@ public class CreateCardRatingActivity extends AppCompatActivity {
     private void saveRating() {
         float rating = addRatingBar.getRating();
         String comment = ratingText.getText().toString();
-        // TODO show a spinner!
-        // TODO return the new rating to update the new average immediately
 
         View view = getLayoutInflater().inflate(R.layout.dialog_loading, null);
         final Dialog dialog=new Dialog(this, android.R.style.Theme_DeviceDefault_Dialog_NoActionBar);
@@ -245,7 +243,7 @@ public class CreateCardRatingActivity extends AppCompatActivity {
         model.saveRating(model.getItem(), rating, comment, model.getPhoto(), model.getOldRating(), dialogLabel, progressBar)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() || task.isCanceled()) {
-                        dialog.hide();
+                        dialog.dismiss();
                         Intent intent = new Intent();
                         // todo When offline, nothing happens: we dont get the Rating back or something... WorkAround: ignore it..
                         //intent.putExtra(ITEM_RATING, rating);
@@ -254,7 +252,7 @@ public class CreateCardRatingActivity extends AppCompatActivity {
                     }
                 })
                 .addOnFailureListener(error -> {
-                    dialog.hide();
+                    dialog.dismiss();
                     AlertDialog.Builder errorDialog = new AlertDialog.Builder(this);
                     errorDialog.setTitle("Fehler beim speichern");
                     errorDialog.setMessage("Beim speichern ist ein Fehler aufgetretten:\n\n" + error.getMessage());
