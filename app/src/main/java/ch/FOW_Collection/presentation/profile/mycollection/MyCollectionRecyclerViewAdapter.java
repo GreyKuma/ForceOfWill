@@ -108,8 +108,11 @@ public class MyCollectionRecyclerViewAdapter extends ListAdapter<MyCard, MyColle
                 }
             });
 
+            normalAmount.setText(Integer.toString(myCard.getAmountNormal()));
             normal1Up.setOnClickListener(v -> listener.onNormalUpClickedListener(myCard));
             normal1Down.setOnClickListener(v -> listener.onNormalDownClickedListener(myCard));
+
+            foilAmount.setText(Integer.toString(myCard.getAmountFoil()));
             foil1Up.setOnClickListener(v -> listener.onFoilUpClickedListener(myCard));
             foil1Down.setOnClickListener(v -> listener.onFoilDownClickedListener(myCard));
 
