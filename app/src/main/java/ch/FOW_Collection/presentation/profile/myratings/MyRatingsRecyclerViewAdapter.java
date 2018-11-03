@@ -73,6 +73,9 @@ public class MyRatingsRecyclerViewAdapter
         @BindView(R.id.cardId)
         TextView cardId;
 
+        @BindView(R.id.category)
+        TextView category;
+
         @BindView(R.id.cardRatingBar)
         RatingBar cardRatingBar;
 
@@ -116,6 +119,11 @@ public class MyRatingsRecyclerViewAdapter
                         itemView.setOnClickListener(v -> listener.onCardSelectedListener(cardImage, card));
                         rating.getCard().removeObserver(this);
                         cardName.setText(card.getName().getDe());
+                        if(card.getRarity() != null){
+                            category.setText(itemView.getResources().getString(R.string.fmt_rarity, card.getRarity()));
+                        }else{
+                            category.setText(card.getRarity());
+                        }
                         cardId.setText(card.getId());
                         cardNumRatings.setText(itemView.getResources().getQuantityString(R.plurals.fmt_num_ratings, card.getNumRatings(), card.getNumRatings()));
                         GlideApp.with(itemView)

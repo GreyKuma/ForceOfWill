@@ -77,9 +77,6 @@ public class SearchResultRecyclerViewAdapter extends RecyclerView.Adapter<Search
         @BindView(R.id.cardName)
         TextView name;
 
-        @BindView(R.id.rarity)
-        TextView rarityLable;
-
         @BindView(R.id.category)
         TextView category;
 
