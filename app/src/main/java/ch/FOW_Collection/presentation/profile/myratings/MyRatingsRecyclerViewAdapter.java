@@ -162,15 +162,18 @@ public class MyRatingsRecyclerViewAdapter
                 }
             });
 
-
-            ratingNumLikes.setText(itemView.getResources().getQuantityString(R.plurals.fmt_num_likes, rating.getLikes().size(), rating.getLikes().size()));
+            if(rating.getLikes().size() == 0){
+                ratingNumLikes.setText(R.string.fmt_no_likes);
+            }else{
+                ratingNumLikes.setText(itemView.getResources().getQuantityString(R.plurals.fmt_num_likes, rating.getLikes().size(), rating.getLikes().size()));
+            }
 
             /*
             // don't need it here
             like.setVisibility(View.GONE);
 
             if (wish != null) {
-                int color = itemView.getResources().getColor(R.color.colorPrimary);
+                int color = itemView.getResources().getColor(R.color.colorPrimaryLight);
                 setDrawableTint(wishlist, color);
             } else {
                 int color = itemView.getResources().getColor(android.R.color.darker_gray);
@@ -179,7 +182,7 @@ public class MyRatingsRecyclerViewAdapter
 
             if (listener != null) {
                 details.setOnClickListener(v -> listener.onMoreClickedListener(item));
-                wishlist.setOnClickListener(v -> listener.onWishClickedListener(item));
+                wishlist.setOnClickListener(v -> listener.onRemoveClickedListener(item));
             }*/
         }
     }

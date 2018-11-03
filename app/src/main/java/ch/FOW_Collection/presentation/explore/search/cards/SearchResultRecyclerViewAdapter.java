@@ -3,7 +3,6 @@ package ch.FOW_Collection.presentation.explore.search.cards;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import androidx.lifecycle.MutableLiveData;
 import com.bumptech.glide.request.RequestOptions;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -79,11 +77,17 @@ public class SearchResultRecyclerViewAdapter extends RecyclerView.Adapter<Search
         @BindView(R.id.cardName)
         TextView name;
 
+        @BindView(R.id.rarity)
+        TextView rarityLable;
+
         @BindView(R.id.category)
         TextView category;
 
+        @BindView(R.id.cardId)
+        TextView cardId;
+
         @BindView(R.id.cardImage)
-        ImageView photo;
+        ImageView cardImage;
 
         @BindView(R.id.cardRatingBar)
         RatingBar ratingBar;
@@ -106,15 +110,22 @@ public class SearchResultRecyclerViewAdapter extends RecyclerView.Adapter<Search
             }
 
             name.setText(cardName);
-
-
-            category.setText(card.getRarity());
+            if(card.getRarity() != null){
+                category.setText(itemView.getResources().getString(R.string.fmt_rarity, card.getRarity()));
+            }else{
+                category.setText(card.getRarity());
+            }
+            cardId.setText(card.getIdStr());
             GlideApp.with(itemView).load(card.getImageSrcUrl()).apply(new RequestOptions().override(240, 240).centerInside())
-                    .into(photo);
+                    .into(cardImage);
             ratingBar.setNumStars(5);
             ratingBar.setRating(card.getAvgRating());
-            numRatings.setText(itemView.getResources().getQuantityString(R.plurals.fmt_num_ratings, card.getNumRatings(), card.getNumRatings()));
-            itemView.setOnClickListener(v -> listener.onSearchResultListItemSelected(photo, card));
+            if(card.getNumRatings() == 0){
+                numRatings.setText(R.string.fmt_no_ratings);
+            }else{
+                numRatings.setText(itemView.getResources().getQuantityString(R.plurals.fmt_num_ratings, card.getNumRatings(), card.getNumRatings()));
+            }
+            itemView.setOnClickListener(v -> listener.onSearchResultListItemSelected(cardImage, card));
         }
     }
 }

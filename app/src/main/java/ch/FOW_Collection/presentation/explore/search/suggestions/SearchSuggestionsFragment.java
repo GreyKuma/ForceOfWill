@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,9 +16,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import ch.FOW_Collection.R;
-import ch.FOW_Collection.data.repositories.CardsRepository;
 import ch.FOW_Collection.domain.models.Search;
-import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.presentation.explore.search.SearchViewModel;
 
 
@@ -66,24 +63,17 @@ public class SearchSuggestionsFragment extends Fragment {
 
         SearchViewModel model = ViewModelProviders.of(getActivity()).get(SearchViewModel.class);
 
-        List<String> popularCards = new ArrayList<>();
+        adapter = new SearchSuggestionsRecyclerViewAdapter(listener);
 
-        new CardsRepository().getCardsTopRated(3).observe(this, (List<Card> list) -> {
-            for(Card card : list){
-                popularCards.add(card.getName().getDe());
-            }
-        });
-
-        adapter = new SearchSuggestionsRecyclerViewAdapter(popularCards, listener);
         recyclerView.setAdapter(adapter);
 
         // Aufgabe: Diesen Aufruf vor das erstellen eines neuen Adapters schieben und dann debuggen.
         model.getMyLatestSearches().observe(getActivity(), this::updateMyLatestSearches);
 
+        model.getCardsTopRated(3).observe(this, adapter::setPopularSearches);
+
         return view;
     }
-
-
 
     @Override
     public void onDetach() {

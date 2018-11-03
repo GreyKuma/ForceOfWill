@@ -1,7 +1,6 @@
 package ch.FOW_Collection.presentation.profile.mycollection;
 
 import android.widget.ImageView;
-import ch.FOW_Collection.domain.models.Beer;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.MyCard;
 
@@ -9,7 +8,7 @@ public interface OnMyCardItemInteractionListener {
 
     void onMoreClickedListener(ImageView photo, Card item);
 
-    void onWishClickedListener(Card item);
+    void onRemoveClickedListener(Card item);
 
     void onNormalUpClickedListener(MyCard myCard);
     void onNormalDownClickedListener(MyCard myCard);

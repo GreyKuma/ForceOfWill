@@ -84,14 +84,14 @@ public class WishlistRecyclerViewAdapter extends ListAdapter<Wish, WishlistRecyc
         @BindView(R.id.cardName)
         TextView name;
 
-//        @BindView(R.id.manufacturer)
-//        TextView manufacturer;
+        @BindView(R.id.cardId)
+        TextView cardId;
 
         @BindView(R.id.category)
         TextView category;
 
         @BindView(R.id.cardImage)
-        ImageView photo;
+        ImageView cardImage;
 
         @BindView(R.id.cardRatingBar)
         RatingBar ratingBar;
@@ -113,24 +113,33 @@ public class WishlistRecyclerViewAdapter extends ListAdapter<Wish, WishlistRecyc
         void bind(Wish wish, /*Card item,*/ OnWishlistItemInteractionListener listener) {
             wish.getCard().observe(lifecycleOwner, new Observer<Card>() {
                 @Override
-                public void onChanged(Card item) {
-                    if (item != null) {
+                public void onChanged(Card card) {
+                    if (card != null) {
 
-                        name.setText(item.getName().getDe());
-
+                        name.setText(card.getName().getDe());
+                        cardId.setText(card.getIdStr());
+                        if(card.getRarity() != null){
+                            category.setText(itemView.getResources().getString(R.string.fmt_rarity, card.getRarity()));
+                        }else{
+                            category.setText(card.getRarity());
+                        }
                         GlideApp.with(itemView)
-                                .load(FirebaseStorage.getInstance().getReference().child(item.getImageStorageUrl()))
-                                .apply(new RequestOptions().override(240, 240).centerInside()).into(photo);
+                                .load(FirebaseStorage.getInstance().getReference().child(card.getImageStorageUrl()))
+                                .apply(new RequestOptions().override(240, 240).centerInside()).into(cardImage);
 
                         ratingBar.setNumStars(5);
-                        ratingBar.setRating(item.getAvgRating());
-                        numRatings.setText(itemView.getResources().getQuantityString(R.plurals.fmt_num_ratings, item.getNumRatings(), item.getNumRatings()));
-                        itemView.setOnClickListener(v -> listener.onMoreClickedListener(photo, item));
+                        ratingBar.setRating(card.getAvgRating());
+                        if(card.getNumRatings() == 0){
+                            numRatings.setText(R.string.fmt_no_ratings);
+                        }else{
+                            numRatings.setText(itemView.getResources().getQuantityString(R.plurals.fmt_num_ratings, card.getNumRatings(), card.getNumRatings()));
+                        }
+                        itemView.setOnClickListener(v -> listener.onMoreClickedListener(cardImage, card));
 
                         String formattedDate =
                                 DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.SHORT).format(wish.getAddedAt());
                         addedAt.setText(formattedDate);
-                        remove.setOnClickListener(v -> listener.onWishClickedListener(item));
+                        remove.setOnClickListener(v -> listener.onWishClickedListener(card));
                     }
                 }
             });

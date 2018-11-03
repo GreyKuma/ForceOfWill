@@ -85,7 +85,7 @@ public class MyCollectionActivity extends AppCompatActivity implements OnMyCardI
     }
 
     @Override
-    public void onWishClickedListener(Card item) {
+    public void onRemoveClickedListener(Card item) {
         model.toggleCardInCollection(item.getId());
     }
 

@@ -7,12 +7,10 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.*;
 
+import ch.FOW_Collection.domain.models.*;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
@@ -40,15 +38,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ch.FOW_Collection.GlideApp;
 import ch.FOW_Collection.R;
-import ch.FOW_Collection.domain.models.Card;
-import ch.FOW_Collection.domain.models.CardAbility;
-import ch.FOW_Collection.domain.models.CardAttribute;
-import ch.FOW_Collection.domain.models.CardCost;
-import ch.FOW_Collection.domain.models.CardEdition;
-import ch.FOW_Collection.domain.models.CardRace;
-import ch.FOW_Collection.domain.models.CardType;
-import ch.FOW_Collection.domain.models.Rating;
-import ch.FOW_Collection.domain.models.Wish;
 import ch.FOW_Collection.presentation.cardDetails.createRating.CreateCardRatingActivity;
 import ch.FOW_Collection.presentation.shared.CardImageLoader;
 
@@ -120,6 +109,10 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
     private RatingsRecyclerViewAdapter adapter;
     private CardDetailsViewModel model;
 
+    private BottomSheetDialog dialog;
+    private View bottomSheetView;
+    private ToggleButton addToCollection;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -158,6 +151,12 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
         model.getOwnRating().observe(this, this::updateOwnRatings);
         model.getWish().observe(this, this::toggleWishlistView);
 
+        model.getMyCollection().observe(this, this::toggleCollectionButton);
+        dialog = new BottomSheetDialog(this);
+        bottomSheetView = getLayoutInflater().inflate(R.layout.single_bottom_sheet_dialog, null);
+        dialog.setContentView(bottomSheetView);
+        addToCollection = bottomSheetView.findViewById(R.id.addToCollection);
+
         recyclerView.setAdapter(adapter);
         addRatingBar.setOnRatingBarChangeListener(this::addNewRating);
     }
@@ -166,19 +165,19 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
         /*Observer<Card> os = new Observer<Card>() {
             @Override
             public void onChanged(Card card) {*/
-                if (model.getCard().getValue() != null) {
-                    //model.getCard().removeObserver(this);
+        if (model.getCard().getValue() != null) {
+            //model.getCard().removeObserver(this);
 
-                    Intent intent = new Intent(CardDetailsActivity.this, CreateCardRatingActivity.class);
-                    intent.putExtra(CreateCardRatingActivity.ITEM_CARD, model.getCard().getValue());
-                    if (model.getOwnRating().getValue() != null) {
-                        intent.putExtra(CreateCardRatingActivity.ITEM_RATING, model.getOwnRating().getValue());
-                    }
-                    intent.putExtra(CreateCardRatingActivity.RATING_VALUE, v);
-                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(CardDetailsActivity.this, addRatingBar, "ownRating");
-                    // startActivity(intent, options.toBundle());
-                    startActivityForResult(intent, RATING_REQUEST, options.toBundle());
-                }
+            Intent intent = new Intent(CardDetailsActivity.this, CreateCardRatingActivity.class);
+            intent.putExtra(CreateCardRatingActivity.ITEM_CARD, model.getCard().getValue());
+            if (model.getOwnRating().getValue() != null) {
+                intent.putExtra(CreateCardRatingActivity.ITEM_RATING, model.getOwnRating().getValue());
+            }
+            intent.putExtra(CreateCardRatingActivity.RATING_VALUE, v);
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(CardDetailsActivity.this, addRatingBar, "ownRating");
+            // startActivity(intent, options.toBundle());
+            startActivityForResult(intent, RATING_REQUEST, options.toBundle());
+        }
            /* }
         };
         if (model.getCard().getValue() != null) {
@@ -200,19 +199,23 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
     }
 
 
-    private void updateCard(Card item) {
+    private void updateCard(Card card) {
         // This values are static and will not change. (except ownRating)
         // Its this function is more a promise..
 
         // render meta
-        toolbar.setTitle(item.getName().getDe());
-        cardName.setText(item.getName().getDe());
-        cardId.setText(item.getId());
+        toolbar.setTitle(card.getName().getDe());
+        cardName.setText(card.getName().getDe());
+        cardId.setText(card.getId());
 
         ratingBar.setNumStars(5);
-        ratingBar.setRating(item.getAvgRating());
-        avgRating.setText(getResources().getString(R.string.fmt_avg_rating, item.getAvgRating()));
-        numRatings.setText(getResources().getQuantityString(R.plurals.fmt_num_ratings, item.getNumRatings(), item.getNumRatings()));
+        ratingBar.setRating(card.getAvgRating());
+        avgRating.setText(getResources().getString(R.string.fmt_avg_rating, card.getAvgRating()));
+        if(card.getNumRatings() == 0){
+            numRatings.setText(R.string.fmt_no_ratings);
+        }else{
+            numRatings.setText(getResources().getQuantityString(R.plurals.fmt_num_ratings, card.getNumRatings(), card.getNumRatings()));
+        }
 
         // prepare LayoutParams for the labels
         LinearLayout.LayoutParams labelLayoutParams = new LinearLayout.LayoutParams(
@@ -220,7 +223,7 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
         // render ATK
-        if (item.getAtk() != null && item.getAtk() > 0) {
+        if (card.getAtk() != null && card.getAtk() > 0) {
             // clear LinearLayout
             cardAtk.removeAllViews();
 
@@ -236,14 +239,14 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
 
             // value
             TextView valCardAtk = new TextView(this);
-            valCardAtk.setText(Integer.toString(item.getAtk()));
+            valCardAtk.setText(Integer.toString(card.getAtk()));
             valCardAtk.setLayoutParams(labelLayoutParams);
             cardAtk.addView(valCardAtk);
             valCardAtk.requestLayout();
         }
 
         // render DEF
-        if (item.getDef() != null && item.getDef() > 0) {
+        if (card.getDef() != null && card.getDef() > 0) {
             // clear LinearLayout
             cardDef.removeAllViews();
 
@@ -259,7 +262,7 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
 
             // value
             TextView valCardDef = new TextView(this);
-            valCardDef.setText(Integer.toString(item.getDef()));
+            valCardDef.setText(Integer.toString(card.getDef()));
             valCardDef.setLayoutParams(labelLayoutParams);
             cardDef.addView(valCardDef);
             valCardDef.requestLayout();
@@ -268,7 +271,7 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
         // For the ForeignValues, we observe once to keep it nice and clean.
 
         // render CardEdition
-        if (item.getEdition() != null) {
+        if (card.getEdition() != null) {
             // ObserveOnce of CardEdition
             final Observer<CardEdition> osCE = new Observer<CardEdition>() {
                 @Override
@@ -276,15 +279,15 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
                     // get and set data
                     cardEdition.setText(ce.getDe());
                     // remove itself
-                    item.getEdition().removeObserver(this);
+                    card.getEdition().removeObserver(this);
                 }
             };
-            item.getEdition().observe(this, osCE);
+            card.getEdition().observe(this, osCE);
         }
 
         // render Image of Card
         GlideApp.with(this)
-                .load(FirebaseStorage.getInstance().getReference().child(item.getImageStorageUrl()))
+                .load(FirebaseStorage.getInstance().getReference().child(card.getImageStorageUrl()))
                 .apply(new RequestOptions().centerInside())
                 .apply(CardImageLoader.imageRenderer)
                 // for the animation
@@ -305,7 +308,7 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
                 .into(imageView);
 
         // render CardTypes
-        if (item.getTypes() != null) {
+        if (card.getTypes() != null) {
             // ObserveOnce of CardType
             final Observer<List<CardType>> osCT = new Observer<List<CardType>>() {
                 @Override
@@ -313,7 +316,7 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
                     // when not loaded, result is empty
                     if (cardTypes.size() > 0) {
                         // remove itself (Observer)
-                        item.getTypes().removeObserver(this);
+                        card.getTypes().removeObserver(this);
 
                         // clear LinearLayout
                         cardType.removeAllViews();
@@ -341,11 +344,11 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
                     }
                 }
             };
-            item.getTypes().observe(this, osCT);
+            card.getTypes().observe(this, osCT);
         }
 
         // render CardRace
-        if (item.getRaces() != null) {
+        if (card.getRaces() != null) {
             // ObserveOnce of CardType
             final Observer<List<CardRace>> osCR = new Observer<List<CardRace>>() {
                 @Override
@@ -353,7 +356,7 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
                     // when not loaded, result is empty
                     if (cardRaces.size() > 0) {
                         // remove itself (Observer)
-                        item.getRaces().removeObserver(this);
+                        card.getRaces().removeObserver(this);
 
                         // clear LinearLayout
                         cardRace.removeAllViews();
@@ -381,11 +384,11 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
                     }
                 }
             };
-            item.getRaces().observe(this, osCR);
+            card.getRaces().observe(this, osCR);
         }
 
         // render CardCost
-        if (item.getCost() != null && item.getCost().size() > 0) {
+        if (card.getCost() != null && card.getCost().size() > 0) {
             // clear LinearLayout
             cardCost.removeAllViews();
 
@@ -400,7 +403,7 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
             textCardCost.requestLayout();
 
             // for each CardCost
-            Iterator<CardCost> cardCostIt = item.getCost().iterator();
+            Iterator<CardCost> cardCostIt = card.getCost().iterator();
             while (cardCostIt.hasNext()) {
                 CardCost cardCost = cardCostIt.next();
                 if (cardCost.getCount() != null && cardCost.getCount() > 0 && cardCost.getType() != null) {
@@ -450,7 +453,7 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
         }
 
         // render cardAbility
-        if (item.getAbility() != null && item.getAbility().size() > 0) {
+        if (card.getAbility() != null && card.getAbility().size() > 0) {
             // clear LinearLayout
             cardAbility.removeAllViews();
 
@@ -463,7 +466,7 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
                     LinearLayout.LayoutParams.WRAP_CONTENT);
 
             // for each CardAbility
-            Iterator<CardAbility> cardAbilityIt = item.getAbility().iterator();
+            Iterator<CardAbility> cardAbilityIt = card.getAbility().iterator();
             while (cardAbilityIt.hasNext()) {
                 AbilityTextView abilityTextView = new AbilityTextView(this, cardAbilityIt.next());
                 abilityTextView.setLayoutParams(layoutParams);
@@ -474,7 +477,7 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
     }
 
     private void updateOwnRatings(Rating rating) {
-        if(rating != null) {
+        if (rating != null) {
             addRatingBar.setOnRatingBarChangeListener(null);
 
             addRatingBar.setRating(rating.getRating());
@@ -493,14 +496,14 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
     private static View getViewCardAttributeCircle(CardDetailsActivity context, String text) {
         GradientDrawable shape = new GradientDrawable();
         shape.setShape(GradientDrawable.OVAL);
-        shape.setColor(Color.rgb(0,0,0));
+        shape.setColor(Color.rgb(0, 0, 0));
 
         LinearLayout view = new LinearLayout(context);
         view.setBackground(shape);
 
         TextView textView = new TextView(context);
         textView.setText(text);
-        textView.setTextColor(Color.rgb(255,255,255));
+        textView.setTextColor(Color.rgb(255, 255, 255));
         textView.setGravity(Gravity.CENTER);
         textView.setTextAlignment(View.TEXT_ALIGNMENT_GRAVITY);
 
@@ -537,7 +540,7 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
 
     private void toggleWishlistView(Wish wish) {
         if (wish != null) {
-            int color = getResources().getColor(R.color.colorPrimary);
+            int color = getResources().getColor(R.color.colorPrimaryLight);
             setDrawableTint(wishlist, color);
             wishlist.setChecked(true);
         } else {
@@ -547,22 +550,46 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
         }
     }
 
-    private ToggleButton addToCollection;
-
     @OnClick(R.id.actionsButton)
     public void showBottomSheetDialog() {
-        View view = getLayoutInflater().inflate(R.layout.single_bottom_sheet_dialog, null);
-        BottomSheetDialog dialog = new BottomSheetDialog(this);
-        dialog.setContentView(view);
-        addToCollection = view.findViewById(R.id.addToCollection);
+        toggleCollectionButton(model.getMyCollection().getValue());
+        dialog.show();
+    }
+
+    private void toggleCollectionButton(List<MyCard> myCards) {
+        String cardId;
+        if(model.getCard().getValue() != null){
+            cardId = model.getCard().getValue().getIdStr();
+        }else{
+            cardId = "";
+        }
         addToCollection.setOnClickListener(v -> {
             Log.d("FRIDGE", "FRIDGE");
-            model.toggleItemInCollection(model.getCard().getValue().getId());
-//            if(!addToCollection.isChecked()){
-//
-//            }
+            model.toggleItemInCollection(cardId);
+            coloriseCollectionButton();
         });
-        dialog.show();
+        if(myCards != null){
+            for (MyCard myCard : myCards) {
+                if (cardId.equals(myCard.getCardId())) {
+                    addToCollection.setChecked(true);
+                    coloriseCollectionButton();
+                    break;
+                } else {
+                    addToCollection.setChecked(false);
+                    coloriseCollectionButton();
+                }
+            }
+        }
+    }
+
+    private void coloriseCollectionButton(){
+        if(addToCollection.isChecked()){
+            int color = getResources().getColor(R.color.colorPrimaryLight);
+            setDrawableTint(addToCollection, color);
+        }else{
+            int color = getResources().getColor(android.R.color.darker_gray);
+            setDrawableTint(addToCollection, color);
+        }
     }
 
 //    private void toggleCollectionView(boolean deleted){
