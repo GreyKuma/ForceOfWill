@@ -162,8 +162,11 @@ public class MyRatingsRecyclerViewAdapter
                 }
             });
 
-
-            ratingNumLikes.setText(itemView.getResources().getQuantityString(R.plurals.fmt_num_likes, rating.getLikes().size(), rating.getLikes().size()));
+            if(rating.getLikes().size() == 0){
+                ratingNumLikes.setText(R.string.fmt_no_likes);
+            }else{
+                ratingNumLikes.setText(itemView.getResources().getQuantityString(R.plurals.fmt_num_likes, rating.getLikes().size(), rating.getLikes().size()));
+            }
 
             /*
             // don't need it here
