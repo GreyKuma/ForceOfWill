@@ -17,6 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Search;
+import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.presentation.explore.search.suggestions.SearchSuggestionsFragment.OnItemSelectedListener;
 
 
@@ -38,12 +39,11 @@ public class SearchSuggestionsRecyclerViewAdapter
      *  - term 10
      * */
     private final List<String> previousSearches = new ArrayList<>();
-    private final List<String> popularSearches;
+    private final List<String> popularSearches = new ArrayList<>();
     private final OnItemSelectedListener listener;
 
-    public SearchSuggestionsRecyclerViewAdapter(List<String> popularSearches, OnItemSelectedListener listener) {
+    public SearchSuggestionsRecyclerViewAdapter(OnItemSelectedListener listener) {
         Log.i(TAG, "SearchSuggestionsRecyclerViewAdapter");
-        this.popularSearches = popularSearches;
         this.listener = listener;
     }
 
@@ -57,6 +57,16 @@ public class SearchSuggestionsRecyclerViewAdapter
             } else {
                 alreadyAdded.add(search);
                 this.previousSearches.add(search.getTerm());
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    public void setPopularSearches(List<Card> cards){
+        this.popularSearches.clear();
+        for (Card card : cards) {
+            if(!this.popularSearches.contains(card.getName().getDe())){
+                this.popularSearches.add(card.getName().getDe());
             }
         }
         notifyDataSetChanged();
