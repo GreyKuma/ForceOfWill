@@ -8,7 +8,7 @@ public interface OnMyCardItemInteractionListener {
 
     void onMoreClickedListener(ImageView photo, Card item);
 
-    void onWishClickedListener(Card item);
+    void onRemoveClickedListener(Card item);
 
     void onNormalUpClickedListener(MyCard myCard);
     void onNormalDownClickedListener(MyCard myCard);

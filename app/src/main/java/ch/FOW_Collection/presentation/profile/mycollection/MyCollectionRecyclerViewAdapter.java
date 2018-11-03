@@ -146,13 +146,10 @@ public class MyCollectionRecyclerViewAdapter extends ListAdapter<String, MyColle
                                     .apply(new RequestOptions().override(240, 240).centerInside()).into(cardImage);
                             ratingBar.setNumStars(5);
                             ratingBar.setRating(card.getAvgRating());
-                            if(card.getNumRatings() == 0){
-                                numRatings.setText(R.string.fmt_no_ratings);
-                            }else{
-                                numRatings.setText(itemView.getResources().getQuantityString(R.plurals.fmt_num_ratings, card.getNumRatings(), card.getNumRatings()));
-                            }
-                            itemView.setOnClickListener(v -> listener.onMoreClickedListener(cardImage, card));
-                            remove.setOnClickListener(v -> listener.onWishClickedListener(card));
+
+                            numRatings.setText(itemView.getResources().getQuantityString(R.plurals.fmt_num_ratings, card.getNumRatings()));
+                            itemView.setOnClickListener(v -> listener.onMoreClickedListener(photo, card));
+                            remove.setOnClickListener(v -> listener.onRemoveClickedListener(card));
                         }
                     }
                 };
