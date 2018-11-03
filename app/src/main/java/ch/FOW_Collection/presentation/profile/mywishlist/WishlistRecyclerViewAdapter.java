@@ -110,7 +110,7 @@ public class WishlistRecyclerViewAdapter extends ListAdapter<Wish, WishlistRecyc
             ButterKnife.bind(this, itemView);
         }
 
-        void bind(Wish wish, /*Card item,*/ OnWishlistItemInteractionListener listener) {
+        void bind(Wish wish, OnWishlistItemInteractionListener listener) {
             wish.getCard().observe(lifecycleOwner, new Observer<Card>() {
                 @Override
                 public void onChanged(Card item) {
