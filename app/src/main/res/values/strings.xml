@@ -5,15 +5,15 @@
     <string name="action_logout">Abmelden</string>
     <string name="todo">TODO</string>
     <string name="fmt_rarity">Seltenheit %s</string>
+    <string name="fmt_no_ratings">Keine Beurteilungen</string>
     <plurals name="fmt_num_ratings">
-        <item quantity="zero">Keine Beurteilungen</item>
         <item quantity="one">Eine Beurteilung</item>
         <item quantity="other">%d Beurteilungen</item>
     </plurals>
+    <string name="fmt_no_likes">Keine Likes</string>
 	<plurals name="fmt_num_likes">
-        <item quantity="zero">Keine Likes</item>
 		<item quantity="one">Ein Like</item>
-		<item quantity="other">%d Likes</item>
+        <item quantity="other">%d Likes</item>
 	</plurals>
     <string name="fmt_avg_rating">%.1f</string>
     <string name="title_activity_single_beer">SingleBeerActivity</string>

@@ -1,7 +1,6 @@
 package ch.FOW_Collection.presentation.profile.mycollection;
 
 import android.content.Context;
-import android.database.Observable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.app.ComponentActivity;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
@@ -23,12 +21,9 @@ import ch.FOW_Collection.GlideApp;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.*;
 
-import ch.FOW_Collection.presentation.utils.EntityDiffItemCallback;
 import ch.FOW_Collection.presentation.utils.StringDiffItemCallback;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.storage.FirebaseStorage;
-
-import java.util.List;
 
 
 public class MyCollectionRecyclerViewAdapter extends ListAdapter<String, MyCollectionRecyclerViewAdapter.ViewHolder> {
@@ -91,14 +86,13 @@ public class MyCollectionRecyclerViewAdapter extends ListAdapter<String, MyColle
         @BindView(R.id.removeFromCollection)
         Button remove;
         @BindView(R.id.cardImage)
-        ImageView photo;
+        ImageView cardImage;
         @BindView(R.id.cardRatingBar)
         RatingBar ratingBar;
         @BindView(R.id.cardNumRatings)
         TextView numRatings;
         @BindView(R.id.cardId)
         TextView cardId;
-        //TODO check xml
         @BindView(R.id.normal1Down)
         Button normal1Down;
         @BindView(R.id.normal1Up)
@@ -149,11 +143,15 @@ public class MyCollectionRecyclerViewAdapter extends ListAdapter<String, MyColle
                             }
                             GlideApp.with(itemView)
                                     .load(FirebaseStorage.getInstance().getReference().child(card.getImageStorageUrl()))
-                                    .apply(new RequestOptions().override(240, 240).centerInside()).into(photo);
+                                    .apply(new RequestOptions().override(240, 240).centerInside()).into(cardImage);
                             ratingBar.setNumStars(5);
                             ratingBar.setRating(card.getAvgRating());
-                            numRatings.setText(itemView.getResources().getQuantityString(R.plurals.fmt_num_ratings, card.getNumRatings()));
-                            itemView.setOnClickListener(v -> listener.onMoreClickedListener(photo, card));
+                            if(card.getNumRatings() == 0){
+                                numRatings.setText(R.string.fmt_no_ratings);
+                            }else{
+                                numRatings.setText(itemView.getResources().getQuantityString(R.plurals.fmt_num_ratings, card.getNumRatings(), card.getNumRatings()));
+                            }
+                            itemView.setOnClickListener(v -> listener.onMoreClickedListener(cardImage, card));
                             remove.setOnClickListener(v -> listener.onWishClickedListener(card));
                         }
                     }

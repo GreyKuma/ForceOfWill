@@ -110,8 +110,11 @@ public class RatingsRecyclerViewAdapter extends ListAdapter<Rating, RatingsRecyc
                     }
                 }
             });
-
-            ratingNumLikes.setText(itemView.getResources().getQuantityString(R.plurals.fmt_num_likes, item.getLikes().size(), item.getLikes().size()));
+            if(item.getLikes().size() == 0){
+                ratingNumLikes.setText(R.string.fmt_no_likes);
+            }else{
+                ratingNumLikes.setText(itemView.getResources().getQuantityString(R.plurals.fmt_num_likes, item.getLikes().size(), item.getLikes().size()));
+            }
             if (item.getLikes().containsKey(userId.getValue())) {
                 ratingLike.setColorFilter(itemView.getResources().getColor(R.color.colorPrimary));
             } else {

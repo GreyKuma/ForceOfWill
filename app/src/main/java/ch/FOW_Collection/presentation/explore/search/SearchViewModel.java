@@ -45,7 +45,6 @@ public class SearchViewModel extends MainViewModel {
         }
         ArrayList<Card> filtered = new ArrayList<>();
         for (Card card : allCards) {
-            //TODO getName().getDe() should work
             if (card.getName().getDe().toLowerCase().contains(searchTerm.toLowerCase())) {
                 filtered.add(card);
             }
