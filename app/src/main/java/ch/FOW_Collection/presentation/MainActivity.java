@@ -29,7 +29,6 @@ import ch.FOW_Collection.presentation.explore.CardEditionsFragment;
 import ch.FOW_Collection.presentation.explore.CardPopularFragment;
 import ch.FOW_Collection.presentation.explore.ExploreFragment;
 import ch.FOW_Collection.presentation.profile.ProfileFragment;
-import ch.FOW_Collection.presentation.ratings.RatingsFragment;
 import ch.FOW_Collection.presentation.shared.ICardSelectedListener;
 import ch.FOW_Collection.presentation.shared.cardList.ICardListFragmentListener;
 import ch.FOW_Collection.presentation.splash.SplashScreenActivity;

@@ -86,14 +86,13 @@ public class MyCollectionRecyclerViewAdapter extends ListAdapter<String, MyColle
         @BindView(R.id.removeFromCollection)
         Button remove;
         @BindView(R.id.cardImage)
-        ImageView photo;
+        ImageView cardImage;
         @BindView(R.id.cardRatingBar)
         RatingBar ratingBar;
         @BindView(R.id.cardNumRatings)
         TextView numRatings;
         @BindView(R.id.cardId)
         TextView cardId;
-        //TODO check xml
         @BindView(R.id.normal1Down)
         Button normal1Down;
         @BindView(R.id.normal1Up)
@@ -144,9 +143,10 @@ public class MyCollectionRecyclerViewAdapter extends ListAdapter<String, MyColle
                             }
                             GlideApp.with(itemView)
                                     .load(FirebaseStorage.getInstance().getReference().child(card.getImageStorageUrl()))
-                                    .apply(new RequestOptions().override(240, 240).centerInside()).into(photo);
+                                    .apply(new RequestOptions().override(240, 240).centerInside()).into(cardImage);
                             ratingBar.setNumStars(5);
                             ratingBar.setRating(card.getAvgRating());
+
                             numRatings.setText(itemView.getResources().getQuantityString(R.plurals.fmt_num_ratings, card.getNumRatings()));
                             itemView.setOnClickListener(v -> listener.onMoreClickedListener(photo, card));
                             remove.setOnClickListener(v -> listener.onRemoveClickedListener(card));
