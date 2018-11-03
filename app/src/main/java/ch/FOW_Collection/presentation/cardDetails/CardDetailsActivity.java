@@ -199,19 +199,23 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
     }
 
 
-    private void updateCard(Card item) {
+    private void updateCard(Card card) {
         // This values are static and will not change. (except ownRating)
         // Its this function is more a promise..
 
         // render meta
-        toolbar.setTitle(item.getName().getDe());
-        cardName.setText(item.getName().getDe());
-        cardId.setText(item.getId());
+        toolbar.setTitle(card.getName().getDe());
+        cardName.setText(card.getName().getDe());
+        cardId.setText(card.getId());
 
         ratingBar.setNumStars(5);
-        ratingBar.setRating(item.getAvgRating());
-        avgRating.setText(getResources().getString(R.string.fmt_avg_rating, item.getAvgRating()));
-        numRatings.setText(getResources().getQuantityString(R.plurals.fmt_num_ratings, item.getNumRatings(), item.getNumRatings()));
+        ratingBar.setRating(card.getAvgRating());
+        avgRating.setText(getResources().getString(R.string.fmt_avg_rating, card.getAvgRating()));
+        if(card.getNumRatings() == 0){
+            numRatings.setText(R.string.fmt_no_ratings);
+        }else{
+            numRatings.setText(getResources().getQuantityString(R.plurals.fmt_num_ratings, card.getNumRatings(), card.getNumRatings()));
+        }
 
         // prepare LayoutParams for the labels
         LinearLayout.LayoutParams labelLayoutParams = new LinearLayout.LayoutParams(
@@ -219,7 +223,7 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
         // render ATK
-        if (item.getAtk() != null && item.getAtk() > 0) {
+        if (card.getAtk() != null && card.getAtk() > 0) {
             // clear LinearLayout
             cardAtk.removeAllViews();
 
@@ -235,14 +239,14 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
 
             // value
             TextView valCardAtk = new TextView(this);
-            valCardAtk.setText(Integer.toString(item.getAtk()));
+            valCardAtk.setText(Integer.toString(card.getAtk()));
             valCardAtk.setLayoutParams(labelLayoutParams);
             cardAtk.addView(valCardAtk);
             valCardAtk.requestLayout();
         }
 
         // render DEF
-        if (item.getDef() != null && item.getDef() > 0) {
+        if (card.getDef() != null && card.getDef() > 0) {
             // clear LinearLayout
             cardDef.removeAllViews();
 
@@ -258,7 +262,7 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
 
             // value
             TextView valCardDef = new TextView(this);
-            valCardDef.setText(Integer.toString(item.getDef()));
+            valCardDef.setText(Integer.toString(card.getDef()));
             valCardDef.setLayoutParams(labelLayoutParams);
             cardDef.addView(valCardDef);
             valCardDef.requestLayout();
@@ -267,7 +271,7 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
         // For the ForeignValues, we observe once to keep it nice and clean.
 
         // render CardEdition
-        if (item.getEdition() != null) {
+        if (card.getEdition() != null) {
             // ObserveOnce of CardEdition
             final Observer<CardEdition> osCE = new Observer<CardEdition>() {
                 @Override
@@ -275,15 +279,15 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
                     // get and set data
                     cardEdition.setText(ce.getDe());
                     // remove itself
-                    item.getEdition().removeObserver(this);
+                    card.getEdition().removeObserver(this);
                 }
             };
-            item.getEdition().observe(this, osCE);
+            card.getEdition().observe(this, osCE);
         }
 
         // render Image of Card
         GlideApp.with(this)
-                .load(FirebaseStorage.getInstance().getReference().child(item.getImageStorageUrl()))
+                .load(FirebaseStorage.getInstance().getReference().child(card.getImageStorageUrl()))
                 .apply(new RequestOptions().centerInside())
                 .apply(CardImageLoader.imageRenderer)
                 // for the animation
@@ -304,7 +308,7 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
                 .into(imageView);
 
         // render CardTypes
-        if (item.getTypes() != null) {
+        if (card.getTypes() != null) {
             // ObserveOnce of CardType
             final Observer<List<CardType>> osCT = new Observer<List<CardType>>() {
                 @Override
@@ -312,7 +316,7 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
                     // when not loaded, result is empty
                     if (cardTypes.size() > 0) {
                         // remove itself (Observer)
-                        item.getTypes().removeObserver(this);
+                        card.getTypes().removeObserver(this);
 
                         // clear LinearLayout
                         cardType.removeAllViews();
@@ -340,11 +344,11 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
                     }
                 }
             };
-            item.getTypes().observe(this, osCT);
+            card.getTypes().observe(this, osCT);
         }
 
         // render CardRace
-        if (item.getRaces() != null) {
+        if (card.getRaces() != null) {
             // ObserveOnce of CardType
             final Observer<List<CardRace>> osCR = new Observer<List<CardRace>>() {
                 @Override
@@ -352,7 +356,7 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
                     // when not loaded, result is empty
                     if (cardRaces.size() > 0) {
                         // remove itself (Observer)
-                        item.getRaces().removeObserver(this);
+                        card.getRaces().removeObserver(this);
 
                         // clear LinearLayout
                         cardRace.removeAllViews();
@@ -380,11 +384,11 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
                     }
                 }
             };
-            item.getRaces().observe(this, osCR);
+            card.getRaces().observe(this, osCR);
         }
 
         // render CardCost
-        if (item.getCost() != null && item.getCost().size() > 0) {
+        if (card.getCost() != null && card.getCost().size() > 0) {
             // clear LinearLayout
             cardCost.removeAllViews();
 
@@ -399,7 +403,7 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
             textCardCost.requestLayout();
 
             // for each CardCost
-            Iterator<CardCost> cardCostIt = item.getCost().iterator();
+            Iterator<CardCost> cardCostIt = card.getCost().iterator();
             while (cardCostIt.hasNext()) {
                 CardCost cardCost = cardCostIt.next();
                 if (cardCost.getCount() != null && cardCost.getCount() > 0 && cardCost.getType() != null) {
@@ -449,7 +453,7 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
         }
 
         // render cardAbility
-        if (item.getAbility() != null && item.getAbility().size() > 0) {
+        if (card.getAbility() != null && card.getAbility().size() > 0) {
             // clear LinearLayout
             cardAbility.removeAllViews();
 
@@ -462,7 +466,7 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
                     LinearLayout.LayoutParams.WRAP_CONTENT);
 
             // for each CardAbility
-            Iterator<CardAbility> cardAbilityIt = item.getAbility().iterator();
+            Iterator<CardAbility> cardAbilityIt = card.getAbility().iterator();
             while (cardAbilityIt.hasNext()) {
                 AbilityTextView abilityTextView = new AbilityTextView(this, cardAbilityIt.next());
                 abilityTextView.setLayoutParams(layoutParams);
