@@ -3,36 +3,27 @@ package ch.FOW_Collection.presentation.cardDetails;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RatingBar;
-import android.widget.TextView;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
-import ch.FOW_Collection.domain.models.User;
-import com.bumptech.glide.request.RequestOptions;
-
-import java.text.DateFormat;
+import ch.FOW_Collection.presentation.shared.IRatingLikedListener;
+import ch.FOW_Collection.presentation.shared.viewHolder.RatingListentry;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
 import butterknife.ButterKnife;
-import ch.FOW_Collection.GlideApp;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Rating;
 import ch.FOW_Collection.presentation.utils.EntityDiffItemCallback;
 
 
 public class RatingsRecyclerViewAdapter extends ListAdapter<Rating, RatingsRecyclerViewAdapter.ViewHolder> {
-
     private static final EntityDiffItemCallback<Rating> DIFF_CALLBACK = new EntityDiffItemCallback<>();
 
-    private final OnRatingLikedListener listener;
+    private final IRatingLikedListener listener;
     private LiveData<String> userId;
 
-    public RatingsRecyclerViewAdapter(OnRatingLikedListener listener, LiveData<String> userId) {
+    public RatingsRecyclerViewAdapter(IRatingLikedListener listener, LiveData<String> userId) {
         super(DIFF_CALLBACK);
         this.listener = listener;
         this.userId = userId;
@@ -42,17 +33,18 @@ public class RatingsRecyclerViewAdapter extends ListAdapter<Rating, RatingsRecyc
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.activity_card_details_ratings_listentry, parent, false);
+        View view = layoutInflater.inflate(R.layout.fragment_rating_listentry, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-        holder.bind(getItem(position), listener);
+        // holder.bind(getItem(position), listener);
+        holder.bind(userId, getItem(position), listener);
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
-
+    class ViewHolder extends RecyclerView.ViewHolder implements RatingListentry {
+        /*
         @BindView(R.id.ratingComment)
         TextView ratingComment;
 
@@ -75,13 +67,18 @@ public class RatingsRecyclerViewAdapter extends ListAdapter<Rating, RatingsRecyc
         ImageView ratingLike;
 
         @BindView(R.id.ratingImage)
-        ImageView ratingImage;
+        ImageView ratingImage;*/
 
         ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, itemView);
         }
 
+        void bind(LiveData<String> userId, Rating item, IRatingLikedListener listener) {
+            bindRatingListentry(itemView, userId, item, listener);
+        }
+
+        /*
         void bind(Rating item, OnRatingLikedListener listener) {
             ratingComment.setText(item.getComment());
 
@@ -123,6 +120,6 @@ public class RatingsRecyclerViewAdapter extends ListAdapter<Rating, RatingsRecyc
             if (listener != null) {
                 ratingLike.setOnClickListener(v -> listener.onRatingLikedListener(item));
             }
-        }
+        }*/
     }
 }

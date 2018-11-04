@@ -1,6 +1,5 @@
 package ch.FOW_Collection.presentation.profile.myratings;
 
-import android.graphics.drawable.Drawable;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,15 +8,13 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.User;
 import ch.FOW_Collection.presentation.shared.CardImageLoader;
 import ch.FOW_Collection.presentation.shared.ICardSelectedListener;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
+import ch.FOW_Collection.presentation.shared.viewHolder.CardBaseListentry;
+import ch.FOW_Collection.presentation.shared.viewHolder.RatingListentry;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.text.DateFormat;
@@ -33,7 +30,6 @@ import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Rating;
 import ch.FOW_Collection.domain.models.Wish;
 import ch.FOW_Collection.presentation.utils.EntityPairDiffItemCallback;
-import com.bumptech.glide.request.target.Target;
 import com.google.firebase.storage.FirebaseStorage;
 
 
@@ -55,7 +51,7 @@ public class MyRatingsRecyclerViewAdapter
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.activity_my_ratings_listentry, parent, false);
+        View view = layoutInflater.inflate(R.layout.fragment_my_rating_listentry, parent, false);
         return new ViewHolder(view);
     }
 
@@ -65,8 +61,11 @@ public class MyRatingsRecyclerViewAdapter
         holder.bind(entry.first, entry.second, listener);
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
-
+    class ViewHolder extends RecyclerView.ViewHolder implements CardBaseListentry, RatingListentry {
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+/*
         @BindView(R.id.cardName)
         TextView cardName;
 
@@ -109,13 +108,14 @@ public class MyRatingsRecyclerViewAdapter
         ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, itemView);
-        }
+        }*/
 
         void bind(Rating rating, Wish wish, ICardSelectedListener listener) {
             rating.getCard().observeForever(new Observer<Card>() {
                 @Override
                 public void onChanged(Card card) {
                     if (card != null) {
+                        bindCardBaseListentry(itemView, card, listener, null); /*
                         itemView.setOnClickListener(v -> listener.onCardSelectedListener(cardImage, card));
                         rating.getCard().removeObserver(this);
                         cardName.setText(card.getName().getDe());
@@ -132,11 +132,13 @@ public class MyRatingsRecyclerViewAdapter
                                 .apply(CardImageLoader.imageRenderer)
                                 // for the animation
                                 .dontAnimate()
-                                .into(cardImage);
+                                .into(cardImage);*/
                     }
                 }
             });
 
+            bindRatingListentry(itemView, null, rating, null);
+            /*
             if (rating.getComment() != null && rating.getComment().length() > 0) {
                 ratingComment.setText(rating.getComment());
                 ratingComment.setVisibility(View.VISIBLE);
@@ -190,7 +192,7 @@ public class MyRatingsRecyclerViewAdapter
 
             if (listener != null) {
                 details.setOnClickListener(v -> listener.onMoreClickedListener(item));
-                wishlist.setOnClickListener(v -> listener.onRemoveClickedListener(item));
+                wishlist.setOnClickListener(v -> listener.onCollectionRemoveClickedListener(item));
             }*/
         }
     }

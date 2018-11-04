@@ -20,9 +20,10 @@ import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.Wish;
 import ch.FOW_Collection.presentation.cardDetails.CardDetailsActivity;
+import ch.FOW_Collection.presentation.shared.IWishClickedListener;
 import lombok.val;
 
-public class WishlistActivity extends AppCompatActivity implements OnWishlistItemInteractionListener {
+public class WishlistActivity extends AppCompatActivity implements IWishClickedListener {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -83,7 +84,7 @@ public class WishlistActivity extends AppCompatActivity implements OnWishlistIte
     }
 
     @Override
-    public void onMoreClickedListener(ImageView animationSource, Card card) {
+    public void onCardSelectedListener(ImageView animationSource, Card card) {
         Intent intent = new Intent(this, CardDetailsActivity.class);
         intent.putExtra(CardDetailsActivity.ITEM_ID, card.getId());
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, animationSource, "image");
