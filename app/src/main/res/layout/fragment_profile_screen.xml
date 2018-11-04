@@ -62,7 +62,7 @@
 
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/minimum_margin"
-                    app:srcCompat="@drawable/card_back" />
+                    app:srcCompat="@drawable/ic_collection" />
 
                 <TextView
                         android:layout_width="0dp"

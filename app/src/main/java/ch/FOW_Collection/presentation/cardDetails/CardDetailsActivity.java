@@ -11,6 +11,7 @@ import android.view.*;
 import android.widget.*;
 
 import ch.FOW_Collection.domain.models.*;
+import ch.FOW_Collection.presentation.shared.IRatingLikedListener;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
@@ -43,7 +44,7 @@ import ch.FOW_Collection.presentation.shared.CardImageLoader;
 
 import static ch.FOW_Collection.presentation.utils.DrawableHelpers.setDrawableTint;
 
-public class CardDetailsActivity extends AppCompatActivity implements OnRatingLikedListener {
+public class CardDetailsActivity extends AppCompatActivity implements IRatingLikedListener {
 
     public static final String ITEM_ID = "item_id";
     private static final String TAG = "CardDetailsActivity";
