@@ -16,9 +16,10 @@ import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.MyCard;
 import ch.FOW_Collection.presentation.cardDetails.CardDetailsActivity;
+import ch.FOW_Collection.presentation.shared.ICollectionInteractionListener;
 
 
-public class MyCollectionActivity extends AppCompatActivity implements OnMyCardItemInteractionListener {
+public class MyCollectionActivity extends AppCompatActivity implements ICollectionInteractionListener {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -77,7 +78,7 @@ public class MyCollectionActivity extends AppCompatActivity implements OnMyCardI
     }
 
     @Override
-    public void onMoreClickedListener(ImageView photo, Card item) {
+    public void onCardSelectedListener(ImageView photo, Card item) {
         Intent intent = new Intent(this, CardDetailsActivity.class);
         intent.putExtra(CardDetailsActivity.ITEM_ID, item.getId());
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, photo, "image");
@@ -85,27 +86,27 @@ public class MyCollectionActivity extends AppCompatActivity implements OnMyCardI
     }
 
     @Override
-    public void onRemoveClickedListener(Card item) {
-        model.toggleCardInCollection(item.getId());
+    public void onCollectionRemoveClickedListener(MyCard item) {
+        model.toggleCardInCollection(item.getCardId());
     }
 
     @Override
-    public void onNormalUpClickedListener(MyCard myCard) {
+    public void onCollectionNormalUpClickedListener(MyCard myCard) {
         model.addOneToCardAmount(myCard, MyCard.FIELD_AMOUNT_NORMAL);
     }
 
     @Override
-    public void onNormalDownClickedListener(MyCard myCard) {
+    public void onCollectionNormalDownClickedListener(MyCard myCard) {
         model.subOneFromCardAmount(myCard, MyCard.FIELD_AMOUNT_NORMAL);
     }
 
     @Override
-    public void onFoilUpClickedListener(MyCard myCard) {
+    public void onCollectionFoilUpClickedListener(MyCard myCard) {
         model.addOneToCardAmount(myCard, MyCard.FIELD_AMOUNT_FOIL);
     }
 
     @Override
-    public void onFoilDownClickedListener(MyCard myCard) {
+    public void onCollectionFoilDownClickedListener(MyCard myCard) {
         model.subOneFromCardAmount(myCard, MyCard.FIELD_AMOUNT_FOIL);
     }
 }
