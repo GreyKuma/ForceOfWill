@@ -11,6 +11,7 @@ import ch.FOW_Collection.GlideApp;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Rating;
 import ch.FOW_Collection.domain.models.User;
+import ch.FOW_Collection.presentation.shared.CardImageLoader;
 import ch.FOW_Collection.presentation.shared.IRatingLikedListener;
 import com.bumptech.glide.request.RequestOptions;
 
@@ -43,6 +44,12 @@ public interface RatingListentry {
         if (item.getPhoto() != null) {
             GlideApp.with(view).load(item.getPhoto()).into(ratingImage);
             ratingImage.setVisibility(View.VISIBLE);
+            ratingImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CardImageLoader.openImageExtern(view.getContext(), item.getPhoto());
+                }
+            });
         } else {
             GlideApp.with(view).clear(ratingImage);
             ratingImage.setVisibility(View.GONE);

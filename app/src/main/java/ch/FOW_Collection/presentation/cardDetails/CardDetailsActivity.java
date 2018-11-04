@@ -2,7 +2,9 @@ package ch.FOW_Collection.presentation.cardDetails;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -610,4 +612,12 @@ public class CardDetailsActivity extends AppCompatActivity implements IRatingLik
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    @OnClick(R.id.cardImage)
+    public void onImageClick(View view) {
+        //Bitmap bm = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+        //CardImageLoader.openImageExtern(this, bm);
+        CardImageLoader.openImageExternStorage(this, model.getCard().getValue().getImageStorageUrl());
+    }
+
 }
