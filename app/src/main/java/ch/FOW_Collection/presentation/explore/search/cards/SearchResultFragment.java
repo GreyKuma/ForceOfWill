@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.presentation.explore.search.SearchViewModel;
+import ch.FOW_Collection.presentation.shared.ICardSelectedListener;
 
 public class SearchResultFragment extends Fragment {
 
@@ -29,7 +30,7 @@ public class SearchResultFragment extends Fragment {
     @BindView(R.id.emptyView)
     View emptyView;
 
-    private OnItemSelectedListener mListener;
+    private ICardSelectedListener mListener;
     private SearchResultRecyclerViewAdapter adapter;
 
     public SearchResultFragment() {
@@ -49,10 +50,10 @@ public class SearchResultFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnItemSelectedListener) {
-            mListener = (OnItemSelectedListener) context;
+        if (context instanceof ICardSelectedListener) {
+            mListener = (ICardSelectedListener) context;
         } else {
-            throw new RuntimeException(context.toString() + " must implement OnItemSelectedListener");
+            throw new RuntimeException(context.toString() + " must implement ICardSelectedListener");
         }
     }
 

@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import ch.FOW_Collection.domain.models.MyCard;
+import ch.FOW_Collection.presentation.shared.ICardSelectedListener;
+import ch.FOW_Collection.presentation.shared.ICollectionInteractionListener;
 import com.google.android.material.tabs.TabLayout;
 import com.google.common.base.Strings;
 
@@ -23,11 +25,10 @@ import ch.FOW_Collection.presentation.cardDetails.CardDetailsActivity;
 import ch.FOW_Collection.presentation.explore.search.cards.SearchResultFragment;
 import ch.FOW_Collection.presentation.explore.search.suggestions.SearchSuggestionsFragment;
 import ch.FOW_Collection.presentation.profile.mycollection.MyCollectionViewModel;
-import ch.FOW_Collection.presentation.profile.mycollection.OnMyCardItemInteractionListener;
 
 public class SearchActivity extends AppCompatActivity
-        implements SearchResultFragment.OnItemSelectedListener, SearchSuggestionsFragment.OnItemSelectedListener,
-        OnMyCardItemInteractionListener {
+        implements SearchResultFragment.OnItemSelectedListener, SearchSuggestionsFragment.OnItemSelectedListener, ICardSelectedListener,
+        ICollectionInteractionListener {
 
     private SearchViewModel searchViewModel;
     private ViewPagerAdapter adapter;
@@ -100,7 +101,7 @@ public class SearchActivity extends AppCompatActivity
     }
 
     @Override
-    public void onMoreClickedListener(ImageView photo, Card card) {
+    public void onCardSelectedListener(ImageView photo, Card card) {
         Intent intent = new Intent(this, CardDetailsActivity.class);
         intent.putExtra(CardDetailsActivity.ITEM_ID, card.getId());
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, photo, "image");
@@ -108,27 +109,27 @@ public class SearchActivity extends AppCompatActivity
     }
 
     @Override
-    public void onRemoveClickedListener(Card card) {
-        searchViewModel.toggleItemInWishlist(card.getId());
+    public void onCollectionRemoveClickedListener(MyCard card) {
+        searchViewModel.toggleItemInWishlist(card.getCardId());
     }
 
     @Override
-    public void onNormalUpClickedListener(MyCard myCard) {
+    public void onCollectionNormalUpClickedListener(MyCard myCard) {
         //TODO onClickListener for CardAmount
     }
 
     @Override
-    public void onNormalDownClickedListener(MyCard myCard) {
+    public void onCollectionNormalDownClickedListener(MyCard myCard) {
         //TODO onClickListener for CardAmount
     }
 
     @Override
-    public void onFoilUpClickedListener(MyCard myCard) {
+    public void onCollectionFoilUpClickedListener(MyCard myCard) {
         //TODO onClickListener for CardAmount
     }
 
     @Override
-    public void onFoilDownClickedListener(MyCard myCard) {
+    public void onCollectionFoilDownClickedListener(MyCard myCard) {
         //TODO onClickListener for CardAmount
     }
 }

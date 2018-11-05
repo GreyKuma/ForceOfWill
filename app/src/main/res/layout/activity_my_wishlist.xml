@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <include layout="@layout/content_empty_card_list" />
+    <include layout="@layout/fragment_empty_card_list" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
