@@ -19,7 +19,7 @@
 
         <RatingBar
             android:id="@+id/ratingRatingBar"
-            style="?android:attr/ratingBarStyleSmall"
+            style="@style/RatingBar.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -27,7 +27,7 @@
             android:isIndicator="true"
             android:numStars="5"
             android:rating="4"
-            android:stepSize="0.5"
+            android:stepSize="0.1"
             android:theme="@style/RatingBar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -43,15 +43,18 @@
             app:layout_constraintStart_toEndOf="@+id/ratingAvatar"
             app:layout_constraintTop_toBottomOf="@+id/ratingRatingBar" />
 
-        <TextView
-            android:id="@+id/ratingDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="When"
-            android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@+id/ratingAvatar"
-            app:layout_constraintTop_toBottomOf="@+id/ratingAuthorName" />
+    <TextView
+        android:id="@+id/ratingDate"
+        android:layout_width="0dp"
+        app:layout_constrainedWidth="true"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="When"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@+id/ratingLike"
+        app:layout_constraintStart_toEndOf="@+id/ratingAvatar"
+        app:layout_constraintTop_toBottomOf="@+id/ratingAuthorName" />
 
         <TextView
             android:id="@+id/ratingNumLikes"
@@ -82,7 +85,8 @@
 
     <TextView
         android:id="@+id/ratingComment"
-        android:layout_width="242dp"
+        android:layout_width="0dp"
+        app:layout_constrainedWidth="true"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
@@ -93,7 +97,8 @@
 
     <ImageView
         android:id="@+id/ratingImage"
-        android:layout_width="242dp"
+        android:layout_width="0dp"
+        app:layout_constrainedWidth="true"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         app:layout_constraintDimensionRatio="w,1:1"
