@@ -1,17 +1,14 @@
 package ch.FOW_Collection.data.repositories;
 
-import com.firebase.ui.firestore.ClassSnapshotParser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-
 import androidx.lifecycle.LiveData;
 import ch.FOW_Collection.data.parser.CardClassSnapshotParser;
 import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveData;
 import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveDataArray;
 import ch.FOW_Collection.domain.models.Card;
-
-import static androidx.lifecycle.Transformations.switchMap;
+import com.firebase.ui.firestore.ClassSnapshotParser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import static androidx.lifecycle.Transformations.switchMap;
 
@@ -24,6 +21,7 @@ public class CardsRepository {
 
     /**
      * Get Query for all cards.
+     *
      * @return Query for all cards
      */
     private static Query allCardsQuery() {
@@ -34,14 +32,16 @@ public class CardsRepository {
 
     /**
      * Get LiveData of all cards.
+     *
      * @return LiveDataArray of all cards.
      */
     private static FirestoreQueryLiveDataArray<Card> allCards =
             new FirestoreQueryLiveDataArray<>(
-                allCardsQuery(), parser);
+                    allCardsQuery(), parser);
 
     /**
      * Get DocumentReference of a single card.
+     *
      * @param cardId Id of the card.
      * @return DocumentReference of a single card.
      */
@@ -54,6 +54,7 @@ public class CardsRepository {
 
     /**
      * Get LiveData of a single cards.
+     *
      * @param cardId Id of the card.
      * @return LiveData of a single cards.
      */
@@ -64,18 +65,20 @@ public class CardsRepository {
 
     /**
      * Get query for top rated cards.
+     *
      * @return query for top rated cards.
      */
     private static Query cardsTopRatedQuery(int limit) {
         return FirebaseFirestore
-                        .getInstance()
-                        .collection(Card.COLLECTION)
-                        .orderBy(Card.FIELD_RATING, Query.Direction.DESCENDING)
-                        .limit(limit);
+                .getInstance()
+                .collection(Card.COLLECTION)
+                .orderBy(Card.FIELD_RATING, Query.Direction.DESCENDING)
+                .limit(limit);
     }
 
     /**
      * Get LiveData of all cards.
+     *
      * @return LiveDataArray of all cards.
      */
     private static FirestoreQueryLiveDataArray<Card> cardsTopRated(int limit) {
@@ -89,6 +92,7 @@ public class CardsRepository {
 
     /**
      * Get LiveData of all cards.
+     *
      * @return LiveDataArray of all cards.
      */
     public FirestoreQueryLiveDataArray<Card> getAllCards() {
@@ -98,6 +102,7 @@ public class CardsRepository {
 
     /**
      * Get LiveData of a single cards.
+     *
      * @param cardId Id of the card.
      * @return LiveData of a single cards.
      */
@@ -108,6 +113,7 @@ public class CardsRepository {
 
     /**
      * Get LiveData of a single cards.
+     *
      * @param cardId Id of the card.
      * @return LiveData of a single cards.
      */
@@ -118,6 +124,7 @@ public class CardsRepository {
     /**
      * Get Query for top rated cards.
      * Should only be used by Firestore-ui-Components which has setLifecycleOwner!
+     *
      * @return FirestoreArray for top rated cards.
      */
     public FirestoreQueryLiveDataArray<Card> getCardsTopRated(int limit) {

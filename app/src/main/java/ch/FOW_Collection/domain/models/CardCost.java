@@ -2,15 +2,13 @@ package ch.FOW_Collection.domain.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import com.google.firebase.firestore.Exclude;
-
-import java.io.Serializable;
-
 import androidx.lifecycle.LiveData;
+import com.google.firebase.firestore.Exclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 @Data
 @NoArgsConstructor

@@ -8,16 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import ch.FOW_Collection.domain.models.MyCard;
-import ch.FOW_Collection.domain.models.User;
-import ch.FOW_Collection.presentation.profile.mycollection.MyCollectionActivity;
-import com.bumptech.glide.request.RequestOptions;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-import java.util.List;
-
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import butterknife.BindView;
@@ -25,12 +15,17 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ch.FOW_Collection.GlideApp;
 import ch.FOW_Collection.R;
+import ch.FOW_Collection.domain.models.MyCard;
 import ch.FOW_Collection.domain.models.Rating;
+import ch.FOW_Collection.domain.models.User;
 import ch.FOW_Collection.domain.models.Wish;
 import ch.FOW_Collection.presentation.MainViewModel;
 import ch.FOW_Collection.presentation.profile.mycollection.MyCollectionActivity;
 import ch.FOW_Collection.presentation.profile.myratings.MyRatingsActivity;
 import ch.FOW_Collection.presentation.profile.mywishlist.WishlistActivity;
+import com.bumptech.glide.request.RequestOptions;
+
+import java.util.List;
 
 /**
  * Because the profile view is not a whole activity but rendered as part of the MainActivity in a tab, we use a so-called fragment.

@@ -61,7 +61,7 @@ public class MyCollectionFragment extends Fragment {
     private void handleCollectionChanged(List<MyCard> cards) {
         List<String> myCardsIds = new ArrayList<>();
         Iterator<MyCard> it = cards.iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             myCardsIds.add(it.next().getId());
         }
 

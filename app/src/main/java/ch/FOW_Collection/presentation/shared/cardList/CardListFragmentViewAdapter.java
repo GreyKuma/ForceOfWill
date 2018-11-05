@@ -5,9 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.core.app.ComponentActivity;
 import androidx.lifecycle.LifecycleOwner;
@@ -16,6 +13,8 @@ import ch.FOW_Collection.GlideApp;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveDataArray;
 import ch.FOW_Collection.domain.models.Card;
+
+import java.util.List;
 
 public abstract class CardListFragmentViewAdapter
         extends RecyclerView.Adapter<CardListViewHolder> {
@@ -31,7 +30,7 @@ public abstract class CardListFragmentViewAdapter
             ComponentActivity activity,
             FirestoreQueryLiveDataArray<Card> liveData,
             ICardListFragmentListener listener,
-            String cardListId){
+            String cardListId) {
         this(activity, activity, liveData, listener, cardListId);
     }
 

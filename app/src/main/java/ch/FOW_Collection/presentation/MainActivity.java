@@ -8,12 +8,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-
-import com.firebase.ui.auth.AuthUI;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.tabs.TabLayout;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -33,6 +27,10 @@ import ch.FOW_Collection.presentation.shared.ICardSelectedListener;
 import ch.FOW_Collection.presentation.shared.cardList.ICardListFragmentListener;
 import ch.FOW_Collection.presentation.splash.SplashScreenActivity;
 import ch.FOW_Collection.presentation.utils.ViewPagerAdapter;
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
 
 /**
  * The {@link MainActivity} is the entry point for logged-in users (actually, users start at the
@@ -43,9 +41,9 @@ import ch.FOW_Collection.presentation.utils.ViewPagerAdapter;
 public class MainActivity
         extends AppCompatActivity
         implements
-            ICardListFragmentListener,
-            CardPopularFragment.ICardPopularFragmentListener,
-            CardEditionsFragment.OnItemSelectedListener {
+        ICardListFragmentListener,
+        CardPopularFragment.ICardPopularFragmentListener,
+        CardEditionsFragment.OnItemSelectedListener {
 
     /**
      * We use ButterKnife's view injection instead of having to call findViewById repeatedly.

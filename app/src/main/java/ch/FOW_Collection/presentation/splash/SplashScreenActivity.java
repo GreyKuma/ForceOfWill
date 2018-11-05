@@ -3,15 +3,17 @@ package ch.FOW_Collection.presentation.splash;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import ch.FOW_Collection.R;
+import ch.FOW_Collection.domain.models.User;
+import ch.FOW_Collection.presentation.MainActivity;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -19,11 +21,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import androidx.appcompat.app.AppCompatActivity;
-import ch.FOW_Collection.R;
-import ch.FOW_Collection.domain.models.User;
-import ch.FOW_Collection.presentation.MainActivity;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -67,18 +64,18 @@ public class SplashScreenActivity extends AppCompatActivity {
         DocumentReference userDoc = FirebaseFirestore.getInstance().collection(User.COLLECTION).document(uid);
         Log.d(TAG, "userDoc = " + userDoc);
         userDoc.set(data)
-            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Log.d(TAG, "User document successfully written!");
-                }
-            })
-            .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.w(TAG, "Error writing User document", e);
-                }
-            });
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "User document successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing User document", e);
+                    }
+                });
 
 //        userDoc.update(User.FIELD_NAME, displayName, User.FIELD_PHOTO, photoUrl);
 //        Log.d(TAG, "Updating User document");

@@ -2,12 +2,14 @@ package ch.FOW_Collection.presentation.cardDetails.createRating;
 
 import android.net.Uri;
 import android.util.Log;
-
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModel;
+import ch.FOW_Collection.data.parser.EntityClassSnapshotParser;
 import ch.FOW_Collection.data.repositories.RatingsRepository;
 import ch.FOW_Collection.domain.models.Card;
+import ch.FOW_Collection.domain.models.Rating;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
@@ -17,10 +19,6 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.Collections;
 import java.util.Date;
-
-import androidx.lifecycle.ViewModel;
-import ch.FOW_Collection.data.parser.EntityClassSnapshotParser;
-import ch.FOW_Collection.domain.models.Rating;
 
 public class CreateRatingViewModel extends ViewModel {
 
@@ -34,11 +32,19 @@ public class CreateRatingViewModel extends ViewModel {
     public Card getItem() {
         return item;
     }
-    public Rating getOldRating() { return oldRating; }
+
+    public Rating getOldRating() {
+        return oldRating;
+    }
+
     public void setItem(Card item) {
         this.item = item;
     }
-    public void setOldRating(Rating rating) { oldRating = rating; }
+
+    public void setOldRating(Rating rating) {
+        oldRating = rating;
+    }
+
     public Uri getPhoto() {
         return photo;
     }

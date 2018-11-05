@@ -2,7 +2,6 @@ package ch.FOW_Collection.domain.models;
 
 import androidx.lifecycle.LiveData;
 import com.google.firebase.firestore.Exclude;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

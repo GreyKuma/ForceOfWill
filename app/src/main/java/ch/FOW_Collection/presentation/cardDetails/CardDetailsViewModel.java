@@ -2,9 +2,7 @@ package ch.FOW_Collection.presentation.cardDetails;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 import ch.FOW_Collection.data.repositories.CardsRepository;
-import ch.FOW_Collection.data.repositories.CurrentUser;
 import ch.FOW_Collection.data.repositories.MyCollectionRepository;
 import ch.FOW_Collection.data.repositories.RatingsRepository;
 import ch.FOW_Collection.data.repositories.WishlistRepository;
@@ -13,14 +11,8 @@ import ch.FOW_Collection.domain.models.Rating;
 import ch.FOW_Collection.domain.models.Wish;
 import ch.FOW_Collection.presentation.MainViewModel;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Transaction;
 
 import java.util.List;
-import java.util.Map;
 
 //import ch.FOW_Collection.domain.models.Beer;
 //import ch.FOW_Collection.domain.models.Rating;
@@ -88,7 +80,7 @@ public class CardDetailsViewModel extends MainViewModel {
         return wishlistRepository.toggleUserWishlistItem(getCurrentUserId().getValue(), itemId);
     }
 
-    public Task<Void> toggleItemInCollection(String itemId){
+    public Task<Void> toggleItemInCollection(String itemId) {
         return myCollectionRepository.toggleCardInCollection(getCurrentUserId().getValue(), itemId);
     }
 }

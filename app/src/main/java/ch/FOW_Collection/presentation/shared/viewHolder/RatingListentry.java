@@ -20,9 +20,10 @@ import java.text.DateFormat;
 public interface RatingListentry {
     /**
      * Bind values to view <a href="file://../../../../res/layout/fragment_rating_listentry.xml">fragment_rating_listentry.xml</a>
-     * @param view {@code itemView}
-     * @param userId Current userId for "Liked"
-     * @param item The Rating to bind to
+     *
+     * @param view     {@code itemView}
+     * @param userId   Current userId for "Liked"
+     * @param item     The Rating to bind to
      * @param listener The Listener for "Liked"-OnClick
      */
     default void bindRatingListentry(View view, @Nullable LiveData<String> userId, Rating item, @Nullable IRatingLikedListener listener) {
@@ -68,9 +69,9 @@ public interface RatingListentry {
             }
         });
 
-        if(item.getLikes().size() == 0){
+        if (item.getLikes().size() == 0) {
             ratingNumLikes.setText(R.string.fmt_no_likes);
-        }else{
+        } else {
             ratingNumLikes.setText(view.getResources().getQuantityString(R.plurals.fmt_num_likes, item.getLikes().size(), item.getLikes().size()));
         }
 

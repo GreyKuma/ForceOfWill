@@ -2,10 +2,8 @@ package ch.FOW_Collection.domain.models;
 
 
 import com.google.firebase.firestore.Exclude;
-import com.google.firebase.firestore.IgnoreExtraProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 @Data
 @NoArgsConstructor
@@ -18,7 +16,6 @@ public class Collection {
 
     @Exclude
     private String id;
-
 
 
 }

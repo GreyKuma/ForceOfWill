@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -39,9 +38,13 @@ public abstract class CardListFragment extends Fragment {
     protected ICardListFragmentListener listener;
 
     protected String cardListId;
-    public String getCardListId() { return this.cardListId; }
+
+    public String getCardListId() {
+        return this.cardListId;
+    }
 
     protected boolean nestedScrolling;
+
     public boolean getNestedScrolling() {
         return nestedScrolling;
     }
@@ -127,6 +130,7 @@ public abstract class CardListFragment extends Fragment {
     }
 
     Parcelable recyclerViewLayoutState;
+
     @Override
     public void onStop() {
         Log.d(TAG, "onStop");

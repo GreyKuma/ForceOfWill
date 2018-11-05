@@ -3,17 +3,15 @@ package ch.FOW_Collection.presentation.cardDetails;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import androidx.lifecycle.LiveData;
-import ch.FOW_Collection.presentation.shared.IRatingLikedListener;
-import ch.FOW_Collection.presentation.shared.viewHolder.RatingListentry;
-
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Rating;
+import ch.FOW_Collection.presentation.shared.IRatingLikedListener;
+import ch.FOW_Collection.presentation.shared.viewHolder.RatingListentry;
 import ch.FOW_Collection.presentation.utils.EntityDiffItemCallback;
 
 

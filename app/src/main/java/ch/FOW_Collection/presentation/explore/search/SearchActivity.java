@@ -9,22 +9,20 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-
-import ch.FOW_Collection.domain.models.MyCard;
-import ch.FOW_Collection.presentation.shared.ICardSelectedListener;
-import ch.FOW_Collection.presentation.shared.ICollectionInteractionListener;
-import com.google.android.material.tabs.TabLayout;
-import com.google.common.base.Strings;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Card;
+import ch.FOW_Collection.domain.models.MyCard;
 import ch.FOW_Collection.presentation.cardDetails.CardDetailsActivity;
 import ch.FOW_Collection.presentation.explore.search.cards.SearchResultFragment;
 import ch.FOW_Collection.presentation.explore.search.suggestions.SearchSuggestionsFragment;
 import ch.FOW_Collection.presentation.profile.mycollection.MyCollectionViewModel;
+import ch.FOW_Collection.presentation.shared.ICardSelectedListener;
+import ch.FOW_Collection.presentation.shared.ICollectionInteractionListener;
+import com.google.android.material.tabs.TabLayout;
+import com.google.common.base.Strings;
 
 public class SearchActivity extends AppCompatActivity
         implements SearchResultFragment.OnItemSelectedListener, SearchSuggestionsFragment.OnItemSelectedListener, ICardSelectedListener,
