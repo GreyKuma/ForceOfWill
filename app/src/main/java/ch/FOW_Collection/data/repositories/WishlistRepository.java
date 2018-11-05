@@ -44,9 +44,7 @@ public class WishlistRepository {
     public Task<Void> toggleUserWishlistItem(String userId, String itemId) {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
         String wishId = Wish.generateId(userId, itemId);
-
         DocumentReference wishEntryQuery = db.collection(Wish.COLLECTION).document(wishId);
 
         return wishEntryQuery.get().continueWithTask(task -> {

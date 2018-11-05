@@ -6,6 +6,6 @@
     android:background="?android:attr/selectableItemBackground"
     android:clickable="true">
 
-    <include layout="@layout/content_card_listentry_base" />
+    <include layout="@layout/fragment_card_listentry_base" />
 
 </androidx.cardview.widget.CardView>

@@ -1,7 +1,7 @@
-package ch.FOW_Collection.presentation.cardDetails;
+package ch.FOW_Collection.presentation.shared;
 
 import ch.FOW_Collection.domain.models.Rating;
 
-interface OnRatingLikedListener {
+public interface IRatingLikedListener {
     void onRatingLikedListener(Rating rating);
 }
