@@ -2,30 +2,16 @@ package ch.FOW_Collection.presentation.cardDetails;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.*;
+import android.view.Gravity;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.*;
-
-import ch.FOW_Collection.domain.models.*;
-import ch.FOW_Collection.presentation.shared.IRatingLikedListener;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.Target;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.firebase.storage.FirebaseStorage;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -41,8 +27,21 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ch.FOW_Collection.GlideApp;
 import ch.FOW_Collection.R;
+import ch.FOW_Collection.domain.models.*;
 import ch.FOW_Collection.presentation.cardDetails.createRating.CreateCardRatingActivity;
 import ch.FOW_Collection.presentation.shared.CardImageLoader;
+import ch.FOW_Collection.presentation.shared.IRatingLikedListener;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.firebase.storage.FirebaseStorage;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import static ch.FOW_Collection.presentation.utils.DrawableHelpers.setDrawableTint;
 
@@ -214,9 +213,9 @@ public class CardDetailsActivity extends AppCompatActivity implements IRatingLik
         ratingBar.setNumStars(5);
         ratingBar.setRating(card.getAvgRating());
         avgRating.setText(getResources().getString(R.string.fmt_avg_rating, card.getAvgRating()));
-        if(card.getNumRatings() == 0){
+        if (card.getNumRatings() == 0) {
             numRatings.setText(R.string.fmt_no_ratings);
-        }else{
+        } else {
             numRatings.setText(getResources().getQuantityString(R.plurals.fmt_num_ratings, card.getNumRatings(), card.getNumRatings()));
         }
 
@@ -561,9 +560,9 @@ public class CardDetailsActivity extends AppCompatActivity implements IRatingLik
 
     private void toggleCollectionButton(List<MyCard> myCards) {
         String cardId;
-        if(model.getCard().getValue() != null){
+        if (model.getCard().getValue() != null) {
             cardId = model.getCard().getValue().getIdStr();
-        }else{
+        } else {
             cardId = "";
         }
         addToCollection.setOnClickListener(v -> {
@@ -571,7 +570,7 @@ public class CardDetailsActivity extends AppCompatActivity implements IRatingLik
             model.toggleItemInCollection(cardId);
             coloriseCollectionButton();
         });
-        if(myCards != null){
+        if (myCards != null) {
             for (MyCard myCard : myCards) {
                 if (cardId.equals(myCard.getCardId())) {
                     addToCollection.setChecked(true);
@@ -585,11 +584,11 @@ public class CardDetailsActivity extends AppCompatActivity implements IRatingLik
         }
     }
 
-    private void coloriseCollectionButton(){
-        if(addToCollection.isChecked()){
+    private void coloriseCollectionButton() {
+        if (addToCollection.isChecked()) {
             int color = getResources().getColor(R.color.colorPrimaryLight);
             setDrawableTint(addToCollection, color);
-        }else{
+        } else {
             int color = getResources().getColor(android.R.color.darker_gray);
             setDrawableTint(addToCollection, color);
         }

@@ -1,12 +1,11 @@
 package ch.FOW_Collection.data.repositories;
 
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-
 import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveData;
 import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveDataArray;
 import ch.FOW_Collection.domain.models.CardEdition;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 public class CardEditionsRepository {
     //region private static
@@ -15,6 +14,7 @@ public class CardEditionsRepository {
 
     /**
      * Get Query for all cards.
+     *
      * @return Query for all cards
      */
     private static Query allEditionsQuery() {
@@ -25,6 +25,7 @@ public class CardEditionsRepository {
 
     /**
      * Get LiveData of all cardEditions.
+     *
      * @return LiveDataArray of all cardEditions.
      */
     private final FirestoreQueryLiveDataArray<CardEdition> allCardEditions() {
@@ -34,6 +35,7 @@ public class CardEditionsRepository {
 
     /**
      * Get DocumentReference of a single cardEdition.
+     *
      * @param cardEditionId Id of the card.
      * @return DocumentReference of a single cardEdition.
      */
@@ -46,6 +48,7 @@ public class CardEditionsRepository {
 
     /**
      * Get LiveData of a single cardEdition.
+     *
      * @param cardEditionId Id of the cardEdition.
      * @return LiveData of a single cardEdition.
      */

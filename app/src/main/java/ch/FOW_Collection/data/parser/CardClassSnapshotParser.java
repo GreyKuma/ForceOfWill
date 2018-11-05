@@ -1,16 +1,14 @@
 package ch.FOW_Collection.data.parser;
 
 import android.util.Log;
-
-import ch.FOW_Collection.data.repositories.*;
-import com.google.firebase.firestore.DocumentSnapshot;
-
-import java.util.Iterator;
-
 import androidx.annotation.NonNull;
+import ch.FOW_Collection.data.repositories.*;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.CardAbility;
 import ch.FOW_Collection.domain.models.CardCost;
+import com.google.firebase.firestore.DocumentSnapshot;
+
+import java.util.Iterator;
 
 public class CardClassSnapshotParser extends EntityClassSnapshotParser<Card> {
     public static final String TAG = "CardClassSnapshotParser";
@@ -48,7 +46,7 @@ public class CardClassSnapshotParser extends EntityClassSnapshotParser<Card> {
         CardAttributeRepository cardAttributeRepository = new CardAttributeRepository();
         if (card.getCost() != null) {
             Iterator<CardCost> it = card.getCost().iterator();
-            while(it.hasNext()) {
+            while (it.hasNext()) {
                 CardCost current = it.next();
                 if (current.getTypeId() != null) {
                     current.setType(cardAttributeRepository.getCardAttributeById(current.getTypeId()));
@@ -60,14 +58,14 @@ public class CardClassSnapshotParser extends EntityClassSnapshotParser<Card> {
             CardAbilityTypeRepository cardAbilityTypeRepository = new CardAbilityTypeRepository();
 
             Iterator<CardAbility> it = card.getAbility().iterator();
-            while(it.hasNext()) {
+            while (it.hasNext()) {
                 CardAbility current = it.next();
                 if (current.getTypeId() != null) {
                     current.setType(cardAbilityTypeRepository.getAbilityTypeById(current.getTypeId()));
 
                     if (current.getCost() != null) {
                         Iterator<CardCost> itCost = current.getCost().iterator();
-                        while(it.hasNext()) {
+                        while (it.hasNext()) {
                             CardCost currentCost = itCost.next();
                             if (currentCost != null && currentCost.getTypeId() != null) {
                                 currentCost.setType(cardAttributeRepository.getCardAttributeById(currentCost.getTypeId()));

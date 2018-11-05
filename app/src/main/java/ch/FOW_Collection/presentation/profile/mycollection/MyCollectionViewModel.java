@@ -3,10 +3,10 @@ package ch.FOW_Collection.presentation.profile.mycollection;
 import android.util.Pair;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import ch.FOW_Collection.data.repositories.*;
-import ch.FOW_Collection.domain.models.*;
-import com.google.android.gms.tasks.Task;
+import ch.FOW_Collection.data.repositories.MyCollectionRepository;
+import ch.FOW_Collection.domain.models.MyCard;
 import ch.FOW_Collection.presentation.MainViewModel;
+import com.google.android.gms.tasks.Task;
 import com.google.common.base.Strings;
 
 import java.util.ArrayList;
@@ -36,7 +36,9 @@ public class MyCollectionViewModel extends MainViewModel {
         currentUserId.setValue(getCurrentUserId().getValue());
     }
 
-    public LiveData<List<MyCard>> getMyCollection() {return myCollection;}
+    public LiveData<List<MyCard>> getMyCollection() {
+        return myCollection;
+    }
 
     private static List<MyCard> filter(Pair<String, List<MyCard>> input) {
         String searchTerm = input.first;
@@ -49,7 +51,7 @@ public class MyCollectionViewModel extends MainViewModel {
         }
         ArrayList<MyCard> filtered = new ArrayList<>();
         for (MyCard card : myCards) {
-            if(card.getCard().getValue() != null){
+            if (card.getCard().getValue() != null) {
                 if (card.getCard().getValue().getName().getDe().toLowerCase().contains(searchTerm.toLowerCase())) {
                     filtered.add(card);
                 }
@@ -62,7 +64,7 @@ public class MyCollectionViewModel extends MainViewModel {
         return myFilteredCards;
     }
 
-    public LiveData<MyCard> getMyCardById(String cardId){
+    public LiveData<MyCard> getMyCardById(String cardId) {
         return myCollectionRepository.getCardById(currentUserId.getValue(), cardId);
     }
 
@@ -70,15 +72,15 @@ public class MyCollectionViewModel extends MainViewModel {
         this.searchTerm.setValue(searchTerm);
     }
 
-    public Task<Void> toggleCardInCollection(String itemId){
+    public Task<Void> toggleCardInCollection(String itemId) {
         return myCollectionRepository.toggleCardInCollection(currentUserId.getValue(), itemId);
     }
 
-    public Task<Void> addOneToCardAmount(MyCard myCard, String type){
+    public Task<Void> addOneToCardAmount(MyCard myCard, String type) {
         return myCollectionRepository.addOneToCardAmount(currentUserId.getValue(), myCard, type);
     }
 
-    public Task<Void> subOneFromCardAmount(MyCard myCard, String type){
+    public Task<Void> subOneFromCardAmount(MyCard myCard, String type) {
         return myCollectionRepository.subOneFromCardAmount(currentUserId.getValue(), myCard, type);
     }
 }

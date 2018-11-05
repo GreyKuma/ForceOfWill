@@ -1,12 +1,8 @@
 package ch.FOW_Collection.presentation.profile.myratings;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.MenuItem;
-
-import java.util.List;
-
 import android.view.View;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,11 +15,11 @@ import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.Rating;
-import ch.FOW_Collection.domain.models.User;
 import ch.FOW_Collection.domain.models.Wish;
-import ch.FOW_Collection.presentation.cardDetails.CardDetailsActivity;
 import ch.FOW_Collection.presentation.shared.ICardSelectedListener;
 import ch.FOW_Collection.presentation.shared.IWishClickedListener;
+
+import java.util.List;
 
 public class MyRatingsActivity extends AppCompatActivity implements IWishClickedListener {
 
@@ -59,7 +55,7 @@ public class MyRatingsActivity extends AppCompatActivity implements IWishClicked
 
     }
 
-    private void updateMyRatings(List<Pair<Rating,Wish>> entries) {
+    private void updateMyRatings(List<Pair<Rating, Wish>> entries) {
         adapter.submitList(entries);
         if (entries.isEmpty()) {
             emptyView.setVisibility(View.VISIBLE);

@@ -1,20 +1,13 @@
 package ch.FOW_Collection.presentation.profile.mywishlist;
 
 import android.util.Pair;
-
+import androidx.lifecycle.LiveData;
+import ch.FOW_Collection.domain.models.Card;
+import ch.FOW_Collection.domain.models.Wish;
 import ch.FOW_Collection.presentation.MainViewModel;
 import com.google.android.gms.tasks.Task;
 
 import java.util.List;
-
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-import ch.FOW_Collection.data.repositories.CardsRepository;
-import ch.FOW_Collection.data.repositories.CurrentUser;
-import ch.FOW_Collection.data.repositories.WishlistRepository;
-import ch.FOW_Collection.domain.models.Card;
-import ch.FOW_Collection.domain.models.Wish;
 
 public class WishlistViewModel extends MainViewModel {
     private static final String TAG = "WishlistViewModel";

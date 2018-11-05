@@ -3,6 +3,7 @@ package ch.FOW_Collection.presentation.shared;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+
 /*
  * A ViewPager with working "wrap_content".
  * To use it, add "class" in xml:
@@ -15,21 +16,17 @@ import android.view.View;
  * </code>
  * source: https://pristalovpavel.wordpress.com/2014/12/26/doing-it-right-vertical-scrollview-with-viewpager-and-listview/
  */
-public class WrapContentHeightViewPager extends androidx.viewpager.widget.ViewPager
-{
-    public WrapContentHeightViewPager(Context context)
-    {
+public class WrapContentHeightViewPager extends androidx.viewpager.widget.ViewPager {
+    public WrapContentHeightViewPager(Context context) {
         super(context);
     }
 
-    public WrapContentHeightViewPager(Context context, AttributeSet attrs)
-    {
+    public WrapContentHeightViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
-    {
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
         int measureSpec = MeasureSpec.getMode(heightMeasureSpec);

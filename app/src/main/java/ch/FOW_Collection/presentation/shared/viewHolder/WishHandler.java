@@ -1,7 +1,6 @@
 package ch.FOW_Collection.presentation.shared.viewHolder;
 
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 import ch.FOW_Collection.R;
@@ -19,7 +18,7 @@ public interface WishHandler {
         ToggleButton wishStatus = view.findViewById(R.id.wishStatus);
 
         wishStatus.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if(isChecked) {
+            if (isChecked) {
                 setDrawableTint(buttonView, buttonView.getResources().getColor(R.color.colorPrimaryLight));
             } else {
                 setDrawableTint(buttonView, buttonView.getResources().getColor(android.R.color.darker_gray));

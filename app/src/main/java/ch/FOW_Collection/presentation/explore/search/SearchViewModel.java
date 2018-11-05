@@ -1,19 +1,17 @@
 package ch.FOW_Collection.presentation.explore.search;
 
 import android.util.Pair;
-
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import ch.FOW_Collection.data.repositories.SearchesRepository;
+import ch.FOW_Collection.domain.models.Card;
+import ch.FOW_Collection.domain.models.Search;
 import ch.FOW_Collection.presentation.MainViewModel;
 import com.google.common.base.Strings;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import ch.FOW_Collection.data.repositories.SearchesRepository;
-import ch.FOW_Collection.domain.models.Card;
-import ch.FOW_Collection.domain.models.Search;
 
 import static androidx.lifecycle.Transformations.map;
 import static androidx.lifecycle.Transformations.switchMap;
@@ -59,7 +57,10 @@ public class SearchViewModel extends MainViewModel {
     public void setSearchTerm(String searchTerm) {
         this.searchTerm.setValue(searchTerm);
     }
-    public MutableLiveData<String> getSearchTerm() {return this.searchTerm;}
+
+    public MutableLiveData<String> getSearchTerm() {
+        return this.searchTerm;
+    }
 
     public LiveData<List<Card>> getFilteredCards() {
         return filteredCards;

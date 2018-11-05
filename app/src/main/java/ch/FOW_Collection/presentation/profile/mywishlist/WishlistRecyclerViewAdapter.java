@@ -4,22 +4,20 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import androidx.annotation.NonNull;
 import androidx.core.app.ComponentActivity;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
-import ch.FOW_Collection.presentation.shared.IWishClickedListener;
-import ch.FOW_Collection.presentation.shared.viewHolder.CardBaseListentry;
-import ch.FOW_Collection.presentation.shared.viewHolder.WishHandler;
-import ch.FOW_Collection.presentation.utils.EntityDiffItemCallback;
-
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.Wish;
+import ch.FOW_Collection.presentation.shared.IWishClickedListener;
+import ch.FOW_Collection.presentation.shared.viewHolder.CardBaseListentry;
+import ch.FOW_Collection.presentation.shared.viewHolder.WishHandler;
+import ch.FOW_Collection.presentation.utils.EntityDiffItemCallback;
 
 
 public class WishlistRecyclerViewAdapter extends ListAdapter<Wish, WishlistRecyclerViewAdapter.ViewHolder> {

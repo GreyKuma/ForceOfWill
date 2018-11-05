@@ -2,7 +2,6 @@ package ch.FOW_Collection.presentation.utils;
 
 import android.graphics.Rect;
 import android.view.View;
-
 import androidx.recyclerview.widget.RecyclerView;
 import ch.FOW_Collection.presentation.shared.GridAutofitLayoutManager;
 
@@ -16,9 +15,11 @@ import ch.FOW_Collection.presentation.shared.GridAutofitLayoutManager;
 public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
 
     private int spanCount;
+
     public int getSpanCount() {
         return this.spanCount;
     }
+
     public void setSpanCount(int spanCount) {
         this.spanCount = spanCount;
     }
@@ -41,7 +42,7 @@ public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
         // get spanCount from GridAutofitLayoutManager if present
         RecyclerView.LayoutManager layoutManager = parent.getLayoutManager();
         if (GridAutofitLayoutManager.class.equals(layoutManager.getClass())) {
-            spanCount = ((GridAutofitLayoutManager)layoutManager).getSpanCount();
+            spanCount = ((GridAutofitLayoutManager) layoutManager).getSpanCount();
         }
 
         if (position >= 0) {

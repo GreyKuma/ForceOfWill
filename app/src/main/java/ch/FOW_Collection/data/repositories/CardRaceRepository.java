@@ -1,17 +1,16 @@
 package ch.FOW_Collection.data.repositories;
 
+import androidx.arch.core.util.Function;
+import androidx.lifecycle.LiveData;
+import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveData;
+import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveDataArray;
+import ch.FOW_Collection.domain.models.CardRace;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.arch.core.util.Function;
-import androidx.lifecycle.LiveData;
-import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveData;
-import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveDataArray;
-import ch.FOW_Collection.domain.models.CardRace;
 
 import static androidx.lifecycle.Transformations.map;
 
@@ -22,6 +21,7 @@ public class CardRaceRepository {
 
     /**
      * Get Query for all cardRaces.
+     *
      * @return Query for all cardRaces
      */
     private static Query allCardRacesQuery() {
@@ -32,6 +32,7 @@ public class CardRaceRepository {
 
     /**
      * Get LiveData of all cardRaces.
+     *
      * @return LiveDataArray of all cardRaces.
      */
     private FirestoreQueryLiveDataArray<CardRace> allCardRaces() {
@@ -41,6 +42,7 @@ public class CardRaceRepository {
 
     /**
      * Get DocumentReference of a single cardRace.
+     *
      * @param cardRaceId Id of the cardRace.
      * @return DocumentReference of a single cardRace.
      */
@@ -53,6 +55,7 @@ public class CardRaceRepository {
 
     /**
      * Get LiveData of a single cardRace.
+     *
      * @param cardRaceId Id of the cardRace.
      * @return LiveData of a single cardRace.
      */
@@ -60,7 +63,6 @@ public class CardRaceRepository {
         return new FirestoreQueryLiveData<>(
                 cardRaceByIdQuery(cardRaceId), CardRace.class);
     }
-
 
 
     //endregion

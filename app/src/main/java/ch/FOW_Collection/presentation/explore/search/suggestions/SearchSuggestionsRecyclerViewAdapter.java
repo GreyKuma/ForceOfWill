@@ -5,20 +5,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
-import ch.FOW_Collection.domain.models.Search;
 import ch.FOW_Collection.domain.models.Card;
+import ch.FOW_Collection.domain.models.Search;
 import ch.FOW_Collection.presentation.explore.search.suggestions.SearchSuggestionsFragment.OnItemSelectedListener;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 public class SearchSuggestionsRecyclerViewAdapter
@@ -62,10 +61,10 @@ public class SearchSuggestionsRecyclerViewAdapter
         notifyDataSetChanged();
     }
 
-    public void setPopularSearches(List<Card> cards){
+    public void setPopularSearches(List<Card> cards) {
         this.popularSearches.clear();
         for (Card card : cards) {
-            if(!this.popularSearches.contains(card.getName().getDe())){
+            if (!this.popularSearches.contains(card.getName().getDe())) {
                 this.popularSearches.add(card.getName().getDe());
             }
         }

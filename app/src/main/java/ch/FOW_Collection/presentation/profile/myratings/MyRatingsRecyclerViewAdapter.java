@@ -4,33 +4,19 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RatingBar;
-import android.widget.TextView;
-
-import androidx.lifecycle.Observer;
-import ch.FOW_Collection.domain.models.Card;
-import ch.FOW_Collection.domain.models.User;
-import ch.FOW_Collection.presentation.shared.CardImageLoader;
-import ch.FOW_Collection.presentation.shared.ICardSelectedListener;
-import ch.FOW_Collection.presentation.shared.viewHolder.CardBaseListentry;
-import ch.FOW_Collection.presentation.shared.viewHolder.RatingListentry;
-import com.bumptech.glide.request.RequestOptions;
-
-import java.text.DateFormat;
-
 import androidx.annotation.NonNull;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import ch.FOW_Collection.GlideApp;
 import ch.FOW_Collection.R;
+import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.Rating;
 import ch.FOW_Collection.domain.models.Wish;
+import ch.FOW_Collection.presentation.shared.ICardSelectedListener;
+import ch.FOW_Collection.presentation.shared.viewHolder.CardBaseListentry;
+import ch.FOW_Collection.presentation.shared.viewHolder.RatingListentry;
 import ch.FOW_Collection.presentation.utils.EntityPairDiffItemCallback;
-import com.google.firebase.storage.FirebaseStorage;
 
 
 public class MyRatingsRecyclerViewAdapter

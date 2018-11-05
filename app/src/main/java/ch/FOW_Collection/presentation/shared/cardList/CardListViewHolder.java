@@ -4,15 +4,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-
-import com.bumptech.glide.RequestManager;
-
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.presentation.shared.CardImageLoader;
+import com.bumptech.glide.RequestManager;
 
 
 /**

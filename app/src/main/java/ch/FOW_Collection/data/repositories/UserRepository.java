@@ -1,7 +1,6 @@
 package ch.FOW_Collection.data.repositories;
 
 import androidx.lifecycle.LiveData;
-import ch.FOW_Collection.data.parser.EntityClassSnapshotParser;
 import ch.FOW_Collection.data.parser.UserClassSnapshotParser;
 import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveData;
 import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveDataArray;
@@ -21,6 +20,7 @@ public class UserRepository {
 
     /**
      * Get Query for all users.
+     *
      * @return Query for all users.
      */
     private static Query allUsersQuery() {
@@ -31,6 +31,7 @@ public class UserRepository {
 
     /**
      * Get LiveData of all users.
+     *
      * @return LiveDataArray of all users.
      */
     private static FirestoreQueryLiveDataArray<User> allUsers() {
@@ -40,6 +41,7 @@ public class UserRepository {
 
     /**
      * Get DocumentReference of a single user.
+     *
      * @param userId Id of the card.
      * @return DocumentReference of a single user.
      */
@@ -52,6 +54,7 @@ public class UserRepository {
 
     /**
      * Get LiveData of a single user.
+     *
      * @param userId Id of a user.
      * @return LiveData of a single user.
      */
@@ -66,6 +69,7 @@ public class UserRepository {
 
     /**
      * Get LiveData of all users.
+     *
      * @return LiveDataArray of all users.
      */
     public FirestoreQueryLiveDataArray<User> getAllUsers() {
@@ -74,6 +78,7 @@ public class UserRepository {
 
     /**
      * Get LiveData of a single user.
+     *
      * @param userId Id of a user.
      * @return LiveData of a single user.
      */
@@ -83,6 +88,7 @@ public class UserRepository {
 
     /**
      * Get LiveData of a single user.
+     *
      * @param userId Id of a user.
      * @return LiveData of a single user.
      */

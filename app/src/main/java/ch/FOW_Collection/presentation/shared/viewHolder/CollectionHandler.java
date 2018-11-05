@@ -29,7 +29,7 @@ public interface CollectionHandler {
         foil1Down.setOnClickListener(v -> listener.onCollectionFoilDownClickedListener(myCard));
 
         collectionStatus.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if(isChecked) {
+            if (isChecked) {
                 setDrawableTint(buttonView, buttonView.getResources().getColor(R.color.colorPrimaryLight));
             } else {
                 setDrawableTint(buttonView, buttonView.getResources().getColor(android.R.color.darker_gray));

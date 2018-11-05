@@ -3,13 +3,12 @@ package ch.FOW_Collection.domain.models;
 import androidx.lifecycle.LiveData;
 import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.IgnoreExtraProperties;
-
-import java.util.Date;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+
+import java.util.Date;
 
 @IgnoreExtraProperties
 @Data

@@ -1,35 +1,20 @@
 package ch.FOW_Collection.presentation.explore.search.cards;
 
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RatingBar;
-import android.widget.TextView;
-
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.MutableLiveData;
-import ch.FOW_Collection.presentation.shared.ICardSelectedListener;
-import ch.FOW_Collection.presentation.shared.viewHolder.CardBaseListentry;
-import com.bumptech.glide.request.RequestOptions;
-
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import ch.FOW_Collection.GlideApp;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Card;
-import ch.FOW_Collection.presentation.explore.search.cards.SearchResultFragment.OnItemSelectedListener;
+import ch.FOW_Collection.presentation.shared.ICardSelectedListener;
+import ch.FOW_Collection.presentation.shared.viewHolder.CardBaseListentry;
 import ch.FOW_Collection.presentation.utils.EntityDiffItemCallback;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 public class SearchResultRecyclerViewAdapter extends RecyclerView.Adapter<SearchResultRecyclerViewAdapter.ViewHolder> {

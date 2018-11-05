@@ -1,17 +1,12 @@
 package ch.FOW_Collection.presentation;
 
-import ch.FOW_Collection.data.repositories.*;
-import ch.FOW_Collection.domain.models.*;
-import ch.FOW_Collection.presentation.profile.mycollection.MyCollectionActivity;
-import com.firebase.ui.firestore.FirestoreArray;
-import ch.FOW_Collection.domain.models.Rating;
-import ch.FOW_Collection.domain.models.Wish;
-import com.google.android.gms.tasks.Task;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import ch.FOW_Collection.data.repositories.*;
 import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveDataArray;
+import ch.FOW_Collection.domain.models.*;
+import com.google.android.gms.tasks.Task;
 
 import java.util.List;
 
@@ -23,6 +18,7 @@ public class MainViewModel extends ViewModel implements CurrentUser {
 
     protected final CardsRepository cardsRepository;
     protected final CardEditionsRepository cardEditionsRepository;
+    protected final MyCollectionRepository myCollectionRepository;
 
     protected final RatingsRepository ratingsRepository;
     protected final WishlistRepository wishlistRepository;
@@ -35,6 +31,7 @@ public class MainViewModel extends ViewModel implements CurrentUser {
     protected final MutableLiveData<String> currentUserId;
     protected final LiveData<User> currentUser;
 
+
     public MainViewModel() {
         /*
          * TODO We should really be injecting these!
@@ -44,8 +41,7 @@ public class MainViewModel extends ViewModel implements CurrentUser {
 
         wishlistRepository = new WishlistRepository();
         ratingsRepository = new RatingsRepository();
-        MyCollectionRepository myCollectionRepository = new MyCollectionRepository();
-
+        myCollectionRepository = new MyCollectionRepository();
         userRepository = new UserRepository();
 
         currentUserId = new MutableLiveData<>();
@@ -65,12 +61,6 @@ public class MainViewModel extends ViewModel implements CurrentUser {
         currentUserId.setValue(getCurrentFirebaseUser().getUid());
     }
 
-
-
-//    public LiveData<List<MyBeer>> getMyBeers() {
-//        return myBeers;
-//    }
-
     public MutableLiveData<String> getCurrentUserId() {
         return currentUserId;
     }
@@ -83,7 +73,7 @@ public class MainViewModel extends ViewModel implements CurrentUser {
         return myRatings;
     }
 
-    public LiveData<List<MyCard>> getMyCollection(){
+    public LiveData<List<MyCard>> getMyCollection() {
         return myCollection;
     }
 
@@ -91,37 +81,12 @@ public class MainViewModel extends ViewModel implements CurrentUser {
         return myWishlist;
     }
 
-//    public LiveData<List<String>> getBeerCategories() {
-//        return beersRepository.getBeerCategories();
-//    }
-//
-//    public LiveData<List<String>> getBeerManufacturers() {
-//        return beersRepository.getBeerManufacturers();
-//    }
-
-//    public void toggleLike(Rating rating) {
-//        likesRepository.toggleLike(rating);
-//    }
-
-    public Task<Void> toggleItemInWishlist(String itemId) {
-        return wishlistRepository.toggleUserWishlistItem(currentUserId.getValue(), itemId);
-    }
-
-//    public LiveData<List<Pair<Rating, Wish>>> getAllRatingsWithWishes() {
-//        return ratingsRepository.getAllRatingsWithWishes(myWishlist);
-//    }
-
     /*
      * CardRepository
      */
 
-
     public FirestoreQueryLiveDataArray<Card> getAllCards() {
         return cardsRepository.getAllCards();
-    }
-
-    public LiveData<Card> getCardById(String cardId) {
-        return cardsRepository.getCardById(cardId);
     }
 
     public FirestoreQueryLiveDataArray<Card> getCardsTopRated(int limit) {
@@ -134,5 +99,13 @@ public class MainViewModel extends ViewModel implements CurrentUser {
 
     public FirestoreQueryLiveDataArray<CardEdition> getCardEditions() {
         return cardEditionsRepository.getAllEditions();
+    }
+
+    /*
+     * WishlistRepository
+     */
+
+    public Task<Void> toggleItemInWishlist(String itemId) {
+        return wishlistRepository.toggleUserWishlistItem(currentUserId.getValue(), itemId);
     }
 }

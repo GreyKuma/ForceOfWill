@@ -1,7 +1,6 @@
 package ch.FOW_Collection.presentation.shared.cardList;
 
 import android.os.Bundle;
-
 import androidx.recyclerview.widget.RecyclerView;
 import ch.FOW_Collection.presentation.explore.ExploreFragment;
 

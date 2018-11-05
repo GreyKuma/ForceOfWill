@@ -6,9 +6,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-
-import java.util.List;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
@@ -22,6 +19,8 @@ import ch.FOW_Collection.domain.models.Wish;
 import ch.FOW_Collection.presentation.cardDetails.CardDetailsActivity;
 import ch.FOW_Collection.presentation.shared.IWishClickedListener;
 import lombok.val;
+
+import java.util.List;
 
 public class WishlistActivity extends AppCompatActivity implements IWishClickedListener {
 
