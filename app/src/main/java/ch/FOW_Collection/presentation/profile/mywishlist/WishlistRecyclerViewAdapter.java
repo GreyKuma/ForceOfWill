@@ -77,7 +77,7 @@ public class WishlistRecyclerViewAdapter extends ListAdapter<Wish, WishlistRecyc
             super(view);
         }
 
-        void bind(Wish wish, OnWishlistItemInteractionListener listener) {
+        void bind(Wish wish, IWishClickedListener listener) {
             wish.getCard().observe(lifecycleOwner, new Observer<Card>() {
                 @Override
                 public void onChanged(Card card) {
