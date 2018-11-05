@@ -148,7 +148,7 @@ public class MyCollectionRecyclerViewAdapter extends ListAdapter<String, MyColle
                             ratingBar.setRating(card.getAvgRating());
 
                             numRatings.setText(itemView.getResources().getQuantityString(R.plurals.fmt_num_ratings, card.getNumRatings()));
-                            itemView.setOnClickListener(v -> listener.onMoreClickedListener(photo, card));
+                            itemView.setOnClickListener(v -> listener.onMoreClickedListener(cardImage, card));
                             remove.setOnClickListener(v -> listener.onRemoveClickedListener(card));
                         }
                     }
