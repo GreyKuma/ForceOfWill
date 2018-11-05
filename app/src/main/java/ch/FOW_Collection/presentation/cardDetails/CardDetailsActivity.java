@@ -2,7 +2,9 @@ package ch.FOW_Collection.presentation.cardDetails;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.view.*;
 import android.widget.*;
 
 import ch.FOW_Collection.domain.models.*;
+import ch.FOW_Collection.presentation.shared.IRatingLikedListener;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
@@ -43,7 +46,7 @@ import ch.FOW_Collection.presentation.shared.CardImageLoader;
 
 import static ch.FOW_Collection.presentation.utils.DrawableHelpers.setDrawableTint;
 
-public class CardDetailsActivity extends AppCompatActivity implements OnRatingLikedListener {
+public class CardDetailsActivity extends AppCompatActivity implements IRatingLikedListener {
 
     public static final String ITEM_ID = "item_id";
     private static final String TAG = "CardDetailsActivity";
@@ -609,4 +612,12 @@ public class CardDetailsActivity extends AppCompatActivity implements OnRatingLi
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    @OnClick(R.id.cardImage)
+    public void onImageClick(View view) {
+        //Bitmap bm = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+        //CardImageLoader.openImageExtern(this, bm);
+        CardImageLoader.openImageExternStorage(this, model.getCard().getValue().getImageStorageUrl());
+    }
+
 }

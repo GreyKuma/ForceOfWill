@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.MutableLiveData;
+import ch.FOW_Collection.presentation.shared.ICardSelectedListener;
+import ch.FOW_Collection.presentation.shared.viewHolder.CardBaseListentry;
 import com.bumptech.glide.request.RequestOptions;
 
 import androidx.annotation.NonNull;
@@ -34,11 +36,11 @@ public class SearchResultRecyclerViewAdapter extends RecyclerView.Adapter<Search
 
     private static final EntityDiffItemCallback<Card> DIFF_CALLBACK = new EntityDiffItemCallback<>();
 
-    private final OnItemSelectedListener listener;
+    private final ICardSelectedListener listener;
     private final MutableLiveData<String> searchText;
     private List<Card> cards;
 
-    public SearchResultRecyclerViewAdapter(OnItemSelectedListener listener, @Nullable MutableLiveData<String> searchText) {
+    public SearchResultRecyclerViewAdapter(ICardSelectedListener listener, @Nullable MutableLiveData<String> searchText) {
         super();
         this.listener = listener;
         this.searchText = searchText;
@@ -72,60 +74,13 @@ public class SearchResultRecyclerViewAdapter extends RecyclerView.Adapter<Search
         notifyDataSetChanged();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
-
-        @BindView(R.id.cardName)
-        TextView name;
-
-        @BindView(R.id.rarity)
-        TextView rarityLable;
-
-        @BindView(R.id.category)
-        TextView category;
-
-        @BindView(R.id.cardId)
-        TextView cardId;
-
-        @BindView(R.id.cardImage)
-        ImageView cardImage;
-
-        @BindView(R.id.cardRatingBar)
-        RatingBar ratingBar;
-
-        @BindView(R.id.cardNumRatings)
-        TextView numRatings;
-
-        ViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, itemView);
+    class ViewHolder extends RecyclerView.ViewHolder implements CardBaseListentry {
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
         }
 
-        void bind(Card card, OnItemSelectedListener listener, String searchText) {
-            // highlight text
-            SpannableString cardName = new SpannableString(card.getName().getDe());
-            Pattern pattern = Pattern.compile(searchText);
-            Matcher matcher = pattern.matcher(card.getName().getDe().toLowerCase());
-            while (matcher.find()) {
-                cardName.setSpan(new ForegroundColorSpan(itemView.getResources().getColor(R.color.colorPrimaryLight)), matcher.start(), matcher.end(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
-
-            name.setText(cardName);
-            if(card.getRarity() != null){
-                category.setText(itemView.getResources().getString(R.string.fmt_rarity, card.getRarity()));
-            }else{
-                category.setText(card.getRarity());
-            }
-            cardId.setText(card.getIdStr());
-            GlideApp.with(itemView).load(card.getImageSrcUrl()).apply(new RequestOptions().override(240, 240).centerInside())
-                    .into(cardImage);
-            ratingBar.setNumStars(5);
-            ratingBar.setRating(card.getAvgRating());
-            if(card.getNumRatings() == 0){
-                numRatings.setText(R.string.fmt_no_ratings);
-            }else{
-                numRatings.setText(itemView.getResources().getQuantityString(R.plurals.fmt_num_ratings, card.getNumRatings(), card.getNumRatings()));
-            }
-            itemView.setOnClickListener(v -> listener.onSearchResultListItemSelected(cardImage, card));
+        void bind(Card card, ICardSelectedListener listener, String searchText) {
+            bindCardBaseListentry(itemView, card, listener, searchText);
         }
     }
 }

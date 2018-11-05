@@ -13,6 +13,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.MyCard;
+import ch.FOW_Collection.presentation.shared.ICollectionInteractionListener;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -22,7 +23,7 @@ public class MyCollectionFragment extends Fragment {
 
     private static final String TAG = "MyCollectionFragment";
 
-    private OnMyCardItemInteractionListener interactionListener;
+    private ICollectionInteractionListener interactionListener;
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
@@ -77,10 +78,10 @@ public class MyCollectionFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnMyCardItemInteractionListener) {
-            interactionListener = (OnMyCardItemInteractionListener) context;
+        if (context instanceof ICollectionInteractionListener) {
+            interactionListener = (ICollectionInteractionListener) context;
         } else {
-            throw new RuntimeException(context.toString() + " must implement OnItemSelectedListener");
+            throw new RuntimeException(context.toString() + " must implement ICollectionInteractionListener");
         }
     }
 

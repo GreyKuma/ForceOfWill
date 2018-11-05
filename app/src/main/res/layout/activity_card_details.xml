@@ -93,13 +93,13 @@
 
                         <RatingBar
                             android:id="@+id/cardRatingBar"
-                            style="?android:attr/ratingBarStyleSmall"
+                            style="@style/RatingBar.Small"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:isIndicator="true"
                             android:numStars="5"
                             android:rating="3.3"
-                            android:stepSize="0.5"
+                            android:stepSize="0.1"
                             android:theme="@style/RatingBar"
                             app:layout_constraintStart_toStartOf="@+id/cardAvgRating"
                             app:layout_constraintTop_toBottomOf="@+id/cardAvgRating" />
@@ -358,7 +358,7 @@
                         android:id="@+id/recyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        tools:listitem="@layout/activity_card_details_ratings_listentry" />
+                        tools:listitem="@layout/fragment_rating_listentry" />
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
