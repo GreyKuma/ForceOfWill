@@ -1,6 +1,7 @@
 package ch.FOW_Collection.presentation.shared.viewHolder;
 
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 import ch.FOW_Collection.R;
@@ -17,7 +18,7 @@ public interface WishHandler {
         TextView wishAddedAt = view.findViewById(R.id.wishAddedAt);
         ToggleButton wishStatus = view.findViewById(R.id.wishStatus);
 
-        wishStatus.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        wishStatus.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked) -> {
             if (isChecked) {
                 setDrawableTint(buttonView, buttonView.getResources().getColor(R.color.colorPrimaryLight));
             } else {
@@ -30,12 +31,8 @@ public interface WishHandler {
                     DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.SHORT).format(wish.getAddedAt());
             wishAddedAt.setText(formattedDate);
 
-            int color = view.getResources().getColor(R.color.colorPrimaryLight);
-            setDrawableTint(wishStatus, color);
             wishStatus.setChecked(true);
         } else {
-            int color = view.getResources().getColor(android.R.color.darker_gray);
-            setDrawableTint(wishStatus, color);
             wishStatus.setChecked(false);
         }
 

@@ -39,6 +39,12 @@ public class WishlistRepository {
         return new FirestoreQueryLiveData<>(document, parser);
     }
 
+    private static LiveData<Wish> wishById(String wishId) {
+        DocumentReference document = FirebaseFirestore.getInstance().collection(Wish.COLLECTION)
+                .document(wishId);
+        return new FirestoreQueryLiveData<>(document, parser);
+    }
+
     public Task<Void> toggleUserWishlistItem(String userId, String itemId) {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -87,13 +93,15 @@ public class WishlistRepository {
         return switchMap(zip(currentUser, card), WishlistRepository::wishlistByUserIdForCard);
     }*/
 
-    @Deprecated
     public LiveData<List<Wish>> getMyWishlist(LiveData<String> currentUserId) {
         return switchMap(currentUserId, WishlistRepository::wishlistByUserId);
     }
 
-    @Deprecated
     public LiveData<Wish> getMyWishForCard(LiveData<String> currentUserId, LiveData<Card> card) {
         return switchMap(combineLatest(currentUserId, card), WishlistRepository::wishlistByUserIdForCard);
+    }
+
+    public LiveData<Wish> getWishById(String id) {
+        return wishById(id);
     }
 }

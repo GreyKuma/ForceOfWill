@@ -16,10 +16,13 @@ import butterknife.ButterKnife;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.domain.models.Wish;
+import ch.FOW_Collection.presentation.MainViewModel;
 import ch.FOW_Collection.presentation.cardDetails.CardDetailsActivity;
 import ch.FOW_Collection.presentation.shared.IWishClickedListener;
 import lombok.val;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class WishlistActivity extends AppCompatActivity implements IWishClickedListener {
@@ -33,7 +36,7 @@ public class WishlistActivity extends AppCompatActivity implements IWishClickedL
     @BindView(R.id.emptyView)
     View emptyView;
 
-    private WishlistViewModel model;
+    private MainViewModel model;
     private WishlistRecyclerViewAdapter adapter;
 
     @Override
@@ -46,21 +49,27 @@ public class WishlistActivity extends AppCompatActivity implements IWishClickedL
         getSupportActionBar().setTitle(getString(R.string.title_activity_wishlist));
 
 
-        model = ViewModelProviders.of(this).get(WishlistViewModel.class);
+        model = ViewModelProviders.of(this).get(MainViewModel.class);
         //model.getMyWishlistWithCards().observe(this, this::updateWishlist);
         model.getMyWishlist().observe(this, this::updateWishlist);
 
         val layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new WishlistRecyclerViewAdapter(this);
+        adapter = new WishlistRecyclerViewAdapter(this, model);
 
         recyclerView.setAdapter(adapter);
 
     }
 
     private void updateWishlist(List<Wish> entries) { //(List<Pair<Wish, Card>> entries) {
-        adapter.submitList(entries);
+        List<String> entriesIds = new ArrayList<>();
+        Iterator<Wish> it = entries.iterator();
+        while (it.hasNext()) {
+            entriesIds.add(it.next().getId());
+        }
+
+        adapter.submitList(entriesIds);
         if (entries.isEmpty()) {
             emptyView.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
