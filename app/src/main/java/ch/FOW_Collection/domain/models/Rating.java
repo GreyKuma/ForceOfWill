@@ -4,15 +4,12 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.lifecycle.LiveData;
 import com.google.firebase.firestore.Exclude;
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
@@ -54,6 +51,7 @@ public class Rating implements Entity, Parcelable {
     public static String generateId(String userId, String cardId) {
         return String.format("%s_%s", userId, cardId);
     }
+
     /************/
 
 

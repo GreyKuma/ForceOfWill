@@ -1,15 +1,14 @@
 package ch.FOW_Collection.data.repositories;
 
+import androidx.lifecycle.LiveData;
+import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveData;
+import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveDataArray;
+import ch.FOW_Collection.domain.models.CardAbilityType;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 import java.util.List;
-
-import androidx.lifecycle.LiveData;
-import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveData;
-import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveDataArray;
-import ch.FOW_Collection.domain.models.CardAbilityType;
 
 public class CardAbilityTypeRepository {
     //region private static
@@ -18,6 +17,7 @@ public class CardAbilityTypeRepository {
 
     /**
      * Get Query for all cardAbilityTypes.
+     *
      * @return Query for all cardAbilityTypes
      */
     private static Query allCardAbilityTypesQuery() {
@@ -28,6 +28,7 @@ public class CardAbilityTypeRepository {
 
     /**
      * Get LiveData of all cardAbilityTypes.
+     *
      * @return LiveDataArray of all cardAbilityTypes.
      */
     private FirestoreQueryLiveDataArray<CardAbilityType> allCardAbilityTypes() {
@@ -37,6 +38,7 @@ public class CardAbilityTypeRepository {
 
     /**
      * Get DocumentReference of a single cardAbilityType.
+     *
      * @param cardAbilityTypeId Id of the cardAbilityType.
      * @return DocumentReference of a single cardAbilityType.
      */
@@ -49,6 +51,7 @@ public class CardAbilityTypeRepository {
 
     /**
      * Get LiveData of a single cardAbilityType.
+     *
      * @param cardAbilityTypeId Id of the cardAbilityType.
      * @return LiveData of a single cardAbilityType.
      */

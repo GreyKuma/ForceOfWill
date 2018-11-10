@@ -8,13 +8,11 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.LiveData;
 import ch.FOW_Collection.GlideApp;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.presentation.shared.CardImageLoader;
 import ch.FOW_Collection.presentation.shared.ICardSelectedListener;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.common.base.Strings;
 
 import java.util.regex.Matcher;
@@ -54,9 +52,9 @@ public interface CardBaseListentry {
         cardName.setText(cardNameText);
 
         // cardRarity
-        if(card.getRarity() != null){
+        if (card.getRarity() != null) {
             cardRarity.setText(view.getResources().getString(R.string.fmt_rarity, card.getRarity()));
-        }else{
+        } else {
             cardRarity.setText(card.getRarity());
         }
 
@@ -68,9 +66,9 @@ public interface CardBaseListentry {
         cardRatingBar.setRating(card.getAvgRating());
 
         // cardNumRatings
-        if(card.getNumRatings() == 0){
+        if (card.getNumRatings() == 0) {
             cardNumRatings.setText(R.string.fmt_no_ratings);
-        }else{
+        } else {
             cardNumRatings.setText(view.getResources().getQuantityString(R.plurals.fmt_num_ratings, card.getNumRatings(), card.getNumRatings()));
         }
 

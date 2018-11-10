@@ -1,21 +1,15 @@
 package ch.FOW_Collection.presentation.profile.myratings;
 
 import android.util.Pair;
+import androidx.lifecycle.LiveData;
+import ch.FOW_Collection.domain.models.Rating;
+import ch.FOW_Collection.domain.models.Wish;
+import ch.FOW_Collection.presentation.MainViewModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-import ch.FOW_Collection.data.repositories.CurrentUser;
-import ch.FOW_Collection.data.repositories.RatingsRepository;
-import ch.FOW_Collection.data.repositories.WishlistRepository;
-import ch.FOW_Collection.domain.models.Rating;
-import ch.FOW_Collection.domain.models.Wish;
-import ch.FOW_Collection.presentation.MainViewModel;
 
 import static androidx.lifecycle.Transformations.map;
 import static ch.FOW_Collection.domain.liveData.LiveDataExtensions.combineLatest;

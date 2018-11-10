@@ -1,7 +1,6 @@
 package ch.FOW_Collection.presentation.shared.cardList;
 
 import android.content.Context;
-
 import androidx.core.app.ComponentActivity;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.ListAdapter;

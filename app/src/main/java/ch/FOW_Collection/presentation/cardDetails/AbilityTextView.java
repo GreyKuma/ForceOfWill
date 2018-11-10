@@ -9,25 +9,15 @@ import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
-import android.text.style.DynamicDrawableSpan;
 import android.text.style.ImageSpan;
 import android.text.style.ReplacementSpan;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Pair;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.data.repositories.CardAbilityTypeRepository;
@@ -36,6 +26,11 @@ import ch.FOW_Collection.domain.models.CardAbility;
 import ch.FOW_Collection.domain.models.CardAbilityType;
 import ch.FOW_Collection.domain.models.CardAttribute;
 import ch.FOW_Collection.domain.models.MultiLanguageString;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 // Ideas stolen from https://stackoverflow.com/questions/15352496/how-to-add-image-in-a-textview-text
 @SuppressLint("AppCompatCustomView")
@@ -138,14 +133,14 @@ public class AbilityTextView extends TextView {
                                 final Drawable drawable = getContext().getResources().getDrawable(R.drawable.ic_possa);
                                 drawable.mutate();
                                 drawable.setBounds(0, 0,
-                                        (int) (getLineHeight()*1.1),
+                                        (int) (getLineHeight() * 1.1),
                                         getLineHeight());
 
                                 spannable.setSpan(new ImageSpan(drawable, ImageSpan.ALIGN_BOTTOM),
                                         data.first.first,
                                         data.first.second,
                                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            } else if (!value.getEn().toLowerCase().equals("always")){
+                            } else if (!value.getEn().toLowerCase().equals("always")) {
                                 // don't render "Dauerhaft"/"Always"....
                                 // replace placeholder with CircleSpan
 

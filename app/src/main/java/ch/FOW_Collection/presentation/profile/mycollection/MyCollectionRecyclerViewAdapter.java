@@ -12,8 +12,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import ch.FOW_Collection.R;
-import ch.FOW_Collection.domain.models.*;
-
+import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.presentation.shared.ICollectionInteractionListener;
 import ch.FOW_Collection.presentation.shared.viewHolder.CardBaseListentry;
 import ch.FOW_Collection.presentation.shared.viewHolder.CollectionHandler;

@@ -2,7 +2,9 @@ package ch.FOW_Collection.data.parser;
 
 import android.util.Log;
 import androidx.annotation.NonNull;
-import ch.FOW_Collection.data.repositories.*;
+import ch.FOW_Collection.data.repositories.MyCollectionRepository;
+import ch.FOW_Collection.data.repositories.RatingsRepository;
+import ch.FOW_Collection.data.repositories.WishlistRepository;
 import ch.FOW_Collection.domain.models.Rating;
 import ch.FOW_Collection.domain.models.User;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -34,7 +36,7 @@ public class UserClassSnapshotParser extends EntityClassSnapshotParser<User> {
 
 //        MyCollectionRepository myCollectionRepository = new MyCollectionRepository();
         user.setMyCards(MyCollectionRepository.getCollectionByUser(user.getId()));
-        
+
         return user;
     }
 

@@ -3,10 +3,6 @@ package ch.FOW_Collection.presentation.shared.cardList;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
-
-import com.firebase.ui.firestore.paging.FirestorePagingOptions;
-import com.firebase.ui.firestore.paging.LoadingState;
-
 import androidx.annotation.NonNull;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +11,8 @@ import ch.FOW_Collection.GlideApp;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Card;
 import ch.FOW_Collection.presentation.explore.ExploreFragment;
+import com.firebase.ui.firestore.paging.FirestorePagingOptions;
+import com.firebase.ui.firestore.paging.LoadingState;
 
 
 /**

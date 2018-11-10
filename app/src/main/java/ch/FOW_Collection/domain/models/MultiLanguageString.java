@@ -2,7 +2,6 @@ package ch.FOW_Collection.domain.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -39,12 +38,12 @@ public class MultiLanguageString implements Parcelable {
         if (obj == this)
             return true;
         //TODO catch if names are null
-        if(this.de != null && ((MultiLanguageString) obj).de != null &&
-                this.en != null && ((MultiLanguageString) obj).en != null){
+        if (this.de != null && ((MultiLanguageString) obj).de != null &&
+                this.en != null && ((MultiLanguageString) obj).en != null) {
             return this.de.equals(((MultiLanguageString) obj).de) && this.en.equals(((MultiLanguageString) obj).en);
-        }else if(this.de != null && ((MultiLanguageString) obj).de != null){
+        } else if (this.de != null && ((MultiLanguageString) obj).de != null) {
             return this.de.equals(((MultiLanguageString) obj).de);
-        }else if(this.en != null && ((MultiLanguageString) obj).en != null){
+        } else if (this.en != null && ((MultiLanguageString) obj).en != null) {
             return this.en.equals(((MultiLanguageString) obj).en);
         }
         return false;
@@ -52,7 +51,7 @@ public class MultiLanguageString implements Parcelable {
 
     @Override
     public int hashCode() {
-        return (de+en).hashCode();
+        return (de + en).hashCode();
     }
 
     @Override

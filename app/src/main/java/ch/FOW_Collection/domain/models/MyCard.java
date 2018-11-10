@@ -1,13 +1,9 @@
 package ch.FOW_Collection.domain.models;
 
-import android.util.Pair;
 import androidx.lifecycle.LiveData;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 import lombok.*;
-
-import java.io.Serializable;
-import java.util.Date;
 
 @IgnoreExtraProperties
 @Data
@@ -23,8 +19,10 @@ public class MyCard implements Entity {
 
     @Exclude
     private String id;
+
     @NonNull
     private String cardId;
+
     @Exclude
     private LiveData<Card> card;
 
@@ -32,7 +30,9 @@ public class MyCard implements Entity {
 
     private int amountFoil;
 
-    public int totalAmount(){return amountNormal+amountFoil;}
+    public int totalAmount() {
+        return amountNormal + amountFoil;
+    }
 
 }
 

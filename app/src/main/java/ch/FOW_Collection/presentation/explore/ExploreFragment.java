@@ -7,9 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.google.android.material.tabs.TabLayout;
-
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
@@ -20,6 +17,7 @@ import ch.FOW_Collection.R;
 import ch.FOW_Collection.presentation.MainViewModel;
 import ch.FOW_Collection.presentation.explore.search.SearchActivity;
 import ch.FOW_Collection.presentation.utils.ViewPagerAdapter;
+import com.google.android.material.tabs.TabLayout;
 
 /**
  * This fragment is the first fragment shown in the {@link ch.FOW_Collection.presentation.MainActivity}. It lets users

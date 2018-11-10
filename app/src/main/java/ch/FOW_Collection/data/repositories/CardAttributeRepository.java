@@ -1,16 +1,15 @@
 package ch.FOW_Collection.data.repositories;
 
+import androidx.lifecycle.LiveData;
+import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveData;
+import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveDataArray;
+import ch.FOW_Collection.domain.models.CardAttribute;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.lifecycle.LiveData;
-import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveData;
-import ch.FOW_Collection.domain.liveData.FirestoreQueryLiveDataArray;
-import ch.FOW_Collection.domain.models.CardAttribute;
 
 import static androidx.lifecycle.Transformations.map;
 
@@ -21,6 +20,7 @@ public class CardAttributeRepository {
 
     /**
      * Get Query for all cardAttributes.
+     *
      * @return Query for all cardAttributes
      */
     private static Query allCardAttributesQuery() {
@@ -31,6 +31,7 @@ public class CardAttributeRepository {
 
     /**
      * Get LiveData of all cardAttributes.
+     *
      * @return LiveDataArray of all cardAttributes.
      */
     private FirestoreQueryLiveDataArray<CardAttribute> allCardAttributes() {
@@ -40,6 +41,7 @@ public class CardAttributeRepository {
 
     /**
      * Get DocumentReference of a single cardAttribute.
+     *
      * @param cardAttributeId Id of the card.
      * @return DocumentReference of a single cardAttribute.
      */
@@ -52,6 +54,7 @@ public class CardAttributeRepository {
 
     /**
      * Get LiveData of a single cardAttribute.
+     *
      * @param cardAttributeId Id of the cardAttribute.
      * @return LiveData of a single cardAttribute.
      */

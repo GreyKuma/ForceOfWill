@@ -8,19 +8,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
-
-import androidx.appcompat.app.AlertDialog;
-import ch.FOW_Collection.domain.models.Rating;
-import com.bumptech.glide.request.RequestOptions;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.yalantis.ucrop.UCrop;
-
-import java.io.File;
-import java.util.List;
-import java.util.UUID;
-
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NavUtils;
@@ -31,10 +20,19 @@ import butterknife.ButterKnife;
 import ch.FOW_Collection.GlideApp;
 import ch.FOW_Collection.R;
 import ch.FOW_Collection.domain.models.Card;
+import ch.FOW_Collection.domain.models.Rating;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.yalantis.ucrop.UCrop;
 import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
 import pl.tajchert.nammu.Nammu;
 import pl.tajchert.nammu.PermissionCallback;
+
+import java.io.File;
+import java.util.List;
+import java.util.UUID;
 
 public class CreateCardRatingActivity extends AppCompatActivity {
 
@@ -227,7 +225,7 @@ public class CreateCardRatingActivity extends AppCompatActivity {
         String comment = ratingText.getText().toString();
 
         View view = getLayoutInflater().inflate(R.layout.dialog_loading, null);
-        final Dialog dialog=new Dialog(this, android.R.style.Theme_DeviceDefault_Dialog_NoActionBar);
+        final Dialog dialog = new Dialog(this, android.R.style.Theme_DeviceDefault_Dialog_NoActionBar);
         dialog.setContentView(view);
         dialog.setCancelable(false);
         TextView dialogLabel = view.findViewById(R.id.dialogLabel);
